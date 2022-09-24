@@ -1,0 +1,20 @@
+@import "../variables.scss";
+
+.txeditor {
+    display: flex;
+    .layout {
+        &_aside {
+            flex: 0 1 $--aside-width;
+            height: 100vh;
+            background-color: $--color-bwmix8;
+        }
+        &_toolbar {
+            width: 100%;
+            height: $--toolbar-height;
+            background-color: $--color-bwmix7;
+        }
+        &_main_view {
+            flex: auto;
+        }
+    }
+}

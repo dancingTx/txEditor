@@ -1,0 +1,17 @@
+// Theme color
+
+// COLOR
+$--color-black: #000000 !default;
+$--color-white: #ffffff !default;
+$--color-bwmix1: mix($--color-black, $--color-white, 10%) !default;
+$--color-bwmix2: mix($--color-black, $--color-white, 20%) !default;
+$--color-bwmix3: mix($--color-black, $--color-white, 30%) !default;
+$--color-bwmix4: mix($--color-black, $--color-white, 40%) !default;
+$--color-bwmix5: mix($--color-black, $--color-white, 50%) !default;
+$--color-bwmix6: mix($--color-black, $--color-white, 60%) !default;
+$--color-bwmix7: mix($--color-black, $--color-white, 70%) !default;
+$--color-bwmix8: mix($--color-black, $--color-white, 80%) !default;
+$--color-bwmix9: mix($--color-black, $--color-white, 90%) !default;
+// Layout
+$--aside-width: 60px !default;
+$--toolbar-height: 48px !default;
