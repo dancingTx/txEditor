@@ -1,0 +1,14 @@
+/** --------svgIcon start------------ */
+.svg_icon {
+  overflow: hidden;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+}
+.svg_external_icon {
+  display: inline-block;
+  mask-size: cover !important;
+  background-color: currentColor;
+}
+/** --------svgIcon end------------ */

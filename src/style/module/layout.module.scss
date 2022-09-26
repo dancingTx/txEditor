@@ -1,20 +1,67 @@
 @import "../variables.scss";
 
 .txeditor {
-    display: flex;
-    .layout {
-        &_aside {
-            flex: 0 1 $--aside-width;
-            height: 100vh;
-            background-color: $--color-bwmix8;
+  display: flex;
+  .layout {
+    &_aside {
+      flex: 0 1 $--aside-width;
+      height: 100vh;
+      margin: 0 auto;
+      background-color: $--color-bwmix8;
+      .aside_icon {
+        margin: 10px 0;
+        width: 1.8em;
+        height: 1.8em;
+        font-weight: 500;
+        color: $--color-bwmix5;
+        cursor: pointer;
+        transition: all 200ms linear;
+        &:hover {
+          color: $--color-bwmix1;
         }
-        &_toolbar {
-            width: 100%;
-            height: $--toolbar-height;
-            background-color: $--color-bwmix7;
+      }
+      &_others {
+        margin: 0 auto;
+        text-align: center;
+        .is_collapse {
+          transform: rotate(180deg);
+          
         }
-        &_main_view {
-            flex: auto;
+      }
+      &_inner {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        .layout_box,
+        .plugin_box {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          .is_active {
+              position: relative;
+              width: 100%;
+              text-align: center;
+            &::before {
+              content: "";
+              position: absolute;
+              left: 0;
+              top: 0;
+              display: block;
+              width: 1px;
+              height: 100%;
+              background-color: $--color-bwmix1;
+            }
+            .aside_icon {
+              color: $--color-bwmix1;
+            }
+          }
         }
+      }
+     
     }
+    &_main_view {
+      flex: auto;
+    }
+  }
 }

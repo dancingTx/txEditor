@@ -2,6 +2,12 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   setup() {
-    return () => <div>main view</div>;
+    return () => (
+      <div>
+        <button class="pure-button pure-button-primary">
+          A Primary Button
+        </button>
+      </div>
+    );
   },
 });
