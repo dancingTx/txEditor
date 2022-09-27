@@ -4,8 +4,16 @@
   display: flex;
   .layout {
     &_aside {
+      position: relative;
+      top: 0;
+      left: 0;
+      z-index: 999;
       flex: 0 1 $--aside-width;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       height: 100vh;
+      min-width: $--aside-width;
       margin: 0 auto;
       background-color: $--color-bwmix8;
       .aside_icon {
@@ -19,29 +27,20 @@
         &:hover {
           color: $--color-bwmix1;
         }
-      }
-      &_others {
-        margin: 0 auto;
-        text-align: center;
-        .is_collapse {
+        &.is_collapse {
           transform: rotate(180deg);
-          
         }
       }
-      &_inner {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        height: 100%;
-        .layout_box,
+      &_top {
+        text-align: center;
         .plugin_box {
           display: flex;
           flex-direction: column;
           align-items: center;
           .is_active {
-              position: relative;
-              width: 100%;
-              text-align: center;
+            position: relative;
+            width: 100%;
+            text-align: center;
             &::before {
               content: "";
               position: absolute;
@@ -58,10 +57,40 @@
           }
         }
       }
-     
+      &_bottom {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
     }
     &_main_view {
       flex: auto;
+      .layout {
+        &_menu,
+        &_menu_inner {
+          -webkit-transition: all 0.2s ease-out;
+          -moz-transition: all 0.2s ease-out;
+          -ms-transition: all 0.2s ease-out;
+          -o-transition: all 0.2s ease-out;
+          transition: all 0.2s ease-out;
+        }
+        &_menu {
+          display: flex;
+          height: 100%;
+          &_inner {
+            flex: 0 1 $--menu-width;
+            min-width: $--menu-width;
+            background-color: $--menu-bg;
+            color: $--color-bwmix2;
+            &.is_collapse {
+              margin-left: -$--menu-width;
+            }
+          }
+          &_main {
+            flex: auto;
+          }
+        }
+      }
     }
   }
 }

@@ -14,6 +14,10 @@ export const isPlainObject = (source: unknown): source is object => {
   return typeOf(source, "object");
 };
 
+export const isString = (source: unknown): source is string => {
+  return typeOf(source, "string");
+};
+
 export const isExternal = (path: string): boolean => {
   return /^(https?|mailto|tel):/.test(path);
 };
