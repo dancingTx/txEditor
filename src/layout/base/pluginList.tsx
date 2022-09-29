@@ -1,11 +1,7 @@
-import { defineComponent, reactive } from "vue";
-import type { PropType } from "vue";
+import { defineComponent, reactive, type PropType } from "vue";
+import type { PluginProps } from "@/config/default";
 import styles from "@/style/module/layout.module.scss";
-export interface PluginProps {
-  uid: number | string;
-  icon: string;
-  label?: string;
-}
+
 export default defineComponent({
   props: {
     items: {

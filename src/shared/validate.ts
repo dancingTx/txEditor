@@ -18,6 +18,10 @@ export const isString = (source: unknown): source is string => {
   return typeOf(source, "string");
 };
 
+export const isArray = (source: unknown): source is [] => {
+  return typeOf(source, "array");
+};
+
 export const isExternal = (path: string): boolean => {
   return /^(https?|mailto|tel):/.test(path);
 };

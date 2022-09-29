@@ -8,7 +8,7 @@ export const useLayoutStore = defineStore("layout", {
   state: () => {
     return {
       isCollapse: false,
-      hasMenu: false,
+      hasMenu: true,
       hasLogo: false,
     } as LayoutState;
   },
@@ -23,7 +23,7 @@ export const useLayoutStore = defineStore("layout", {
       this.switchState({ key: "hasMenu", value: !this.hasMenu });
     },
     switchLogo(): void {
-      this.switchState({key: 'hasLogo', value: !this.hasLogo});
-    }
+      this.switchState({ key: "hasLogo", value: !this.hasLogo });
+    },
   },
 });

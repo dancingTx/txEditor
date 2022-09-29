@@ -1,3 +1,5 @@
+@import "../variables.scss";
+@import "../mixin.scss";
 /** --------svgIcon start------------ */
 .svg_icon {
   overflow: hidden;
@@ -12,3 +14,57 @@
   background-color: currentColor;
 }
 /** --------svgIcon end------------ */
+
+/** -----------dragSplit start------------ */
+.drag_split {
+  position: relative;
+  z-index: 1001;
+  width: $--drag-split-width;
+  height: 100%;
+  margin-left: -$--drag-split-width;
+  background-color: transparent;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: $--drag-split-bg;
+  }
+  &.is_horizontal {
+    cursor: col-resize;
+  }
+  &.is_vertical {
+    cursor: row-resize;
+  }
+}
+/** -----------dragSplit end------------ */
+
+/** ---------- tab start ------------- */
+.tabs {
+  font-size: 12px;
+  font-weight: 600;
+  .tab {
+    &_item {
+      &__header {
+        width: calc(100% - 2px);
+        border: 1px solid transparent;
+        line-height: 1.6em;
+        cursor: pointer;
+        @include ellipsis;
+        &:active {
+          border: 1px solid $--drag-split-bg;
+        }
+      }
+      &__content {
+        height: 100px;
+        padding: 0 10px;
+        line-height: 2em;
+        border-bottom: 1px solid $--color-bwmix7;
+      }
+    }
+    &_icon {
+      vertical-align: top;
+      font-size: 18px;
+    }
+  }
+}
+/** ------------ tab end ------------- */

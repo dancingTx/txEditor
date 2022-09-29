@@ -1,4 +1,5 @@
-import { capitalize } from "./data";
+import type { HTMLAttributes } from "vue";
+import { capitalize, arrayify } from "./tool";
 import { isString } from "./validate";
 /**
  *
@@ -9,7 +10,7 @@ import { isString } from "./validate";
  * @description 监听器
  */
 export const on = (
-  target: Window = window,
+  target: HTMLElement | Document,
   eventName: string,
   eventHandler: EventListener,
   options = {}
@@ -32,7 +33,7 @@ export const on = (
  * @description remove 监听器
  */
 export const off = (
-  target: Window = window,
+  target: HTMLElement | Document,
   eventName: string,
   eventHandler: EventListener,
   options = {}
@@ -43,6 +44,9 @@ export const off = (
     target.detachEvent("on" + eventName, eventHandler);
   } else {
     let event = (target as any)["on" + eventName];
+    if (event) {
+      event = null;
+    }
   }
 };
 
@@ -103,6 +107,32 @@ export const query = (
   }
 };
 
+export const addClass = (
+  domTarget: HTMLElement,
+  className: string | Array<string>
+): void => {
+  domTarget.className =
+    (domTarget.className ? domTarget.className + " " : "") +
+    arrayify(className).join(" ");
+};
+
+export const removeClass = (
+  domTarget: HTMLElement,
+  className: string | Array<string>
+): void => {
+  const classes = domTarget.className.split(/\s+/);
+  for (let i = 0, len = arrayify(className).length; i < len; i++) {
+    const name = className[i];
+    for (let j = 0, l = classes.length; j < l; j++) {
+      if (classes[j] === name) {
+        classes.splice(j, 1);
+        break;
+      }
+    }
+  }
+  domTarget.className = classes.join(" ");
+};
+
 export const toggleClass = (
   domTarget: HTMLElement,
   className: string
@@ -120,4 +150,38 @@ export const toggleClass = (
   }
 
   domTarget.className = classes.join(" ");
+};
+
+export const createElement = (
+  tag: string,
+  id?: string,
+  className?: string,
+  props?: {},
+  attributes?: HTMLAttributes
+): HTMLElement => {
+  const domEl = document.createElement(tag);
+  if (id) {
+    domEl.id = id;
+  }
+  if (className) {
+    addClass(domEl, className);
+  }
+
+  if (props) {
+    Object.keys(props).forEach((key) => {
+      if ((props as any)[key] != null) {
+        (domEl as any)[key] = (props as any)[key];
+      }
+    });
+  }
+
+  if (attributes) {
+    Object.keys(attributes).forEach((key) => {
+      if ((attributes as any)[key] != null) {
+        domEl.setAttribute(key, (attributes as any)[key]);
+      }
+    });
+  }
+
+  return domEl;
 };
