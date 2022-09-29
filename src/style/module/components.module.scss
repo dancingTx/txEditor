@@ -19,9 +19,6 @@
 .drag_split {
   position: relative;
   z-index: 1001;
-  width: $--drag-split-width;
-  height: 100%;
-  margin-left: -$--drag-split-width;
   background-color: transparent;
 
   &:hover,
@@ -29,11 +26,28 @@
   &:active {
     background-color: $--drag-split-bg;
   }
-  &.is_horizontal {
-    cursor: col-resize;
-  }
-  &.is_vertical {
-    cursor: row-resize;
+  &.is {
+    &_horizontal {
+      width: $--drag-split-width;
+      height: 100%;
+      margin-left: -$--drag-split-width;
+      cursor: col-resize;
+    }
+    &_vertical {
+      width: 100%;
+      height: $--drag-split-width;
+      margin-top: -$--drag-split-width;
+      cursor: row-resize;
+    }
+    &_right {
+      cursor: e-resize;
+    }
+    &_bottom {
+      cursor: s-resize;
+    }
+    &_top {
+      cursor: n-resize;
+    }
   }
 }
 /** -----------dragSplit end------------ */
@@ -44,6 +58,9 @@
   font-weight: 600;
   .tab {
     &_item {
+      &:not(:last-child) {
+        border-bottom: 1px solid $--color-bwmix7;
+      }
       &__header {
         width: calc(100% - 2px);
         border: 1px solid transparent;
@@ -53,17 +70,27 @@
         &:active {
           border: 1px solid $--drag-split-bg;
         }
+        &.is_collapse {
+          .tab_icon {
+            transform: rotate(0);
+          }
+        }
       }
       &__content {
-        height: 100px;
+        overflow: auto;
         padding: 0 10px;
         line-height: 2em;
-        border-bottom: 1px solid $--color-bwmix7;
+        transition: all 0.2s linear;
+        &.is_collapse {
+          height: 0;
+        }
       }
     }
     &_icon {
       vertical-align: top;
       font-size: 18px;
+      transition: all 0.2s linear;
+      transform: rotate(90deg);
     }
   }
 }

@@ -121,8 +121,9 @@ export const removeClass = (
   className: string | Array<string>
 ): void => {
   const classes = domTarget.className.split(/\s+/);
-  for (let i = 0, len = arrayify(className).length; i < len; i++) {
-    const name = className[i];
+  const classNames = arrayify(className);
+  for (let i = 0, len = classNames.length; i < len; i++) {
+    const name = classNames[i];
     for (let j = 0, l = classes.length; j < l; j++) {
       if (classes[j] === name) {
         classes.splice(j, 1);

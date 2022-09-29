@@ -79,7 +79,6 @@
           display: flex;
           height: 100%;
           &_inner {
-            overflow: hidden;
             width: $--menu-width;
             background-color: $--menu-bg;
             color: $--color-bwmix2;
