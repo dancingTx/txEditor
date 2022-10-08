@@ -1,16 +1,15 @@
-import { defineComponent, reactive, withDirectives } from "vue";
-import Tabs from "@/components/tab";
-import TabItem from "@/components/tab/item";
-import { sourceList } from "@/config/default";
+import { defineComponent, withDirectives, type PropType } from "vue";
 import { useLayoutStore } from "@/store/layout";
 import { dragDirective } from "@/directive/drag";
 import styles from "@/style/module/layout.module.scss";
-
 export default defineComponent({
-  setup(props) {
-    const state = reactive({
-      isActive: sourceList[0]?.uid,
-    });
+  props: {
+    title: {
+      type: String as PropType<string>,
+      default: "",
+    },
+  },
+  setup(props, { slots }) {
     const layout = useLayoutStore();
     return () =>
       withDirectives(
@@ -21,19 +20,13 @@ export default defineComponent({
           ]}
         >
           <header class={styles.layout_menu_title}>
-            <span class={styles.layout_menu_label}>资源管理器</span>
+            <span class={styles.layout_menu_label}>{props.title}</span>
             <svg-icon
               iconClass="option"
               class={styles.layout_menu_option}
             ></svg-icon>
           </header>
-          <Tabs v-model={state.isActive}>
-            {sourceList.map((item) => (
-              <TabItem icon={item.icon} label={item.label} value={item.uid}>
-                <span>{item.enLabel}</span>
-              </TabItem>
-            ))}
-          </Tabs>
+          {slots.default && slots.default()}
         </div>,
         [[dragDirective, "", "", { horizontal: true }]]
       );

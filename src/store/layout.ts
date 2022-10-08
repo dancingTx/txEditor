@@ -1,8 +1,10 @@
 import { defineStore } from "pinia";
+type BoolOrStr = boolean | string;
 interface LayoutState {
-  isCollapse: boolean;
-  hasMenu: boolean;
-  hasLogo: boolean;
+  isCollapse: BoolOrStr;
+  hasMenu: BoolOrStr;
+  hasLogo: BoolOrStr;
+  pluginUid: BoolOrStr;
 }
 export const useLayoutStore = defineStore("layout", {
   state: () => {
@@ -10,10 +12,14 @@ export const useLayoutStore = defineStore("layout", {
       isCollapse: false,
       hasMenu: true,
       hasLogo: false,
+      pluginUid: "",
     } as LayoutState;
   },
   actions: {
-    switchState(payload: { key: keyof LayoutState; value: boolean }): void {
+    switchState(payload: {
+      key: keyof LayoutState;
+      value: boolean | string;
+    }): void {
       this[payload.key] = payload.value;
     },
     switchCollapse(): void {
@@ -24,6 +30,9 @@ export const useLayoutStore = defineStore("layout", {
     },
     switchLogo(): void {
       this.switchState({ key: "hasLogo", value: !this.hasLogo });
+    },
+    storePluginUid(uid: string): void {
+      this.switchState({ key: "pluginUid", value: uid });
     },
   },
 });

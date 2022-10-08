@@ -1,17 +1,40 @@
 import { makeUUID } from "@/shared/variables";
+import { defineAsyncComponent, type Component } from "vue";
+
 export interface PluginProps {
-  uid: number | string;
+  uid: string;
   icon: string;
+  componentName: string;
+  component: Component;
   label?: string;
 }
 export const pluginList: PluginProps[] = [
   {
     uid: makeUUID(),
     icon: "edit",
+    label: "资源管理器",
+    componentName: "sourceManage",
+    component: defineAsyncComponent(
+      () => import("@/layout/sideMenu/menu/store/sourceManage")
+    ),
   },
   {
     uid: makeUUID(),
     icon: "code",
+    label: "低代码平台",
+    componentName: "lowCode",
+    component: defineAsyncComponent(
+      () => import("@/layout/sideMenu/menu/store/lowCode")
+    ),
+  },
+  {
+    uid: makeUUID(),
+    icon: "flow",
+    label: "流程设计器",
+    componentName: "flowProcess",
+    component: defineAsyncComponent(
+      () => import("@/layout/sideMenu/menu/store/flowProcess")
+    ),
   },
 ];
 

@@ -17,19 +17,39 @@
       min-width: $--aside-width;
       margin: 0 auto;
       background-color: $--color-bwmix8;
-      .aside_icon {
-        margin: 10px 0;
-        width: 1.8em;
-        height: 1.8em;
-        font-weight: 500;
-        color: $--color-bwmix5;
-        cursor: pointer;
-        transition: all 200ms linear;
-        &:hover {
-          color: $--color-bwmix1;
+      .aside {
+        &_icon {
+          margin: 10px 0;
+          width: 1.8em;
+          height: 1.8em;
+          font-weight: 500;
+          color: $--color-bwmix5;
+          cursor: pointer;
+          transition: all 200ms linear;
+          &:hover {
+            color: $--color-bwmix1;
+          }
+          &.is_collapse {
+            transform: rotate(180deg);
+          }
         }
-        &.is_collapse {
-          transform: rotate(180deg);
+        &_label {
+          position: relative;
+          display: block;
+          width: 100%;
+          &:hover::after {
+            content: attr(data-label);
+            position: absolute;
+            top: 50%;
+            left: $--aside-width;
+            transform: translateY(-50%);
+            min-width: 60px;
+            padding: 4px 10px;
+            border: 1px solid $--color-bwmix6;
+            font-size: 12px;
+            background-color: $--color-bwmix9;
+            color: $--color-bwmix1;
+          }
         }
       }
       &_top {
