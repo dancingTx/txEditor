@@ -4,6 +4,7 @@ interface LayoutState {
   isCollapse: BoolOrStr;
   hasMenu: BoolOrStr;
   hasLogo: BoolOrStr;
+  hasPropsBar: BoolOrStr;
   pluginUid: BoolOrStr;
 }
 export const useLayoutStore = defineStore("layout", {
@@ -12,6 +13,7 @@ export const useLayoutStore = defineStore("layout", {
       isCollapse: false,
       hasMenu: true,
       hasLogo: false,
+      hasPropsBar: true,
       pluginUid: "",
     } as LayoutState;
   },
@@ -30,6 +32,9 @@ export const useLayoutStore = defineStore("layout", {
     },
     switchLogo(): void {
       this.switchState({ key: "hasLogo", value: !this.hasLogo });
+    },
+    switchPropsBar(): void {
+      this.switchState({ key: "hasPropsBar", value: !this.hasPropsBar });
     },
     storePluginUid(uid: string): void {
       this.switchState({ key: "pluginUid", value: uid });

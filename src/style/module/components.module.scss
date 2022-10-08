@@ -29,7 +29,7 @@
   &.is {
     &_horizontal {
       width: $--drag-split-width;
-      height: 100%;
+      height: 100vh;
       margin-left: -$--drag-split-width;
       cursor: col-resize;
     }
@@ -88,7 +88,7 @@
     }
     &_icon {
       vertical-align: top;
-      font-size: 18px;
+      font-size: $--font-small2;
       transition: all 0.2s linear;
       transform: rotate(90deg);
     }

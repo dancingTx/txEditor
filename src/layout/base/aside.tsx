@@ -12,7 +12,7 @@ export default defineComponent({
     return () => (
       <div class={styles.layout_aside}>
         <div class={styles.layout_aside_top}>
-          {/* LOGO */}
+          <svg-icon iconClass="logo" class={styles.aside_icon}></svg-icon>
           {layout.hasMenu && (
             <svg-icon
               iconClass="collapse"

@@ -13,6 +13,7 @@ const __MAX_HEIGHT__ = window.innerHeight - __MIN_HEIGHT__;
 interface DragSplitOptions {
   max?: number;
   min?: number;
+  orientation?: string;
 }
 type ArrayifyString = string | string[];
 export default class DragSplit {
@@ -21,6 +22,7 @@ export default class DragSplit {
   private el: HTMLElement;
   private state: ArrayifyString;
   private prevState: ArrayifyString;
+  private orientation: string;
   private distanceX: number;
   private distanceY: number;
   private dragStartEvent: (e: Event) => void;
@@ -33,6 +35,7 @@ export default class DragSplit {
     this.el = el;
     this.serveForThis = this.create();
     this.options = options || {};
+    this.orientation = options.orientation || "left";
     this.dragStartEvent = () => {};
     this.debounceDragMoveEvent = () => {};
     this.dragEndEvent = () => {};
@@ -46,7 +49,13 @@ export default class DragSplit {
     return createElement("div", undefined, className);
   }
   private render() {
-    this.el.parentNode?.insertBefore(this.serveForThis, this.el.nextSibling);
+    const siblingDom =
+      this.orientation === "left"
+        ? this.el.nextSibling
+        : this.orientation === "right"
+        ? this.el
+        : null;
+    this.el.parentNode?.insertBefore(this.serveForThis, siblingDom);
   }
   execute() {
     this.render();
@@ -91,9 +100,16 @@ export default class DragSplit {
       if (moveLength >= maxMove) {
         moveLength = maxMove;
       }
-      if (this.serveForThis.previousSibling) {
-        (this.serveForThis.previousSibling as HTMLElement).style.width =
-          calculateDistance(moveLength - __ASIDE_WIDTH__);
+      const siblingDom =
+        this.orientation === "left"
+          ? this.serveForThis.previousSibling
+          : this.orientation === "right"
+          ? this.serveForThis.nextSibling
+          : null;
+      if (siblingDom) {
+        (siblingDom as HTMLElement).style.width = calculateDistance(
+          moveLength - __ASIDE_WIDTH__
+        );
       }
     }
 

@@ -2,132 +2,173 @@
 @import "../mixin.scss";
 
 .txeditor {
-  display: flex;
-  .layout {
-    &_aside {
-      position: relative;
-      top: 0;
-      left: 0;
-      z-index: 999;
-      flex: 0 1 $--aside-width;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 100vh;
-      min-width: $--aside-width;
-      margin: 0 auto;
-      background-color: $--color-bwmix8;
-      .aside {
-        &_icon {
-          margin: 10px 0;
-          width: 1.8em;
-          height: 1.8em;
-          font-weight: 500;
-          color: $--color-bwmix5;
-          cursor: pointer;
-          transition: all 200ms linear;
-          &:hover {
-            color: $--color-bwmix1;
-          }
-          &.is_collapse {
-            transform: rotate(180deg);
-          }
-        }
-        &_label {
-          position: relative;
-          display: block;
-          width: 100%;
-          &:hover::after {
-            content: attr(data-label);
-            position: absolute;
-            top: 50%;
-            left: $--aside-width;
-            transform: translateY(-50%);
-            min-width: 60px;
-            padding: 4px 10px;
-            border: 1px solid $--color-bwmix6;
-            font-size: 12px;
-            background-color: $--color-bwmix9;
-            color: $--color-bwmix1;
-          }
-        }
-      }
-      &_top {
-        text-align: center;
-        .plugin_box {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          .is_active {
-            position: relative;
-            width: 100%;
-            text-align: center;
-            &::before {
-              content: "";
-              position: absolute;
-              left: 0;
-              top: 0;
-              display: block;
-              width: 1px;
-              height: 100%;
-              background-color: $--color-bwmix1;
+  &_inner {
+    display: flex;
+    .layout {
+      &_aside {
+        flex: 0 1 $--aside-width;
+        position: relative;
+        top: 0;
+        left: 0;
+        z-index: 999;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-width: $--aside-width;
+        height: calc(100vh - $--status-bar-height);
+        margin: 0 auto;
+        background-color: $--color-bwmix8;
+        .aside {
+          &_icon {
+            margin: 10px 0;
+            width: 1.8em;
+            height: 1.8em;
+            font-weight: 500;
+            color: $--color-bwmix5;
+            cursor: pointer;
+            transition: all 200ms linear;
+            &:hover {
+              color: $--color-bwmix1;
             }
-            .aside_icon {
+            &.is_collapse {
+              transform: rotate(180deg);
+            }
+          }
+          &_label {
+            position: relative;
+            display: block;
+            width: 100%;
+            &:hover::after {
+              content: attr(data-label);
+              position: absolute;
+              top: 50%;
+              left: $--aside-width;
+              transform: translateY(-50%);
+              min-width: 60px;
+              padding: 4px 10px;
+              border: 1px solid $--color-bwmix6;
+              font-size: $--font-small;
+              background-color: $--color-bwmix9;
               color: $--color-bwmix1;
             }
           }
         }
-      }
-      &_bottom {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-    &_main_view {
-      flex: auto;
-      .layout {
-        &_menu,
-        &_menu_inner {
-          -webkit-transition: all 0.2s ease-out;
-          -moz-transition: all 0.2s ease-out;
-          -ms-transition: all 0.2s ease-out;
-          -o-transition: all 0.2s ease-out;
-          transition: all 0.2s ease-out;
-        }
-        &_menu {
-          display: flex;
-          height: 100%;
-          &_inner {
-            width: $--menu-width;
-            background-color: $--menu-bg;
-            color: $--color-bwmix2;
-            &.is_collapse {
-              margin-left: -$--menu-width;
+        &_top {
+          text-align: center;
+          .plugin_box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .is_active {
+              position: relative;
+              width: 100%;
+              text-align: center;
+              &::before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 0;
+                display: block;
+                width: 1px;
+                height: 100%;
+                background-color: $--color-bwmix1;
+              }
+              .aside_icon {
+                color: $--color-bwmix1;
+              }
             }
           }
-          &_title {
+        }
+        &_bottom {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+      &_main_view {
+        flex: auto;
+        .layout {
+          &_menu,
+          &_menu_inner {
+            -webkit-transition: all 0.2s ease-out;
+            -moz-transition: all 0.2s ease-out;
+            -ms-transition: all 0.2s ease-out;
+            -o-transition: all 0.2s ease-out;
+            transition: all 0.2s ease-out;
+          }
+          &_menu {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 16px;
-            box-sizing: border-box;
+            &_inner {
+              width: $--menu-width;
+              background-color: $--menu-bg;
+              color: $--color-bwmix2;
+              &.is_collapse {
+                margin-left: -$--menu-width;
+              }
+            }
+            &_title {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              padding: 10px 16px;
+              box-sizing: border-box;
+            }
+            &_label {
+              font-size: $--font-small;
+              @include ellipsis;
+            }
+            &_option {
+              font-size: $--font-small2;
+              transform: rotate(90deg);
+              cursor: pointer;
+            }
+            &_main {
+              flex: auto;
+              background-color: $--main-view-bg;
+            }
           }
-          &_label {
-            font-size: 12px;
-            @include ellipsis;
-          }
-          &_option {
-            font-size: 18px;
-            transform: rotate(90deg);
-            cursor: pointer;
-          }
-          &_main {
-            flex: auto;
-            background-color: $--main-view-bg;
+        }
+      }
+      &_props_bar {
+        width: $--menu-width;
+        padding: 10px 0;
+        background-color: $--menu-bg;
+        color: $--color-bwmix2;
+      }
+      &_nav_bar {
+        background-color: $--color-bwmix8;
+        height: $--nav-bar-height;
+        line-height: $--nav-bar-height;
+        box-shadow: 5px 5px 10px #101010;
+        &__item {
+          display: inline-block;
+          padding: 0 20px;
+          border-right: 1px solid #252526;
+
+          font-size: $--font-small;
+          color: $--color-bwmix1;
+          cursor: pointer;
+          .item_icon {
+            margin: 0 10px;
+            width: 1.2em;
+            height: 1.2em;
+            vertical-align: middle;
           }
         }
       }
     }
+  }
+  .status_bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: $--status-bar-height;
+    padding: 0 20px;
+    font-size: $--font-small;
+    line-height: $--status-bar-height;
+    text-align: center;
+    background-color: $--status-bar-bg;
+    color: $--color-bwmix1;
   }
 }

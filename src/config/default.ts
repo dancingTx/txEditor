@@ -39,7 +39,7 @@ export const pluginList: PluginProps[] = [
 ];
 
 export interface SourceProps {
-  uid: number | string;
+  uid: string;
   icon?: string;
   label: string;
   subTitle?: string;
@@ -71,5 +71,26 @@ export const sourceList: SourceProps[] = [
     label: "代码片段",
     icon: "arrow-right",
     enLabel: "codeFragment",
+  },
+];
+
+export const attrList: SourceProps[] = [
+  {
+    uid: makeUUID(),
+    icon: "arrow-right",
+    label: "属性",
+    enLabel: "props",
+  },
+  {
+    uid: makeUUID(),
+    icon: "arrow-right",
+    label: "事件",
+    enLabel: "events",
+  },
+  {
+    uid: makeUUID(),
+    icon: "arrow-right",
+    label: "动画",
+    enLabel: "animates",
   },
 ];

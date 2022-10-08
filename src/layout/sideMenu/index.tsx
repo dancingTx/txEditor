@@ -7,6 +7,7 @@ import {
   type Component,
 } from "vue";
 import Menu from "./menu";
+import NavBar from "../base/navBar";
 import { pluginList, type PluginProps } from "@/config/default";
 import { useLayoutStore } from "@/store/layout";
 import styles from "@/style/module/layout.module.scss";
@@ -42,7 +43,10 @@ export default defineComponent({
           {pluginItem.value?.component &&
             h(resolveComponent(pluginItem.value?.componentName))}
         </Menu>
-        <router-view class={styles.layout_menu_main}></router-view>
+        <div class={styles.layout_menu_main}>
+          <NavBar></NavBar>
+          <router-view></router-view>
+        </div>
       </div>
     );
   },
