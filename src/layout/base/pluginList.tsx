@@ -1,4 +1,4 @@
-import { defineComponent, reactive, watchEffect, type PropType } from "vue";
+import { defineComponent, reactive, type PropType } from "vue";
 import type { PluginProps } from "@/config/default";
 import { useLayoutStore } from "@/store/layout";
 import styles from "@/style/module/layout.module.scss";

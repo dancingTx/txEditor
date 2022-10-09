@@ -31,9 +31,17 @@ $--menu-bg: #242426 !default;
 $--status-bar-height: 20px !default;
 $--status-bar-bg: #007acc !default;
 $--nav-bar-height: 40px !default;
+$--nav-bar-shadow-color: #101010 !default;
+$--toolkit-bar-height: 36px !default;
 // Components
 $--drag-split-width: 4px !default;
 $--drag-split-bg: #0078e6 !default;
+
+// File
+$--file-created-color: #74c991 !default;
+$--file-modified-color: #e1bf8d !default;
+$--file-deleted-color: #f78070 !default;
+$--file-locked-color: $--color-bwmix6 !default;
 
 // Main View
 

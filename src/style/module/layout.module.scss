@@ -87,6 +87,7 @@
       }
       &_main_view {
         flex: auto;
+        padding-right: $--menu-width;
         .layout {
           &_menu,
           &_menu_inner {
@@ -130,21 +131,30 @@
         }
       }
       &_props_bar {
+        position: fixed;
+        top: 0;
+        right: 0;
         width: $--menu-width;
+        height: 100%;
         padding: 10px 0;
         background-color: $--menu-bg;
         color: $--color-bwmix2;
       }
-      &_nav_bar {
+      &_nav_bar_wrapper {
+        box-shadow: 5px 5px 10px $--nav-bar-shadow-color;
         background-color: $--color-bwmix8;
+      }
+      &_nav_bar {
+        overflow-x: scroll;
+        overflow-y: hidden;
+        white-space: nowrap;
         height: $--nav-bar-height;
         line-height: $--nav-bar-height;
-        box-shadow: 5px 5px 10px #101010;
+
         &__item {
           display: inline-block;
-          padding: 0 20px;
+          padding: 0 10px;
           border-right: 1px solid #252526;
-
           font-size: $--font-small;
           color: $--color-bwmix1;
           cursor: pointer;
@@ -153,6 +163,27 @@
             width: 1.2em;
             height: 1.2em;
             vertical-align: middle;
+          }
+
+          .icon_close {
+            width: 1.6em;
+            height: 1.6em;
+            vertical-align: middle;
+            &_outer {
+              display: inline-block;
+              width: 1.8em;
+              height: 1.8em;
+              line-height: 1.8em;
+              text-align: center;
+              &:hover {
+                border-radius: 4px;
+                background-color: $--color-bwmix8;
+              }
+            }
+          }
+
+          &.is_active {
+            background-color: $--color-bwmix9;
           }
         }
       }

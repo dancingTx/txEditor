@@ -1,6 +1,7 @@
 import {
   defineComponent,
   h,
+  KeepAlive,
   ref,
   resolveComponent,
   watch,
@@ -40,8 +41,11 @@ export default defineComponent({
     return () => (
       <div class={styles.layout_menu}>
         <Menu title={pluginItem?.value?.label}>
-          {pluginItem.value?.component &&
-            h(resolveComponent(pluginItem.value?.componentName))}
+          {pluginItem.value?.component && (
+            <KeepAlive>
+              {h(resolveComponent(pluginItem.value?.componentName))}
+            </KeepAlive>
+          )}
         </Menu>
         <div class={styles.layout_menu_main}>
           <NavBar></NavBar>

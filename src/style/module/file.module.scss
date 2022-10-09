@@ -1,0 +1,37 @@
+@import "../variables.scss";
+.file {
+  margin: 0 5px;
+  &.is {
+    &_created {
+      color: $--file-created-color;
+      &::after {
+        content: "U";
+        margin-left: 5px;
+      }
+    }
+    &_modify,
+    &_edited {
+      color: $--file-modified-color;
+      &::after {
+        content: "M";
+        margin-left: 5px;
+      }
+    }
+    &_deleted {
+      color: $--file-deleted-color;
+      text-decoration: line-through;
+      &::after {
+        content: "D";
+        margin-left: 5px;
+      }
+    }
+    &_locked,
+    &_readonly {
+      color: $--file-locked-color;
+      &::after {
+        content: "🔐";
+        margin-left: 5px;
+      }
+    }
+  }
+}

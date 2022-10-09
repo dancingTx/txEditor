@@ -1,6 +1,23 @@
 @import "../variables.scss";
 @import "../mixin.scss";
 /** --------svgIcon start------------ */
+.svg_icon_wrapper {
+  position: relative;
+  &:hover:after {
+    content: attr(data-label);
+    position: absolute;
+    top: 50%;
+    right: -30px;
+    z-index: 1;
+    padding: 0 4px;
+    box-sizing: border-box;
+    height: 20px;
+    line-height: 20px;
+    transform: translateY(-50%);
+    border: 1px solid $--color-bwmix8;
+    background-color: $--color-bwmix9;
+  }
+}
 .svg_icon {
   overflow: hidden;
   width: 1em;
@@ -18,7 +35,6 @@
 /** -----------dragSplit start------------ */
 .drag_split {
   position: relative;
-  z-index: 1001;
   background-color: transparent;
 
   &:hover,
@@ -28,6 +44,7 @@
   }
   &.is {
     &_horizontal {
+      z-index: 1001;
       width: $--drag-split-width;
       height: 100vh;
       margin-left: -$--drag-split-width;
@@ -95,3 +112,56 @@
   }
 }
 /** ------------ tab end ------------- */
+
+/** ------------ toolkit start ------------- */
+
+.toolkit {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: $--toolkit-bar-height;
+  padding: 0 10px;
+  box-sizing: border-box;
+  box-shadow: 5px 5px 10px $--nav-bar-shadow-color;
+  background-color: $--color-bwmix9;
+  line-height: $--toolkit-bar-height;
+  font-size: $--font-small;
+  color: $--color-bwmix1;
+  &_canvas_size,
+  &_command {
+    text-align: center;
+    div {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      &:hover {
+        border-radius: 4px;
+        background-color: $--color-bwmix8;
+      }
+      .item_icon {
+        vertical-align: middle;
+        font-size: $--font-small2;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+/** ------------ toolkit end ------------- */
+
+/** ------------ canvas start ------------- */
+.canvas_wrapper {
+  height: calc(
+    100vh - $--nav-bar-height - $--status-bar-height - $--toolkit-bar-height
+  );
+  overflow: scroll;
+}
+.canvas {
+  height: 100vh;
+  border-left: 20px solid $--color-bwmix9;
+  border-right: 20px solid $--color-bwmix9;
+  background-color: $--color-bwmix1;
+}
+
+/** ------------ canvas end ------------- */

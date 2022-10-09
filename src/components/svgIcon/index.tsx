@@ -13,6 +13,10 @@ export default defineComponent({
       type: String as PropType<string>,
       required: true,
     },
+    tip: {
+      type: String as PropType<string>,
+      default: "",
+    },
   },
   setup(props, { attrs }) {
     const styleExternalIcon = computed(() => {
@@ -31,13 +35,18 @@ export default defineComponent({
             class={[styles.svg_icon, styles.svg_external_icon]}
           />
         ) : (
-          <svg
-            {...attrs}
-            class={[styles.svg_icon, props.className]}
-            aria-hidden="true"
+          <span
+            class={props.tip && styles.svg_icon_wrapper}
+            data-label={props.tip}
           >
-            <use xlinkHref={`#icon-${props.iconClass}`} />
-          </svg>
+            <svg
+              {...attrs}
+              class={[styles.svg_icon, props.className]}
+              aria-hidden="true"
+            >
+              <use xlinkHref={`#icon-${props.iconClass}`} />
+            </svg>
+          </span>
         )}
       </>
     );

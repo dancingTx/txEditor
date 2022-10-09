@@ -1,6 +1,9 @@
 import { makeUUID } from "@/shared/variables";
 import { defineAsyncComponent, type Component } from "vue";
 
+export const __MENU_WIDTH__ = 240;
+export const __ASIDE_WIDTH__ = 48;
+
 export interface PluginProps {
   uid: string;
   icon: string;
@@ -15,7 +18,7 @@ export const pluginList: PluginProps[] = [
     label: "资源管理器",
     componentName: "sourceManage",
     component: defineAsyncComponent(
-      () => import("@/layout/sideMenu/menu/store/sourceManage")
+      () => import("@/packages/sourceManage/menu")
     ),
   },
   {
@@ -23,9 +26,7 @@ export const pluginList: PluginProps[] = [
     icon: "code",
     label: "低代码平台",
     componentName: "lowCode",
-    component: defineAsyncComponent(
-      () => import("@/layout/sideMenu/menu/store/lowCode")
-    ),
+    component: defineAsyncComponent(() => import("@/packages/lowCode/menu")),
   },
   {
     uid: makeUUID(),
@@ -33,7 +34,7 @@ export const pluginList: PluginProps[] = [
     label: "流程设计器",
     componentName: "flowProcess",
     component: defineAsyncComponent(
-      () => import("@/layout/sideMenu/menu/store/flowProcess")
+      () => import("@/packages/flowProcess/menu")
     ),
   },
 ];
@@ -94,3 +95,77 @@ export const attrList: SourceProps[] = [
     enLabel: "animates",
   },
 ];
+
+export interface FileStatus {
+  locked?: boolean;
+  edited?: boolean;
+  readonly?: boolean;
+  modify?: boolean;
+  deleted?: boolean;
+  created?: boolean;
+}
+
+export const fileStatus: string[] = [
+  "locked",
+  "edited",
+  "readonly",
+  "modify",
+  "deleted",
+  "created",
+];
+
+export const screenSize: SourceProps[] = [
+  {
+    uid: makeUUID(),
+    label: "SM",
+    icon: "sm",
+  },
+  {
+    uid: makeUUID(),
+    label: "MD",
+    icon: "md",
+  },
+  {
+    uid: makeUUID(),
+    label: "LG",
+    icon: "lg",
+  },
+  {
+    uid: makeUUID(),
+    label: "XL",
+    icon: "xl",
+  },
+];
+
+export const commands: SourceProps[] = [
+  {
+    uid: makeUUID(),
+    label: "撤销",
+    icon: "undo",
+  },
+  {
+    uid: makeUUID(),
+    label: "重做",
+    icon: "redo",
+  },
+  {
+    uid: makeUUID(),
+    label: "预览",
+    icon: "preview",
+  },
+  {
+    uid: makeUUID(),
+    label: "清空",
+    icon: "clear",
+  },
+  {
+    uid: makeUUID(),
+    label: "删除",
+    icon: "delete",
+  },
+];
+export interface ComponentProps {
+  tag: string;
+}
+
+export const componentList: ComponentProps[] = [];

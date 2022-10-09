@@ -7,6 +7,9 @@ interface LayoutState {
   hasPropsBar: BoolOrStr;
   pluginUid: BoolOrStr;
 }
+interface LayoutProps {
+  menuWidth: number;
+}
 export const useLayoutStore = defineStore("layout", {
   state: () => {
     return {
@@ -15,7 +18,8 @@ export const useLayoutStore = defineStore("layout", {
       hasLogo: false,
       hasPropsBar: true,
       pluginUid: "",
-    } as LayoutState;
+      menuWidth: 0,
+    } as LayoutState & LayoutProps;
   },
   actions: {
     switchState(payload: {
@@ -38,6 +42,9 @@ export const useLayoutStore = defineStore("layout", {
     },
     storePluginUid(uid: string): void {
       this.switchState({ key: "pluginUid", value: uid });
+    },
+    storeMenuWidth(width: number): void {
+      this.menuWidth = width;
     },
   },
 });

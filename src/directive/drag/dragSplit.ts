@@ -1,3 +1,4 @@
+import bus from "@/shared/bus";
 import { createElement, addClass, removeClass, on, off } from "@/shared/domOp";
 import { arrayify, debounce } from "@/shared/tool";
 import styles from "@/style/module/components.module.scss";
@@ -10,6 +11,7 @@ const __MIN_HEIGHT__ = 120;
 const __MAX_WIDTH__ = window.innerWidth;
 const __MAX_HEIGHT__ = window.innerHeight - __MIN_HEIGHT__;
 
+// const layout = useLayoutStore();
 interface DragSplitOptions {
   max?: number;
   min?: number;
@@ -107,9 +109,9 @@ export default class DragSplit {
           ? this.serveForThis.nextSibling
           : null;
       if (siblingDom) {
-        (siblingDom as HTMLElement).style.width = calculateDistance(
-          moveLength - __ASIDE_WIDTH__
-        );
+        const width = calculateDistance(moveLength - __ASIDE_WIDTH__);
+        (siblingDom as HTMLElement).style.width = width;
+        bus.emit("menuWidth", parseInt(width));
       }
     }
 
