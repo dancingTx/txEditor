@@ -120,7 +120,7 @@
   justify-content: space-between;
   width: 100%;
   height: $--toolkit-bar-height;
-  padding: 0 10px;
+  padding: 0 20px;
   box-sizing: border-box;
   box-shadow: 5px 5px 10px $--nav-bar-shadow-color;
   background-color: $--color-bwmix9;
@@ -130,12 +130,14 @@
   &_canvas_size,
   &_command {
     text-align: center;
-    div {
+    .canvas_size_wrapper {
       display: inline-block;
       width: 30px;
       height: 30px;
       line-height: 30px;
-      &:hover {
+
+      &:hover,
+      &.is_active {
         border-radius: 4px;
         background-color: $--color-bwmix8;
       }
@@ -143,6 +145,25 @@
         vertical-align: middle;
         font-size: $--font-small2;
         cursor: pointer;
+      }
+    }
+  }
+  &_canvas_size {
+    position: relative;
+    .is_manual {
+      position: absolute;
+      top: 0;
+      left: 180px;
+      width: 100px;
+      .manual {
+        &_width,
+        &_height {
+          width: 30px;
+          background-color: transparent;
+          border: 1px solid $--color-bwmix6;
+          outline: none;
+          color: $--color-bwmix1;
+        }
       }
     }
   }
@@ -155,13 +176,21 @@
   height: calc(
     100vh - $--nav-bar-height - $--status-bar-height - $--toolkit-bar-height
   );
+  padding: 20px;
+  box-sizing: border-box;
   overflow: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 .canvas {
-  height: 100vh;
-  border-left: 20px solid $--color-bwmix9;
-  border-right: 20px solid $--color-bwmix9;
+  margin: 0 auto;
   background-color: $--color-bwmix1;
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -ms-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
 }
 
 /** ------------ canvas end ------------- */

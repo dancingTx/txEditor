@@ -3,6 +3,7 @@ import { defineAsyncComponent, type Component } from "vue";
 
 export const __MENU_WIDTH__ = 240;
 export const __ASIDE_WIDTH__ = 48;
+export const __CANVAS_WIDTH__ = 800;
 
 export interface PluginProps {
   uid: string;
@@ -114,26 +115,47 @@ export const fileStatus: string[] = [
   "created",
 ];
 
-export const screenSize: SourceProps[] = [
+export interface ScreenSize {
+  gte?: number;
+  lt?: number;
+}
+export type ScreenProps = SourceProps & ScreenSize;
+
+export const screenSize: ScreenProps[] = [
   {
     uid: makeUUID(),
     label: "SM",
     icon: "sm",
+    gte: 568,
   },
   {
     uid: makeUUID(),
     label: "MD",
     icon: "md",
+    gte: 768,
   },
   {
     uid: makeUUID(),
     label: "LG",
     icon: "lg",
+    gte: 1024,
   },
   {
     uid: makeUUID(),
     label: "XL",
     icon: "xl",
+    gte: 1280,
+  },
+  {
+    uid: makeUUID(),
+    label: "XXL",
+    icon: "xxl",
+    gte: 1920,
+  },
+  {
+    uid: makeUUID(),
+    label: "自定义",
+    icon: "manual",
   },
 ];
 

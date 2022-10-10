@@ -20,7 +20,7 @@ export default defineComponent({
                 styles.aside_icon,
                 layout.isCollapse && styles.is_collapse,
               ]}
-              onClick={() => layout.switchCollapse()}
+              onClick={() => layout.switchCollapse("menu")}
             ></svg-icon>
           )}
           <PluginList items={pluginList}></PluginList>

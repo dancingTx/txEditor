@@ -1,35 +1,41 @@
 import { defineStore } from "pinia";
-type BoolOrStr = boolean | string;
 interface LayoutState {
-  isCollapse: BoolOrStr;
-  hasMenu: BoolOrStr;
-  hasLogo: BoolOrStr;
-  hasPropsBar: BoolOrStr;
-  pluginUid: BoolOrStr;
+  isCollapse: boolean;
+  isCollapseProp: boolean;
+  hasMenu: boolean;
+  hasPropsBar: boolean;
+  hasLogo: boolean;
 }
 interface LayoutProps {
+  pluginUid: string;
   menuWidth: number;
+  canvasSize: string;
 }
 export const useLayoutStore = defineStore("layout", {
   state: () => {
     return {
       isCollapse: false,
+      isCollapseProp: false,
       hasMenu: true,
-      hasLogo: false,
       hasPropsBar: true,
+      hasLogo: false,
+      // cache value
       pluginUid: "",
       menuWidth: 0,
+      canvasSize: "",
     } as LayoutState & LayoutProps;
   },
   actions: {
-    switchState(payload: {
-      key: keyof LayoutState;
-      value: boolean | string;
-    }): void {
+    switchState(payload: { key: keyof LayoutState; value: boolean }): void {
       this[payload.key] = payload.value;
     },
-    switchCollapse(): void {
-      this.switchState({ key: "isCollapse", value: !this.isCollapse });
+    switchCollapse(who: string): void {
+      const props = (
+        who === "props"
+          ? { key: "isCollapseProp", value: !this.isCollapseProp }
+          : { key: "isCollapse", value: !this.isCollapse }
+      ) as { key: keyof LayoutState; value: boolean };
+      this.switchState(props);
     },
     switchMenu(): void {
       this.switchState({ key: "hasMenu", value: !this.hasMenu });
@@ -41,10 +47,13 @@ export const useLayoutStore = defineStore("layout", {
       this.switchState({ key: "hasPropsBar", value: !this.hasPropsBar });
     },
     storePluginUid(uid: string): void {
-      this.switchState({ key: "pluginUid", value: uid });
+      this.pluginUid = uid;
     },
     storeMenuWidth(width: number): void {
       this.menuWidth = width;
+    },
+    storeCanvasSize(size: string) {
+      this.canvasSize = size;
     },
   },
 });

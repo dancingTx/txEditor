@@ -16,6 +16,7 @@ interface DragSplitOptions {
   max?: number;
   min?: number;
   orientation?: string;
+  locked?: boolean;
 }
 type ArrayifyString = string | string[];
 export default class DragSplit {
@@ -61,6 +62,9 @@ export default class DragSplit {
   }
   execute() {
     this.render();
+    if (this.options.locked) {
+      return;
+    }
     this.dragStartEvent = this.handleDragStart.bind(this);
     on(this.serveForThis, "mousedown", this.dragStartEvent);
   }

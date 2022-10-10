@@ -28,7 +28,7 @@ export default defineComponent({
           </header>
           {slots.default && slots.default()}
         </div>,
-        [[dragDirective, "", "", { horizontal: true }]]
+        [[dragDirective, { locked: true }, "", { horizontal: true }]]
       );
   },
 });

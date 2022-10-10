@@ -67,3 +67,14 @@ export const arrayify = (source: unknown): Array<any> => {
   }
   return isArray(source) ? source : [source];
 };
+
+export const screen2BodyRatio = (
+  width: number,
+  ratio: string,
+  decimals?: number
+): number => {
+  const [a, b] = ratio.split(":").map(Number);
+  return decimals
+    ? parseFloat(((width / a) * b).toFixed(decimals))
+    : Number((width / a) * b);
+};

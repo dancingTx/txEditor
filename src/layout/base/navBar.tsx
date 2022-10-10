@@ -1,12 +1,11 @@
-import { defineComponent, onMounted, reactive, watch } from "vue";
-import bus from "@/shared/bus";
+import { defineComponent, reactive } from "vue";
 import {
   fileStatus,
-  __MENU_WIDTH__,
-  __ASIDE_WIDTH__,
   type SourceProps,
   type FileStatus,
 } from "@/config/default";
+import { calcNavWidth } from "@/hook";
+import { useLayoutStore } from "@/store/layout";
 import styles from "@/style/module/layout.module.scss";
 import styleFile from "@/style/module/file.module.scss";
 const fileList: (SourceProps & FileStatus)[] = [
@@ -31,6 +30,42 @@ const fileList: (SourceProps & FileStatus)[] = [
   {
     uid: "4..ffafdsafs",
     label: "file3.js",
+    icon: "javascript",
+    created: true,
+  },
+  {
+    uid: "4..ffafdsafs",
+    label: "file3.js",
+    icon: "javascript",
+    created: true,
+  },
+  {
+    uid: "4..ffafdsafs",
+    label: "file3.js",
+    icon: "javascript",
+    created: true,
+  },
+  {
+    uid: "4..ffafdsafs",
+    label: "file3.js",
+    icon: "javascript",
+    created: true,
+  },
+  {
+    uid: "4..ffafdsafs",
+    label: "file3.js",
+    icon: "javascript",
+    created: true,
+  },
+  {
+    uid: "4..ffafdsafs",
+    label: "file3.js",
+    icon: "javascript",
+    created: true,
+  },
+  {
+    uid: "4..ffafdsafs",
+    label: "file3.js",
     icon: "css",
     created: true,
   },
@@ -40,11 +75,9 @@ export default defineComponent({
     const state = reactive<{
       isActive: string;
       isHover: string;
-      menuWidth: number;
     }>({
       isActive: fileList[0].uid,
       isHover: "",
-      menuWidth: __MENU_WIDTH__,
     });
     const makeStatusClass = (item: SourceProps & FileStatus): string => {
       for (const key of Object.keys(item)) {
@@ -54,19 +87,15 @@ export default defineComponent({
       }
       return "";
     };
-    onMounted(() => {
-      bus.on("menuWidth", (width) => {
-        state.menuWidth = width as number;
-      });
-    });
+    const layout = useLayoutStore();
     return () => (
-      <div class={styles.layout_nav_bar_wrapper}>
-        <div
-          class={styles.layout_nav_bar}
-          style={{
-            width: `calc(100vw - ${__MENU_WIDTH__}px - ${__ASIDE_WIDTH__}px - ${state.menuWidth}px)`,
-          }}
-        >
+      <div
+        class={styles.layout_nav_bar_wrapper}
+        style={{
+          width: calcNavWidth(),
+        }}
+      >
+        <div class={styles.layout_nav_bar}>
           {fileList.map((file) => (
             <div
               class={[
@@ -97,6 +126,18 @@ export default defineComponent({
               </div>
             </div>
           ))}
+        </div>
+        <div class={styles.layout_nav_settings}>
+          <div class={styles.nav_icon_transition}>
+            <svg-icon
+              iconClass="push"
+              class={[
+                styles.nav_icon,
+                layout.isCollapseProp && styles.is_collapse,
+              ]}
+              onClick={() => layout.switchCollapse("props")}
+            ></svg-icon>
+          </div>
         </div>
       </div>
     );
