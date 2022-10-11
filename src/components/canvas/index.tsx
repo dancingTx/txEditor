@@ -1,27 +1,22 @@
 import { defineComponent, reactive, watch } from "vue";
 import { calcNavWidth } from "@/hook";
 import { useLayoutStore } from "@/store/layout";
-import { screen2BodyRatio } from "@/shared/tool";
-import { __CANVAS_WIDTH__, screenSize } from "@/config/default";
 import styles from "@/style/module/components.module.scss";
 export default defineComponent({
   setup() {
+    const layout = useLayoutStore();
     const state = reactive<{
       canvasWidth: number;
       canvasHeight: number;
     }>({
-      canvasWidth: __CANVAS_WIDTH__,
-      canvasHeight: screen2BodyRatio(__CANVAS_WIDTH__, "4:3"),
+      canvasWidth: layout.canvasWidth,
+      canvasHeight: layout.canvasHeight,
     });
-    const layout = useLayoutStore();
     watch(
-      () => layout.canvasSize,
-      (size: string) => {
-        const screenItem = screenSize.find((item) => item.icon === size);
-        if (screenItem && screenItem.gte) {
-          state.canvasWidth = screenItem.gte;
-          state.canvasHeight = screen2BodyRatio(screenItem.gte, "4:3");
-        }
+      () => [layout.canvasWidth, layout.canvasHeight],
+      ([width, height]) => {
+        state.canvasWidth = width as number;
+        state.canvasHeight = height as number;
       }
     );
 
