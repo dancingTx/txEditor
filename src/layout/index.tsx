@@ -10,7 +10,9 @@ export default defineComponent({
   setup() {
     const layout = useLayoutStore();
     return () => (
-      <div class={styles.txeditor}>
+      <div
+        class={[styles.txeditor, layout.mode === "light" && styles.is_light]}
+      >
         <div class={styles.txeditor_inner}>
           <Aside></Aside>
           <div class={styles.layout_main_view}>

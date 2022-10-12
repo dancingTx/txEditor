@@ -2,6 +2,9 @@
 @import "../mixin.scss";
 
 .txeditor {
+  &.is_light {
+    filter: invert(1) hue-rotate(180deg);
+  }
   &_inner {
     display: flex;
     .layout {
@@ -149,6 +152,9 @@
       }
       &_nav_settings {
         flex: 0 1 80px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
         min-width: 80px;
         padding: 0 10px;
         line-height: $--nav-bar-height;
@@ -180,6 +186,14 @@
                 opacity: 1;
               }
             }
+          }
+        }
+        .darkset {
+          margin: 0 10px;
+          .nav_icon {
+            width: 1.6em;
+            height: 1.6em;
+            vertical-align: middle;
           }
         }
       }

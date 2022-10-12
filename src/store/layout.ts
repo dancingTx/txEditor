@@ -14,6 +14,7 @@ interface LayoutProps {
   canvasSize: string;
   canvasWidth: number;
   canvasHeight: number;
+  mode: string;
 }
 export const useLayoutStore = defineStore("layout", {
   state: () => {
@@ -29,6 +30,7 @@ export const useLayoutStore = defineStore("layout", {
       canvasSize: "",
       canvasWidth: __CANVAS_WIDTH__,
       canvasHeight: screen2BodyRatio(__CANVAS_WIDTH__, "4:3"),
+      mode: "dark",
     } as LayoutState & LayoutProps;
   },
   actions: {
@@ -68,6 +70,9 @@ export const useLayoutStore = defineStore("layout", {
       if (height) {
         this.canvasHeight = height;
       }
+    },
+    switchDarkMode(mode: string) {
+      this.mode = mode;
     },
   },
 });

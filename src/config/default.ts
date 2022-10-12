@@ -191,3 +191,29 @@ export interface ComponentProps {
 }
 
 export const componentList: ComponentProps[] = [];
+
+export const TransverseMobile: string[] = [
+  "2:1",
+  "21:9",
+  "20:9",
+  "19.5:9",
+  "19:9",
+  "18.5:9",
+  "16:9",
+];
+export const TransversePad: string[] = [];
+export const TransverseLaptop: string[] = [];
+export const TransverseDesktop: string[] = [];
+
+export const widgets: SourceProps[] = [
+  {
+    uid: makeUUID(),
+    label: "dark Mode",
+    icon: "mode",
+  },
+  {
+    uid: makeUUID(),
+    label: "collapse props bar",
+    icon: "push",
+  },
+];

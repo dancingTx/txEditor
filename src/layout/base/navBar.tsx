@@ -1,6 +1,7 @@
 import { defineComponent, reactive } from "vue";
 import {
   fileStatus,
+  widgets,
   type SourceProps,
   type FileStatus,
 } from "@/config/default";
@@ -88,6 +89,34 @@ export default defineComponent({
       return "";
     };
     const layout = useLayoutStore();
+    const renderDarkLight = () => (
+      <div class={styles.darkset}>
+        <svg-icon
+          iconClass={layout.mode}
+          class={styles.nav_icon}
+          onClick={() => {
+            layout.switchDarkMode(layout.mode === "dark" ? "light" : "dark");
+          }}
+        ></svg-icon>
+      </div>
+    );
+    const renderPushPropsBar = () => (
+      <div class={styles.nav_icon_transition}>
+        <svg-icon
+          iconClass="push"
+          class={[styles.nav_icon, layout.isCollapseProp && styles.is_collapse]}
+          onClick={() => layout.switchCollapse("props")}
+        ></svg-icon>
+      </div>
+    );
+    const renderWidgets = (type: string) => {
+      return (
+        {
+          mode: renderDarkLight(),
+          push: renderPushPropsBar(),
+        } as Record<string, JSX.Element>
+      )[type];
+    };
     return () => (
       <div
         class={styles.layout_nav_bar_wrapper}
@@ -128,16 +157,7 @@ export default defineComponent({
           ))}
         </div>
         <div class={styles.layout_nav_settings}>
-          <div class={styles.nav_icon_transition}>
-            <svg-icon
-              iconClass="push"
-              class={[
-                styles.nav_icon,
-                layout.isCollapseProp && styles.is_collapse,
-              ]}
-              onClick={() => layout.switchCollapse("props")}
-            ></svg-icon>
-          </div>
+          {widgets.map((item) => item.icon && renderWidgets(item.icon))}
         </div>
       </div>
     );
