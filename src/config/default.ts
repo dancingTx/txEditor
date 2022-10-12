@@ -4,6 +4,7 @@ import { defineAsyncComponent, type Component } from "vue";
 export const __MENU_WIDTH__ = 240;
 export const __ASIDE_WIDTH__ = 48;
 export const __CANVAS_WIDTH__ = 800;
+export const __PANEL_WIDTH__ = 180;
 
 export interface PluginProps {
   uid: string;
@@ -215,5 +216,18 @@ export const widgets: SourceProps[] = [
     uid: makeUUID(),
     label: "collapse props bar",
     icon: "push",
+  },
+];
+
+export const settings: SourceProps[] = [
+  {
+    uid: makeUUID(),
+    label: "颜色主题",
+    icon: "theme",
+  },
+  {
+    uid: makeUUID(),
+    label: "颜色主题",
+    icon: "theme",
   },
 ];

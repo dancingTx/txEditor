@@ -11,7 +11,6 @@ const __MIN_HEIGHT__ = 120;
 const __MAX_WIDTH__ = window.innerWidth;
 const __MAX_HEIGHT__ = window.innerHeight - __MIN_HEIGHT__;
 
-// const layout = useLayoutStore();
 interface DragSplitOptions {
   max?: number;
   min?: number;

@@ -1,24 +1,24 @@
 @import "../variables.scss";
 @import "../mixin.scss";
 /** --------svgIcon start------------ */
-.svg_icon_wrapper {
-  position: relative;
-  &:hover:after {
-    content: attr(data-label);
-    position: absolute;
-    top: 50%;
-    right: -30px;
-    z-index: 1;
-    padding: 0 4px;
-    box-sizing: border-box;
-    height: 20px;
-    line-height: 20px;
-    transform: translateY(-50%);
-    border: 1px solid $--color-bwmix8;
-    background-color: $--color-bwmix9;
-  }
-}
 .svg_icon {
+  &_wrapper {
+    position: relative;
+    &:hover:after {
+      content: attr(data-label);
+      position: absolute;
+      top: 50%;
+      right: -30px;
+      z-index: 1;
+      padding: 0 4px;
+      box-sizing: border-box;
+      height: 20px;
+      line-height: 20px;
+      transform: translateY(-50%);
+      border: 1px solid $--color-bwmix8;
+      background-color: $--color-bwmix9;
+    }
+  }
   overflow: hidden;
   width: 1em;
   height: 1em;
@@ -172,18 +172,18 @@
 /** ------------ toolkit end ------------- */
 
 /** ------------ canvas start ------------- */
-.canvas_wrapper {
-  height: calc(
-    100vh - $--nav-bar-height - $--status-bar-height - $--toolkit-bar-height
-  );
-  padding: 20px;
-  box-sizing: border-box;
-  overflow: scroll;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-}
 .canvas {
+  &_wrapper {
+    height: calc(
+      100vh - $--nav-bar-height - $--status-bar-height - $--toolkit-bar-height
+    );
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: scroll;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
   margin: 0 auto;
   background-color: $--color-bwmix1;
   -webkit-transition: all 0.2s linear;
@@ -194,3 +194,62 @@
 }
 
 /** ------------ canvas end ------------- */
+
+/** ------------ panel start ------------- */
+
+.panel {
+  &_wrapper {
+    position: relative;
+  }
+  &_handle {
+    &.is_active {
+      position: relative;
+      &::after {
+        content: "";
+        position: absolute;
+        left: $--aside-width - 10px;
+        top: 50%;
+        display: block;
+        border: 5px solid;
+        border-color: transparent transparent transparent $--color-bwmix8;
+        transform: translateY(-50%);
+      }
+    }
+  }
+  &_inner {
+    position: absolute;
+    bottom: 0;
+    left: $--aside-width - 5px;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 6px;
+    box-shadow: 0 0 5px $--color-bwmix8;
+    font-size: $--font-small1;
+    color: $--color-bwmix9;
+    background-color: $--color-bwmix2;
+    div {
+      line-height: 2em;
+      cursor: pointer;
+      &:not(:last-child) {
+        border-bottom: 1px solid $--color-bwmix3;
+      }
+      &:hover {
+        border-radius: 6px;
+        background-color: $--color-bwmix3;
+      }
+    }
+  }
+  &_icon {
+    margin-right: 5px;
+    vertical-align: middle;
+    font-size: $--font-base;
+  }
+  &_item {
+    display: inline-block;
+    width: calc(100% - 25px);
+    vertical-align: middle;
+    @include ellipsis();
+  }
+}
+
+/** ------------ panel end ------------- */
