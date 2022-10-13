@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { screen2BodyRatio } from "@/shared/tool";
-import { __CANVAS_WIDTH__ } from "@/config/default";
+import { Vars } from "@/config/default";
 interface LayoutState {
   isCollapse: boolean;
   isCollapseProp: boolean;
@@ -28,8 +28,8 @@ export const useLayoutStore = defineStore("layout", {
       pluginUid: "",
       menuWidth: 0,
       canvasSize: "",
-      canvasWidth: __CANVAS_WIDTH__,
-      canvasHeight: screen2BodyRatio(__CANVAS_WIDTH__, "4:3"),
+      canvasWidth: Vars.__CANVAS_WIDTH__,
+      canvasHeight: screen2BodyRatio(Vars.__CANVAS_WIDTH__, "4:3"),
       mode: "dark",
     } as LayoutState & LayoutProps;
   },

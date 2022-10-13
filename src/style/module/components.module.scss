@@ -253,3 +253,69 @@
 }
 
 /** ------------ panel end ------------- */
+
+/** ------------ command start ------------- */
+
+.commands {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  z-index: 1000;
+  transform: translateX(-50%);
+  width: 30%;
+  height: 200px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  box-shadow: 0 0 5px $--color-bwmix8;
+  font-size: $--font-small1;
+  background-color: $--color-bwmix9;
+  color: $--color-bwmix2;
+  .search {
+    padding: 5px;
+    box-sizing: border-box;
+    &_inner {
+      display: inline-block;
+      width: 100%;
+      outline: none;
+      box-sizing: border-box;
+      border: 1px solid transparent;
+      font-size: $--font-small;
+      background-color: $--color-bwmix8;
+      color: $--color-bwmix2;
+      &:focus {
+        border: 1px solid $--status-bar-bg;
+      }
+    }
+  }
+  .panel {
+    &_group {
+      position: relative;
+      border-bottom: 1px solid $--color-bwmix8;
+    }
+    &_title {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 0 20px;
+      font-size: $--font-small;
+      line-height: 1.6em;
+      color: $--status-bar-bg;
+      cursor: pointer;
+      &:hover {
+        color: $--drag-split-bg;
+      }
+    }
+    &_item {
+      display: inline-block;
+      width: 100%;
+      padding: 0 5px;
+      box-sizing: border-box;
+      line-height: 1.6em;
+      &:hover {
+        background-color: $--color-bwmix8;
+      }
+    }
+  }
+}
+
+/** ------------ command end ------------- */

@@ -1,15 +1,11 @@
 import bus from "@/shared/bus";
 import { createElement, addClass, removeClass, on, off } from "@/shared/domOp";
 import { arrayify, debounce } from "@/shared/tool";
+import { Vars } from "@/config/default";
 import styles from "@/style/module/components.module.scss";
 
-const __ASIDE_WIDTH__ = 48;
-const __SPLIT_LINE_WIDTH__ = 4;
-
-const __MIN_WIDTH__ = 180;
-const __MIN_HEIGHT__ = 120;
 const __MAX_WIDTH__ = window.innerWidth;
-const __MAX_HEIGHT__ = window.innerHeight - __MIN_HEIGHT__;
+const __MAX_HEIGHT__ = window.innerHeight - Vars.__MIN_HEIGHT__;
 
 interface DragSplitOptions {
   max?: number;
@@ -86,11 +82,11 @@ export default class DragSplit {
   }
   private handleDragMoving(e: Event) {
     const calculateDistance = (distance: number) =>
-      distance + __SPLIT_LINE_WIDTH__ + "px";
+      distance + Vars.__SPLIT_LINE_WIDTH__ + "px";
     if (this.state === "horizontal") {
       const endX = (e as MouseEvent).clientX;
       let moveLength = endX - this.distanceX;
-      const minMove = this.options.min || __MIN_WIDTH__;
+      const minMove = this.options.min || Vars.__MIN_WIDTH__;
       if (moveLength <= minMove) {
         moveLength = minMove;
         if (!this.serveForThis.classList.contains(styles.is_right)) {
@@ -112,7 +108,7 @@ export default class DragSplit {
           ? this.serveForThis.nextSibling
           : null;
       if (siblingDom) {
-        const width = calculateDistance(moveLength - __ASIDE_WIDTH__);
+        const width = calculateDistance(moveLength - Vars.__ASIDE_WIDTH__);
         (siblingDom as HTMLElement).style.width = width;
         bus.emit("menuWidth", parseInt(width));
       }
@@ -121,7 +117,7 @@ export default class DragSplit {
     if (this.state === "vertical") {
       const endY = (e as MouseEvent).clientY;
       let moveLength = endY + this.distanceY;
-      const minMove = this.options.min || __MIN_HEIGHT__;
+      const minMove = this.options.min || Vars.__MIN_HEIGHT__;
       if (moveLength <= minMove) {
         moveLength = minMove;
         if (!this.serveForThis.classList.contains(styles.is_bottom)) {

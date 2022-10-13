@@ -7,14 +7,14 @@ import {
 } from "vue";
 import clickoutside from "@/directive/clickoutside";
 import { screen2BodyRatio } from "@/shared/tool";
-import { __PANEL_WIDTH__, type SourceProps } from "@/config/default";
+import { Vars, type SettingProps } from "@/config/default";
 import { useGlobalStore } from "@/store/global";
 import styles from "@/style/module/components.module.scss";
 
 export default defineComponent({
   props: {
     items: {
-      type: Array as PropType<SourceProps[]>,
+      type: Array as PropType<SettingProps[]>,
       default: () => [],
     },
     showPanel: {
@@ -25,8 +25,8 @@ export default defineComponent({
   emits: ["closePanel"],
   setup(props, { slots, emit }) {
     const state = reactive({
-      panelWidth: __PANEL_WIDTH__,
-      panelHeight: screen2BodyRatio(__PANEL_WIDTH__, "3:4"),
+      panelWidth: Vars.__PANEL_WIDTH__,
+      panelHeight: screen2BodyRatio(Vars.__PANEL_WIDTH__, "3:4"),
     });
     const global = useGlobalStore();
     return () => (
@@ -45,7 +45,12 @@ export default defineComponent({
                 }}
               >
                 {props.items.map((item) => (
-                  <div onClick={() => emit("closePanel")}>
+                  <div
+                    onClick={() => {
+                      global.invokeCommand("Theme");
+                      emit("closePanel");
+                    }}
+                  >
                     {item.icon && (
                       <svg-icon
                         iconClass={item.icon}

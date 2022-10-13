@@ -1,6 +1,14 @@
-import { defineComponent } from "vue";
+import { defineComponent, Teleport } from "vue";
+import Command from "@/components/toolkit/directive";
 export default defineComponent({
   setup() {
-    return () => <router-view></router-view>;
+    return () => (
+      <div>
+        <router-view></router-view>
+        <Teleport to="body">
+          <Command></Command>
+        </Teleport>
+      </div>
+    );
   },
 });

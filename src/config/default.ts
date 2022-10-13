@@ -1,18 +1,18 @@
+export * from "./var";
+export * from "./type";
+export * from "./ratio";
+
+import { defineAsyncComponent } from "vue";
+import type {
+  PluginProps,
+  SourceProps,
+  ScreenProps,
+  CommandProps,
+  ComponentProps,
+  SettingProps,
+} from "./type";
 import { makeUUID } from "@/shared/variables";
-import { defineAsyncComponent, type Component } from "vue";
 
-export const __MENU_WIDTH__ = 240;
-export const __ASIDE_WIDTH__ = 48;
-export const __CANVAS_WIDTH__ = 800;
-export const __PANEL_WIDTH__ = 180;
-
-export interface PluginProps {
-  uid: string;
-  icon: string;
-  componentName: string;
-  component: Component;
-  label?: string;
-}
 export const pluginList: PluginProps[] = [
   {
     uid: makeUUID(),
@@ -40,15 +40,6 @@ export const pluginList: PluginProps[] = [
     ),
   },
 ];
-
-export interface SourceProps {
-  uid: string;
-  icon?: string;
-  label: string;
-  subTitle?: string;
-  enLabel?: string;
-  enSubTitle?: string;
-}
 
 export const sourceList: SourceProps[] = [
   {
@@ -98,30 +89,6 @@ export const attrList: SourceProps[] = [
   },
 ];
 
-export interface FileStatus {
-  locked?: boolean;
-  edited?: boolean;
-  readonly?: boolean;
-  modify?: boolean;
-  deleted?: boolean;
-  created?: boolean;
-}
-
-export const fileStatus: string[] = [
-  "locked",
-  "edited",
-  "readonly",
-  "modify",
-  "deleted",
-  "created",
-];
-
-export interface ScreenSize {
-  gte?: number;
-  lt?: number;
-}
-export type ScreenProps = SourceProps & ScreenSize;
-
 export const screenSize: ScreenProps[] = [
   {
     uid: makeUUID(),
@@ -160,74 +127,67 @@ export const screenSize: ScreenProps[] = [
   },
 ];
 
-export const commands: SourceProps[] = [
+export const commands: CommandProps[] = [
   {
     uid: makeUUID(),
     label: "撤销",
     icon: "undo",
+    command: "Undo",
   },
   {
     uid: makeUUID(),
     label: "重做",
     icon: "redo",
+    command: "Redo",
   },
   {
     uid: makeUUID(),
     label: "预览",
     icon: "preview",
+    command: "Preview",
   },
   {
     uid: makeUUID(),
     label: "清空",
     icon: "clear",
+    command: "Clear",
   },
   {
     uid: makeUUID(),
     label: "删除",
     icon: "delete",
+    command: "Delete",
   },
 ];
-export interface ComponentProps {
-  tag: string;
-}
 
 export const componentList: ComponentProps[] = [];
 
-export const TransverseMobile: string[] = [
-  "2:1",
-  "21:9",
-  "20:9",
-  "19.5:9",
-  "19:9",
-  "18.5:9",
-  "16:9",
-];
-export const TransversePad: string[] = [];
-export const TransverseLaptop: string[] = [];
-export const TransverseDesktop: string[] = [];
-
-export const widgets: SourceProps[] = [
+export const widgets: CommandProps[] = [
   {
     uid: makeUUID(),
     label: "dark Mode",
     icon: "mode",
+    command: "DarkMode",
   },
   {
     uid: makeUUID(),
     label: "collapse props bar",
     icon: "push",
+    command: "Collapse",
   },
 ];
 
-export const settings: SourceProps[] = [
+export const settings: SettingProps[] = [
   {
     uid: makeUUID(),
     label: "颜色主题",
     icon: "theme",
+    command: "Theme",
   },
   {
     uid: makeUUID(),
     label: "颜色主题",
     icon: "theme",
+    command: "Theme",
   },
 ];

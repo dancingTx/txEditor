@@ -48,3 +48,13 @@
   opacity: 0;
   transform: scale(0.45, 0.45);
 }
+
+.slide-down-enter-active,
+.slide-down-leave-active {
+  transition: all 0.2s linear;
+}
+.slide-down-enter-from,
+.slide-down-leave-to {
+  opacity: 0;
+  margin-top: -40px;
+}

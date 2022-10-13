@@ -1,74 +1,39 @@
 import { defineComponent, reactive } from "vue";
 import {
-  fileStatus,
   widgets,
-  type SourceProps,
-  type FileStatus,
+  FileStatusVars,
+  type FileProps,
+  type Command,
 } from "@/config/default";
 import { calcNavWidth } from "@/hook";
 import { useLayoutStore } from "@/store/layout";
+import { useGlobalStore } from "@/store/global";
 import styles from "@/style/module/layout.module.scss";
 import styleFile from "@/style/module/file.module.scss";
-const fileList: (SourceProps & FileStatus)[] = [
+const fileList: FileProps[] = [
   {
     uid: "1..dfafafa",
     label: "file.js",
     icon: "javascript",
-    modify: true,
+    kind: "Modify",
   },
   {
     uid: "2..fdsaafas",
     label: "file2.js",
     icon: "html",
-    locked: true,
+    kind: "Locked",
   },
   {
     uid: "3..ffafdsafs",
     label: "file3.js",
     icon: "css",
-    deleted: true,
+    kind: "Deleted",
   },
   {
     uid: "4..ffafdsafs",
     label: "file3.js",
     icon: "javascript",
-    created: true,
-  },
-  {
-    uid: "4..ffafdsafs",
-    label: "file3.js",
-    icon: "javascript",
-    created: true,
-  },
-  {
-    uid: "4..ffafdsafs",
-    label: "file3.js",
-    icon: "javascript",
-    created: true,
-  },
-  {
-    uid: "4..ffafdsafs",
-    label: "file3.js",
-    icon: "javascript",
-    created: true,
-  },
-  {
-    uid: "4..ffafdsafs",
-    label: "file3.js",
-    icon: "javascript",
-    created: true,
-  },
-  {
-    uid: "4..ffafdsafs",
-    label: "file3.js",
-    icon: "javascript",
-    created: true,
-  },
-  {
-    uid: "4..ffafdsafs",
-    label: "file3.js",
-    icon: "css",
-    created: true,
+    kind: "Created",
   },
 ];
 export default defineComponent({
@@ -80,22 +45,16 @@ export default defineComponent({
       isActive: fileList[0].uid,
       isHover: "",
     });
-    const makeStatusClass = (item: SourceProps & FileStatus): string => {
-      for (const key of Object.keys(item)) {
-        if (fileStatus.includes(key)) {
-          return `is_${key}`;
-        }
-      }
-      return "";
-    };
     const layout = useLayoutStore();
+    const global = useGlobalStore();
     const renderDarkLight = () => (
       <div class={styles.darkset}>
         <svg-icon
           iconClass={layout.mode}
           class={styles.nav_icon}
           onClick={() => {
-            layout.switchDarkMode(layout.mode === "dark" ? "light" : "dark");
+            global.invokeCommand("DarkMode", false);
+            // layout.switchDarkMode(layout.mode === "dark" ? "light" : "dark");
           }}
         ></svg-icon>
       </div>
@@ -109,12 +68,12 @@ export default defineComponent({
         ></svg-icon>
       </div>
     );
-    const renderWidgets = (type: string) => {
+    const renderWidgets = (type: Command) => {
       return (
         {
-          mode: renderDarkLight(),
-          push: renderPushPropsBar(),
-        } as Record<string, JSX.Element>
+          DarkMode: renderDarkLight(),
+          Collapse: renderPushPropsBar(),
+        } as Record<Command, JSX.Element>
       )[type];
     };
     return () => (
@@ -141,7 +100,9 @@ export default defineComponent({
                   class={styles.item_icon}
                 ></svg-icon>
               )}
-              <span class={[styleFile.file, styleFile[makeStatusClass(file)]]}>
+              <span
+                class={[styleFile.file, styleFile[FileStatusVars[file.kind]]]}
+              >
                 {file.label}
               </span>
               <div class={styles.icon_close_outer}>
@@ -157,7 +118,7 @@ export default defineComponent({
           ))}
         </div>
         <div class={styles.layout_nav_settings}>
-          {widgets.map((item) => item.icon && renderWidgets(item.icon))}
+          {widgets.map((item) => item.icon && renderWidgets(item.command))}
         </div>
       </div>
     );

@@ -1,4 +1,4 @@
-import { on, query } from "@/shared/domOp";
+import { on } from "@/shared/domOp";
 import { makeUUID } from "@/shared/variables";
 import type { DirectiveBinding, VNode } from "vue";
 
