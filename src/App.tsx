@@ -1,5 +1,5 @@
 import { defineComponent, Teleport } from "vue";
-import Command from "@/components/toolkit/directive";
+import Command from "@/components/toolkit/globalCommand";
 export default defineComponent({
   setup() {
     return () => (

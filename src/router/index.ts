@@ -5,17 +5,18 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
-      name: 'layout',
+      path: "/",
+      name: "layout",
+      redirect: "/dashboard",
       component: layout,
       children: [
         {
-          path: 'dashboard',
-          name: 'dashboard',
-          component: () => import("@/views/dashboard")
-        }
-      ]
-    }
+          path: "dashboard",
+          name: "dashboard",
+          component: () => import("@/views/dashboard"),
+        },
+      ],
+    },
   ],
 });
 

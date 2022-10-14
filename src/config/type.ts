@@ -1,11 +1,12 @@
 import type { Component } from "vue";
 import type {
   FileStatusVars,
-  CommandVars,
+  CanvasCommandVars,
   TagVars,
   SettingVars,
-  DarkModeVars,
   ThemeVars,
+  I18nVars,
+  WidgetVars,
 } from "./var";
 
 interface CommonProps {
@@ -52,23 +53,34 @@ export type ScreenProps = SourceProps & {
   lt?: number;
 };
 
+type Theme = keyof typeof ThemeVars;
+type I18n = keyof typeof I18nVars;
+
+export type CommandOption = Theme | I18n;
 export type Setting = keyof typeof SettingVars;
 
-export type SettingProps = SourceProps & { command: Setting };
-
-export type Command = keyof typeof CommandVars;
-
-export type CommandProps = SourceProps & { command: Command };
-
-type DarkMode = keyof typeof DarkModeVars;
-type Theme = keyof typeof ThemeVars;
-
-type CommandOptions = DarkMode | Theme;
-
-export interface CommandInfo extends CommonProps {
-  command: Command | Setting;
-  commandOptions?: CommandOptions[];
+export interface CommandOptions extends CommonProps {
+  group: string;
+  children?: {
+    kind: CommandOption;
+    label: string;
+    icon?: string;
+    color?: string;
+  }[];
 }
+
+export type SettingProps = SourceProps & {
+  command: Setting;
+  commandOptions?: CommandOptions[];
+};
+
+export type CanvasCommand = keyof typeof CanvasCommandVars;
+
+export type CanvasCommandProps = SourceProps & { command: CanvasCommand };
+
+export type Widget = keyof typeof WidgetVars;
+
+export type WidgetProps = SourceProps & { command: Widget };
 
 type Tag = keyof typeof TagVars;
 

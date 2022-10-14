@@ -2,12 +2,12 @@ import { defineComponent, reactive } from "vue";
 import {
   widgets,
   FileStatusVars,
+  DarkModeVars,
   type FileProps,
-  type Command,
+  type Widget,
 } from "@/config/default";
 import { calcNavWidth } from "@/hook";
 import { useLayoutStore } from "@/store/layout";
-import { useGlobalStore } from "@/store/global";
 import styles from "@/style/module/layout.module.scss";
 import styleFile from "@/style/module/file.module.scss";
 const fileList: FileProps[] = [
@@ -46,15 +46,13 @@ export default defineComponent({
       isHover: "",
     });
     const layout = useLayoutStore();
-    const global = useGlobalStore();
     const renderDarkLight = () => (
       <div class={styles.darkset}>
         <svg-icon
-          iconClass={layout.mode}
+          iconClass={layout.mode === DarkModeVars.Dark ? "dark" : "light"}
           class={styles.nav_icon}
           onClick={() => {
-            global.invokeCommand("DarkMode", false);
-            // layout.switchDarkMode(layout.mode === "dark" ? "light" : "dark");
+            layout.switchDarkMode();
           }}
         ></svg-icon>
       </div>
@@ -68,12 +66,12 @@ export default defineComponent({
         ></svg-icon>
       </div>
     );
-    const renderWidgets = (type: Command) => {
+    const renderWidgets = (type: Widget) => {
       return (
         {
           DarkMode: renderDarkLight(),
           Collapse: renderPushPropsBar(),
-        } as Record<Command, JSX.Element>
+        } as Record<Widget, JSX.Element>
       )[type];
     };
     return () => (

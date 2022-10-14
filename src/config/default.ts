@@ -7,9 +7,10 @@ import type {
   PluginProps,
   SourceProps,
   ScreenProps,
-  CommandProps,
+  CanvasCommandProps,
   ComponentProps,
   SettingProps,
+  WidgetProps,
 } from "./type";
 import { makeUUID } from "@/shared/variables";
 
@@ -127,7 +128,7 @@ export const screenSize: ScreenProps[] = [
   },
 ];
 
-export const commands: CommandProps[] = [
+export const canvasCommands: CanvasCommandProps[] = [
   {
     uid: makeUUID(),
     label: "撤销",
@@ -162,7 +163,7 @@ export const commands: CommandProps[] = [
 
 export const componentList: ComponentProps[] = [];
 
-export const widgets: CommandProps[] = [
+export const widgets: WidgetProps[] = [
   {
     uid: makeUUID(),
     label: "dark Mode",
@@ -183,11 +184,46 @@ export const settings: SettingProps[] = [
     label: "颜色主题",
     icon: "theme",
     command: "Theme",
+    commandOptions: [
+      {
+        uid: makeUUID(),
+        group: "浅色主题",
+        children: [
+          {
+            kind: "LightBlue",
+            label: "浅蓝",
+            color: "#B0E2FF",
+          },
+          {
+            kind: "LightRed",
+            label: "浅红",
+            color: "#FF6347",
+          },
+        ],
+      },
+      {
+        uid: makeUUID(),
+        group: "深色主题",
+        children: [
+          {
+            kind: "DarkBlue",
+            label: "深蓝",
+            color: "#00BFFF",
+          },
+          {
+            kind: "LightBlue",
+            label: "深红",
+            color: "#FF0000",
+          },
+        ],
+      },
+    ],
   },
   {
     uid: makeUUID(),
-    label: "颜色主题",
-    icon: "theme",
-    command: "Theme",
+    label: "国际化",
+    icon: "i18n",
+    command: "I18n",
+    commandOptions: [],
   },
 ];

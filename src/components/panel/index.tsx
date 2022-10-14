@@ -34,6 +34,7 @@ export default defineComponent({
         <div class={[styles.panel_handle, props.showPanel && styles.is_active]}>
           {slots.handle && slots.handle()}
         </div>
+
         {withDirectives(
           <Transition name="zoom-in-left">
             {props.showPanel && (
@@ -47,7 +48,7 @@ export default defineComponent({
                 {props.items.map((item) => (
                   <div
                     onClick={() => {
-                      global.invokeCommand("Theme");
+                      global.invokeCommand(item.command, item.commandOptions);
                       emit("closePanel");
                     }}
                   >

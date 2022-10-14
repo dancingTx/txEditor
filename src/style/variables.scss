@@ -28,6 +28,26 @@ $--font-medium1: ceil($--font-base * 1.2) !default; /** 20px */
 $--font-medium2: floor($--font-base * 1.4) !default; /** 22px */
 $--font-medium3: $--font-base * 1.5 !default; /** 24px */
 /**------------------*/
+/** Font Weight */
+/**------------------*/
+$--font-weight-lighter: 200 !default;
+$--font-weight-light: 300 !default;
+$--font-weight-normal: 400 !default;
+$--font-weight-blod: 600 !default;
+$--font-weight-bloder: 700 !default;
+/**------------------*/
+
+/** Common */
+
+/**------------------*/
+$--common-padding: 5px !default;
+$--common-padding2: round(2 * $--common-padding) !default;
+$--common-padding3: round(3 * $--common-padding) !default;
+$--common-padding4: round(4 * $--common-padding) !default;
+$--common-border-radius-light: 4px !default;
+$--common-border-radius-normal: 6px !default;
+
+/**------------------*/
 
 // Layout
 $--aside-width: 48px !default;

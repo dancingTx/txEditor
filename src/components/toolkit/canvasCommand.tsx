@@ -1,11 +1,13 @@
 import { defineComponent, reactive } from "vue";
-import { screenSize, commands, type ScreenProps } from "@/config/default";
+import { screenSize, canvasCommands, type ScreenProps } from "@/config/default";
 import { useLayoutStore } from "@/store/layout";
+import { useGlobalStore } from "@/store/global";
 import { screen2BodyRatio } from "@/shared/tool";
 import styles from "@/style/module/components.module.scss";
 export default defineComponent({
   setup() {
     const layout = useLayoutStore();
+    const global = useGlobalStore();
     const state = reactive({
       isActiveScreenSize: "",
       isManual: false,
@@ -66,8 +68,11 @@ export default defineComponent({
           )}
         </div>
         <div class={styles.toolkit_command}>
-          {commands.map((item) => (
-            <div class={[styles.canvas_size_wrapper]}>
+          {canvasCommands.map((item) => (
+            <div
+              class={[styles.canvas_size_wrapper]}
+              onClick={() => global.invokeCanvasCommand(item.command)}
+            >
               <svg-icon
                 iconClass={item.icon}
                 class={styles.item_icon}

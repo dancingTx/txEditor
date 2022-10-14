@@ -6,7 +6,7 @@
       color: $--file-created-color;
       &::after {
         content: "U";
-        margin-left: 5px;
+        margin-left: $--common-padding;
       }
     }
     &_modify,
@@ -14,7 +14,7 @@
       color: $--file-modified-color;
       &::after {
         content: "M";
-        margin-left: 5px;
+        margin-left: $--common-padding;
       }
     }
     &_deleted {
@@ -22,7 +22,7 @@
       text-decoration: line-through;
       &::after {
         content: "D";
-        margin-left: 5px;
+        margin-left: $--common-padding;
       }
     }
     &_locked,
@@ -30,7 +30,7 @@
       color: $--file-locked-color;
       &::after {
         content: "🔐";
-        margin-left: 5px;
+        margin-left: $--common-padding;
       }
     }
   }

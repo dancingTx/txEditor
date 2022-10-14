@@ -71,8 +71,8 @@
 
 /** ---------- tab start ------------- */
 .tabs {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: $--font-small;
+  font-weight: $--font-weight-blod;
   .tab {
     &_item {
       &:not(:last-child) {
@@ -95,7 +95,7 @@
       }
       &__content {
         overflow: auto;
-        padding: 0 10px;
+        padding: 0 $--common-padding2;
         line-height: 2em;
         transition: all 0.2s linear;
         &.is_collapse {
@@ -120,7 +120,7 @@
   justify-content: space-between;
   width: 100%;
   height: $--toolkit-bar-height;
-  padding: 0 20px;
+  padding: 0 $--common-padding4;
   box-sizing: border-box;
   box-shadow: 5px 5px 10px $--nav-bar-shadow-color;
   background-color: $--color-bwmix9;
@@ -135,16 +135,15 @@
       width: 30px;
       height: 30px;
       line-height: 30px;
-
+      cursor: pointer;
       &:hover,
       &.is_active {
-        border-radius: 4px;
+        border-radius: $--common-border-radius-light;
         background-color: $--color-bwmix8;
       }
       .item_icon {
         vertical-align: middle;
         font-size: $--font-small2;
-        cursor: pointer;
       }
     }
   }
@@ -177,7 +176,7 @@
     height: calc(
       100vh - $--nav-bar-height - $--status-bar-height - $--toolkit-bar-height
     );
-    padding: 20px;
+    padding: $--common-padding4;
     box-sizing: border-box;
     overflow: scroll;
     &::-webkit-scrollbar {
@@ -204,6 +203,7 @@
   &_handle {
     &.is_active {
       position: relative;
+      pointer-events: none;
       &::after {
         content: "";
         position: absolute;
@@ -220,21 +220,22 @@
     position: absolute;
     bottom: 0;
     left: $--aside-width - 5px;
-    padding: 10px;
+    padding: $--common-padding2;
     box-sizing: border-box;
-    border-radius: 6px;
+    border-radius: $--common-border-radius-light;
     box-shadow: 0 0 5px $--color-bwmix8;
     font-size: $--font-small1;
     color: $--color-bwmix9;
     background-color: $--color-bwmix2;
     div {
+      padding: 0 $--common-padding;
       line-height: 2em;
       cursor: pointer;
       &:not(:last-child) {
         border-bottom: 1px solid $--color-bwmix3;
       }
       &:hover {
-        border-radius: 6px;
+        border-radius: $--common-border-radius-light;
         background-color: $--color-bwmix3;
       }
     }
@@ -264,14 +265,14 @@
   transform: translateX(-50%);
   width: 30%;
   height: 200px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: $--common-border-radius-normal;
+  border-bottom-right-radius: $--common-border-radius-normal;
   box-shadow: 0 0 5px $--color-bwmix8;
   font-size: $--font-small1;
   background-color: $--color-bwmix9;
   color: $--color-bwmix2;
   .search {
-    padding: 5px;
+    padding: $--common-padding;
     box-sizing: border-box;
     &_inner {
       display: inline-block;
@@ -290,16 +291,19 @@
   .panel {
     &_group {
       position: relative;
-      border-bottom: 1px solid $--color-bwmix8;
+      &:not(:last-child) {
+        border-bottom: 1px solid $--color-bwmix8;
+      }
     }
     &_title {
       position: absolute;
       top: 0;
       right: 0;
-      padding: 0 20px;
+      padding: 0 $--common-padding4;
       font-size: $--font-small;
-      line-height: 1.6em;
+      line-height: 1.8em;
       color: $--status-bar-bg;
+      pointer-events: none;
       cursor: pointer;
       &:hover {
         color: $--drag-split-bg;
@@ -308,9 +312,10 @@
     &_item {
       display: inline-block;
       width: 100%;
-      padding: 0 5px;
+      padding: 0 $--common-padding;
       box-sizing: border-box;
       line-height: 1.6em;
+      cursor: pointer;
       &:hover {
         background-color: $--color-bwmix8;
       }

@@ -1,28 +1,31 @@
 import { defineStore } from "pinia";
-import type { Command, Setting, CommandInfo } from "@/config/default";
-import { makeUUID } from "@/shared/variables";
+import type { CanvasCommand, Setting, CommandOptions } from "@/config/default";
 export const useGlobalStore = defineStore("global", {
   state: () => {
     return {
       showCommand: false,
       command: "",
+      commandOptions: [] as CommandOptions[],
+      canvasCommand: "",
     };
   },
   actions: {
-    invokeCommand(command: Command | Setting, whether: boolean = true) {
-      if (whether) {
-        this.showCommand = true;
-      }
-      const commandInfo: CommandInfo = {
-        uid: makeUUID(),
-        command,
-        commandOptions: [],
-      };
+    invokeCommand(command: Setting, commandOptions?: CommandOptions[]) {
+      this.showCommand = true;
       this.command = command;
-      console.log(command, " commn");
-      return () => {
-        this.showCommand = false;
-      };
+      if (commandOptions) {
+        this.commandOptions = commandOptions;
+      }
+      console.log("global command", command, commandOptions);
+    },
+    disposeCommand() {
+      this.showCommand = false;
+      this.command = "";
+      this.commandOptions = [];
+    },
+    invokeCanvasCommand(command: CanvasCommand) {
+      this.canvasCommand = command;
+      console.log("canvas command", command);
     },
   },
 });

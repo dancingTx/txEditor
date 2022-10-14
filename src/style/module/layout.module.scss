@@ -23,10 +23,10 @@
         background-color: $--color-bwmix8;
         .aside {
           &_icon {
-            margin: 10px 0;
+            margin: $--common-padding2 0;
             width: 1.8em;
             height: 1.8em;
-            font-weight: 500;
+            font-weight: $--font-weight-blod;
             color: $--color-bwmix5;
             cursor: pointer;
             transition: all 200ms linear;
@@ -48,7 +48,7 @@
               left: $--aside-width;
               transform: translateY(-50%);
               min-width: 60px;
-              padding: 4px 10px;
+              padding: 4px $--common-padding2;
               border: 1px solid $--color-bwmix6;
               font-size: $--font-small;
               background-color: $--color-bwmix9;
@@ -110,7 +110,7 @@
               display: flex;
               align-items: center;
               justify-content: space-between;
-              padding: 10px 16px;
+              padding: $--common-padding2 16px;
               box-sizing: border-box;
             }
             &_label {
@@ -132,7 +132,7 @@
       &_props_bar {
         width: $--menu-width;
         height: 100vh;
-        padding: 10px 0;
+        padding: $--common-padding2 0;
         background-color: $--menu-bg;
         color: $--color-bwmix2;
         -webkit-transition: all 0.2s linear;
@@ -156,7 +156,7 @@
         align-items: center;
         justify-content: flex-end;
         min-width: 80px;
-        padding: 0 10px;
+        padding: 0 $--common-padding2;
         line-height: $--nav-bar-height;
         text-align: right;
         .nav_icon {
@@ -189,7 +189,7 @@
           }
         }
         .darkset {
-          margin: 0 10px;
+          margin: 0 $--common-padding2;
           .nav_icon {
             width: 1.6em;
             height: 1.6em;
@@ -209,14 +209,14 @@
         }
         &__item {
           display: inline-block;
-          padding: 0 10px;
+          padding: 0 $--common-padding2;
           border-right: 1px solid #252526;
           font-size: $--font-small;
           color: $--color-bwmix1;
           background-color: $--color-bwmix8;
           cursor: pointer;
           .item_icon {
-            margin: 0 10px;
+            margin: 0 $--common-padding2;
             width: 1.2em;
             height: 1.2em;
             vertical-align: middle;
@@ -233,7 +233,7 @@
               line-height: 1.8em;
               text-align: center;
               &:hover {
-                border-radius: 4px;
+                border-radius: $--common-border-radius-light;
                 background-color: $--color-bwmix8;
               }
             }
@@ -252,7 +252,7 @@
     left: 0;
     width: 100%;
     height: $--status-bar-height;
-    padding: 0 20px;
+    padding: 0 $--common-padding4;
     font-size: $--font-small;
     line-height: $--status-bar-height;
     text-align: center;

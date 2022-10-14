@@ -19,16 +19,20 @@ export enum FileStatusVars {
 
 export const enum SettingVars {
   Theme = "theme",
+  I18n = "i18n",
 }
 
-export const enum CommandVars {
+export const enum WidgetVars {
+  DarkMode = "darkMode",
+  Collapse = "collapse",
+}
+
+export const enum CanvasCommandVars {
   Undo = "undo",
   Redo = "redo",
   Preview = "preview",
   Clear = "clear",
   Delete = "delete",
-  Collapse = "collapse",
-  DarkMode = "darkMode",
 }
 
 export const enum TagVars {
@@ -42,7 +46,15 @@ export const enum DarkModeVars {
   Dark = "is_dark",
 }
 
+export const enum I18nVars {
+  English = "enUs",
+  Chinese = "zhCn",
+  HongKong = "zhHk",
+}
+
 export const enum ThemeVars {
   LightBlue = "is_light_blue",
   DarkBlue = "is_dark_blue",
+  LightRed = "is_light_red",
+  DarkRed = "is_dark_red",
 }
