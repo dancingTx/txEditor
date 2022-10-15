@@ -1,15 +1,34 @@
-import { defineComponent, reactive, Transition, withDirectives } from "vue";
+import {
+  defineComponent,
+  reactive,
+  Transition,
+  withDirectives,
+  getCurrentInstance,
+  computed,
+} from "vue";
+import type { CommandGroupItem } from "@/config/default";
+import type { GlobalCommand } from "./command/command";
 import { useGlobalStore } from "@/store/global";
 import clickoutside from "@/directive/clickoutside";
 import styles from "@/style/module/components.module.scss";
+
 export default defineComponent({
   setup() {
+    const app = getCurrentInstance();
     const state = reactive({
       searchMessage: "",
     });
+    const globalCommand = computed(
+      () => app?.appContext.config.globalProperties.globalCommand
+    ).value as GlobalCommand;
     const global = useGlobalStore();
     const searchCommand = (evt: FocusEvent): void => {
       console.log("message", state.searchMessage);
+    };
+    const executeCommand = (option: CommandGroupItem) => {
+      globalCommand.invokeCommand(global.command, option);
+      globalCommand.execute();
+      global.disposeCommand();
     };
     return () => (
       <Transition name="slide-down">
@@ -28,13 +47,14 @@ export default defineComponent({
                 {global.commandOptions.map((options) => (
                   <section class={styles.panel_group}>
                     <span class={styles.panel_title}>{options.group}</span>
-                    <section onClick={() => global.disposeCommand()}>
+                    <section>
                       {options.children?.map((option) => (
                         <span
                           class={styles.panel_item}
                           style={{
                             color: option.color,
                           }}
+                          onClick={() => executeCommand(option)}
                         >
                           {option.label}
                         </span>

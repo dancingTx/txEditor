@@ -1,5 +1,3 @@
-// Theme color
-
 /* Transition
 -------------------------- */
 $--md-fade-transition: transform 300ms cubic-bezier(0.23, 1, 0.32, 1),
@@ -17,6 +15,14 @@ $--color-bwmix6: mix($--color-black, $--color-white, 60%) !default;
 $--color-bwmix7: mix($--color-black, $--color-white, 70%) !default;
 $--color-bwmix8: mix($--color-black, $--color-white, 80%) !default;
 $--color-bwmix9: mix($--color-black, $--color-white, 90%) !default;
+
+// Theme color
+$--color-dark-default: $--color-black !default;
+$--color-light-default: $--color-white !default;
+$--color-light-blue: #b0e2ff !default;
+$--color-dark-blue: #00bfff !default;
+$--color-light-red: #ff6347 !default;
+$--color-dark-red: #ff0000 !default;
 
 /** Font Size */
 /**------------------*/
@@ -52,7 +58,6 @@ $--common-border-radius-normal: 6px !default;
 // Layout
 $--aside-width: 48px !default;
 $--menu-width: 240px !default;
-$--menu-bg: #242426 !default;
 $--status-bar-height: 20px !default;
 $--status-bar-bg: #007acc !default;
 $--nav-bar-height: 40px !default;
@@ -67,7 +72,3 @@ $--file-created-color: #74c991 !default;
 $--file-modified-color: #e1bf8d !default;
 $--file-deleted-color: #f78070 !default;
 $--file-locked-color: $--color-bwmix6 !default;
-
-// Main View
-
-$--main-view-bg: #1e1e1e !default;

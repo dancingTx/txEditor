@@ -1,0 +1,28 @@
+@import "@/style/variables";
+@function mixColor($color) {
+  $filter: $--color-white;
+  @if ($color == $--color-white) {
+    $filter: $--color-black;
+  }
+
+  @return (
+    --color-primary: $color,
+    --color-mix1: mix($color, $filter, 10%),
+    --color-mix2: mix($color, $filter, 20%),
+    --color-mix3: mix($color, $filter, 30%),
+    --color-mix4: mix($color, $filter, 40%),
+    --color-mix5: mix($color, $filter, 50%),
+    --color-mix6: mix($color, $filter, 60%),
+    --color-mix7: mix($color, $filter, 70%),
+    --color-mix8: mix($color, $filter, 80%),
+    --color-mix85: mix($color, $filter, 85%),
+    --color-mix9: mix($color, $filter, 90%)
+  );
+}
+$themes: (
+  is_dark_default: mixColor($--color-dark-default),
+  is_light_blue: mixColor($--color-light-blue),
+  is_dark_blue: mixColor($--color-dark-blue),
+  is_light_red: mixColor($--color-light-red),
+  is_dark_red: mixColor($--color-dark-red),
+);

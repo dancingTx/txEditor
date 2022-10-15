@@ -4,7 +4,7 @@ export const useGlobalStore = defineStore("global", {
   state: () => {
     return {
       showCommand: false,
-      command: "",
+      command: "" as Setting,
       commandOptions: [] as CommandOptions[],
       canvasCommand: "",
     };
@@ -16,16 +16,14 @@ export const useGlobalStore = defineStore("global", {
       if (commandOptions) {
         this.commandOptions = commandOptions;
       }
-      console.log("global command", command, commandOptions);
     },
     disposeCommand() {
       this.showCommand = false;
-      this.command = "";
+      this.command = "" as Setting;
       this.commandOptions = [];
     },
     invokeCanvasCommand(command: CanvasCommand) {
       this.canvasCommand = command;
-      console.log("canvas command", command);
     },
   },
 });

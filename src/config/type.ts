@@ -53,20 +53,21 @@ export type ScreenProps = SourceProps & {
   lt?: number;
 };
 
-type Theme = keyof typeof ThemeVars;
-type I18n = keyof typeof I18nVars;
+export type Theme = keyof typeof ThemeVars;
+export type I18n = keyof typeof I18nVars;
 
-export type CommandOption = Theme | I18n;
+export type GlobalCommandOption = Theme | I18n;
 export type Setting = keyof typeof SettingVars;
+export interface CommandGroupItem extends CommonProps {
+  kind: GlobalCommandOption;
+  label: string;
+  icon?: string;
+  color?: string;
+}
 
 export interface CommandOptions extends CommonProps {
   group: string;
-  children?: {
-    kind: CommandOption;
-    label: string;
-    icon?: string;
-    color?: string;
-  }[];
+  children: CommandGroupItem[];
 }
 
 export type SettingProps = SourceProps & {

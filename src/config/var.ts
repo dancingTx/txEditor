@@ -52,7 +52,9 @@ export const enum I18nVars {
   HongKong = "zhHk",
 }
 
-export const enum ThemeVars {
+export enum ThemeVars {
+  LightDefault = "is_light_default",
+  DarkDefault = "is_dark_default",
   LightBlue = "is_light_blue",
   DarkBlue = "is_dark_blue",
   LightRed = "is_light_red",

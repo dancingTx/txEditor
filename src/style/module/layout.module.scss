@@ -1,6 +1,6 @@
 @import "../variables.scss";
 @import "../mixin.scss";
-
+@import "@/theme/_mixin.scss";
 .txeditor {
   &.is_light {
     filter: invert(1) hue-rotate(180deg);
@@ -20,18 +20,18 @@
         min-width: $--aside-width;
         height: calc(100vh - $--status-bar-height);
         margin: 0 auto;
-        background-color: $--color-bwmix8;
+        @include background_color("--color-mix8");
         .aside {
           &_icon {
             margin: $--common-padding2 0;
             width: 1.8em;
             height: 1.8em;
             font-weight: $--font-weight-blod;
-            color: $--color-bwmix5;
+            @include font_color("--color-mix5");
             cursor: pointer;
             transition: all 200ms linear;
             &:hover {
-              color: $--color-bwmix1;
+              @include font_color("--color-mix1");
             }
             &.is_collapse {
               transform: rotate(180deg);
@@ -49,10 +49,11 @@
               transform: translateY(-50%);
               min-width: 60px;
               padding: 4px $--common-padding2;
-              border: 1px solid $--color-bwmix6;
               font-size: $--font-small;
-              background-color: $--color-bwmix9;
-              color: $--color-bwmix1;
+              border: 1px solid;
+              @include border_color("--color-mix6");
+              @include background_color("--color-mix9");
+              @include font_color("--color-mix1");
             }
           }
         }
@@ -74,10 +75,10 @@
                 display: block;
                 width: 1px;
                 height: 100%;
-                background-color: $--color-bwmix1;
+                @include background_color("--color-mix1");
               }
               .aside_icon {
-                color: $--color-bwmix1;
+                @include font_color("--color-mix1");
               }
             }
           }
@@ -95,8 +96,8 @@
             display: flex;
             &_inner {
               width: $--menu-width;
-              background-color: $--menu-bg;
-              color: $--color-bwmix2;
+              @include background_color("--color-mix85");
+              @include font_color("--color-mix2");
               -webkit-transition: all 0.2s linear;
               -moz-transition: all 0.2s linear;
               -ms-transition: all 0.2s linear;
@@ -124,7 +125,7 @@
             }
             &_main {
               flex: auto;
-              background-color: $--main-view-bg;
+              @include background_color("--color-mix9");
             }
           }
         }
@@ -133,8 +134,8 @@
         width: $--menu-width;
         height: 100vh;
         padding: $--common-padding2 0;
-        background-color: $--menu-bg;
-        color: $--color-bwmix2;
+        @include background_color("--color-mix85");
+        @include font_color("--color-mix2");
         -webkit-transition: all 0.2s linear;
         -moz-transition: all 0.2s linear;
         -ms-transition: all 0.2s linear;
@@ -147,8 +148,7 @@
       &_nav_bar_wrapper {
         display: flex;
         justify-content: space-between;
-        box-shadow: 5px 5px 10px $--nav-bar-shadow-color;
-        background-color: $--color-bwmix9;
+        @include background_color("--color-mix9");
       }
       &_nav_settings {
         flex: 0 1 80px;
@@ -160,12 +160,12 @@
         line-height: $--nav-bar-height;
         text-align: right;
         .nav_icon {
-          color: $--color-bwmix5;
+          @include font_color("--color-mix5");
           cursor: pointer;
           transform: rotate(0);
           transition: all 0.2s linear;
           &:hover {
-            color: $--color-bwmix1;
+            @include font_color("--color-mix1");
           }
           &.is_collapse {
             transform: rotate(180deg);
@@ -210,10 +210,10 @@
         &__item {
           display: inline-block;
           padding: 0 $--common-padding2;
-          border-right: 1px solid #252526;
           font-size: $--font-small;
-          color: $--color-bwmix1;
-          background-color: $--color-bwmix8;
+          @include border_color("--color-mix9");
+          @include font_color("--color-mix1");
+          @include background_color("--color-mix8");
           cursor: pointer;
           .item_icon {
             margin: 0 $--common-padding2;
@@ -234,13 +234,13 @@
               text-align: center;
               &:hover {
                 border-radius: $--common-border-radius-light;
-                background-color: $--color-bwmix8;
+                @include background_color("--color-mix8");
               }
             }
           }
 
           &.is_active {
-            background-color: $--color-bwmix9;
+            @include background_color("--color-mix9");
           }
         }
       }

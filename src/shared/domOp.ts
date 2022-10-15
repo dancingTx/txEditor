@@ -61,7 +61,7 @@ export const off = (
 interface QueryOptions {
   multi: boolean;
 }
-type DomQuery = Document | Element | string;
+export type DomQuery = Document | Element | string;
 export const query = (
   domTarget: DomQuery,
   parentDom?: DomQuery | QueryOptions,

@@ -11,6 +11,7 @@ import type {
   ComponentProps,
   SettingProps,
   WidgetProps,
+  CommandGroupItem,
 } from "./type";
 import { makeUUID } from "@/shared/variables";
 
@@ -177,7 +178,12 @@ export const widgets: WidgetProps[] = [
     command: "Collapse",
   },
 ];
-
+export const defaultTheme: CommandGroupItem = {
+  uid: makeUUID(),
+  kind: "DarkDefault",
+  label: "经典黑",
+  color: "",
+};
 export const settings: SettingProps[] = [
   {
     uid: makeUUID(),
@@ -187,14 +193,29 @@ export const settings: SettingProps[] = [
     commandOptions: [
       {
         uid: makeUUID(),
+        group: "默认主题",
+        children: [
+          defaultTheme,
+          {
+            uid: makeUUID(),
+            kind: "LightDefault",
+            label: "经典白",
+            color: "",
+          },
+        ],
+      },
+      {
+        uid: makeUUID(),
         group: "浅色主题",
         children: [
           {
+            uid: makeUUID(),
             kind: "LightBlue",
             label: "浅蓝",
             color: "#B0E2FF",
           },
           {
+            uid: makeUUID(),
             kind: "LightRed",
             label: "浅红",
             color: "#FF6347",
@@ -206,12 +227,14 @@ export const settings: SettingProps[] = [
         group: "深色主题",
         children: [
           {
+            uid: makeUUID(),
             kind: "DarkBlue",
             label: "深蓝",
             color: "#00BFFF",
           },
           {
-            kind: "LightBlue",
+            uid: makeUUID(),
+            kind: "DarkRed",
             label: "深红",
             color: "#FF0000",
           },
