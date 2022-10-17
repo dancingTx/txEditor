@@ -8,7 +8,7 @@ export const enum Vars {
   __PANEL_WIDTH__ = 180,
 }
 
-export enum FileStatusVars {
+export enum NodeStatusVars {
   Locked = "is_locked",
   Edited = "is_edited",
   Readonly = "is_readonly",

@@ -1,6 +1,10 @@
 import { computed, defineComponent, type PropType } from "vue";
+import TreeNodeList from "@/packages/core/tree/NodeList";
 import type { SourceProps } from "@/config/default";
 import styles from "@/style/module/components.module.scss";
+
+export const treeNodeList = new TreeNodeList();
+
 export default defineComponent({
   props: {
     modelValue: String,

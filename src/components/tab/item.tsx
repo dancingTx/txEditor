@@ -1,12 +1,15 @@
 import { defineComponent, reactive, withDirectives, type PropType } from "vue";
 import Panel from "../panel";
+import TreeNode from "@/packages/core/tree/Node";
 import { dragDirective } from "@/directive/drag";
 import {
-  dirSettings,
+  workspaceSettings,
   type SourceProps,
   type NodeDirOpProps,
 } from "@/config/default";
+import { useNodeStore } from "@/store/node";
 import styles from "@/style/module/components.module.scss";
+
 export default defineComponent({
   props: {
     item: {
@@ -21,7 +24,11 @@ export default defineComponent({
       panelLeft: 0,
       panelTop: 0,
     });
+    const nodeStore = useNodeStore();
     const clickShortcutMenu = (evt: MouseEvent) => {
+      if (props.item.enLabel !== "workspace") {
+        return;
+      }
       state.showPanel = false;
       state.panelLeft = evt.offsetX;
       state.panelTop = evt.offsetY;
@@ -32,13 +39,16 @@ export default defineComponent({
     return () => (
       <div class={styles.tab_item}>
         <Panel
-          items={dirSettings}
+          items={workspaceSettings}
           showPanel={state.showPanel}
           left={state.panelLeft}
           top={state.panelTop}
           location="left top"
           onClickItem={(item: NodeDirOpProps) => {
-            console.log(item, "item");
+            const treeNode = new TreeNode("dir", {
+              kind: "Created",
+            });
+            nodeStore.treeNodeList.add(treeNode);
             state.showPanel = false;
           }}
           onClosePanel={() => (state.showPanel = false)}

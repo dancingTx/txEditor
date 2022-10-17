@@ -1,6 +1,6 @@
 import type { Component } from "vue";
 import type {
-  FileStatusVars,
+  NodeStatusVars,
   CanvasCommandVars,
   TagVars,
   SettingVars,
@@ -38,12 +38,12 @@ export interface SourceProps extends CommonProps {
 /**
  * 文件所属状态 impl
  */
-type FileStatus = keyof typeof FileStatusVars;
+export type NodeStatus = keyof typeof NodeStatusVars;
 
 /**
  * 文件所属特性 impl
  */
-export type FileProps = SourceProps & { kind: FileStatus };
+export type NodeProps = SourceProps & { kind: NodeStatus };
 
 /**
  * 屏幕尺寸 impl

@@ -35,3 +35,13 @@
     }
   }
 }
+
+.is_unknown {
+  &_input {
+    outline: none;
+    border: 1px solid $--status-bar-bg;
+    font-size: $--font-small;
+    color: $--color-bwmix1;
+    background-color: transparent;
+  }
+}

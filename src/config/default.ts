@@ -13,7 +13,7 @@ import type {
   SettingProps,
   WidgetProps,
   CommandGroupItem,
-  FileProps,
+  NodeProps,
   NodeDirOpProps,
 } from "./type";
 import { makeUUID } from "@/shared/variables";
@@ -266,7 +266,7 @@ export const settings: SettingProps[] = [
   },
 ];
 
-export const fileList: FileProps[] = [
+export const fileList: NodeProps[] = [
   {
     uid: "1..dfafafa",
     label: "file.js",
@@ -292,8 +292,7 @@ export const fileList: FileProps[] = [
     kind: "Created",
   },
 ];
-
-export const dirSettings: NodeDirOpProps[] = [
+export const workspaceSettings: NodeDirOpProps[] = [
   {
     uid: makeUUID(),
     label: "新建文件",
@@ -304,6 +303,10 @@ export const dirSettings: NodeDirOpProps[] = [
     label: "新建文件夹",
     command: "CreateDir",
   },
+];
+
+export const dirSettings: NodeDirOpProps[] = [
+  ...workspaceSettings,
   {
     uid: makeUUID(),
     label: "重命名",

@@ -1,7 +1,7 @@
 import { defineComponent, reactive } from "vue";
 import {
   widgets,
-  FileStatusVars,
+  NodeStatusVars,
   DarkModeVars,
   fileList,
   type Widget,
