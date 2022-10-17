@@ -7,30 +7,64 @@ import {
 } from "vue";
 import clickoutside from "@/directive/clickoutside";
 import { screen2BodyRatio } from "@/shared/tool";
-import { Vars, type SettingProps } from "@/config/default";
-import { useGlobalStore } from "@/store/global";
+import { Vars, type SettingProps, type NodeDirOpProps } from "@/config/default";
 import styles from "@/style/module/components.module.scss";
 
 export default defineComponent({
   props: {
     items: {
-      type: Array as PropType<SettingProps[]>,
+      type: Array as PropType<(SettingProps | NodeDirOpProps)[]>,
       default: () => [],
     },
     showPanel: {
       type: Boolean as PropType<boolean>,
       default: false,
     },
+    left: {
+      type: Number as PropType<number>,
+      default: 0,
+    },
+    top: {
+      type: Number as PropType<number>,
+      default: 0,
+    },
+    location: {
+      type: String as PropType<string>,
+      default: "left bottom",
+    },
   },
-  emits: ["closePanel"],
+  emits: ["clickItem", "closePanel"],
   setup(props, { slots, emit }) {
     const state = reactive({
       panelWidth: Vars.__PANEL_WIDTH__,
       panelHeight: screen2BodyRatio(Vars.__PANEL_WIDTH__, "3:4"),
+      panelTop: 0,
+      panelLeft: 0,
     });
-    const global = useGlobalStore();
+    const positionPlace = () => {
+      const styles = {} as {
+        left: string;
+        top: string;
+        "transform-origin": string;
+      };
+      if (props.left) {
+        styles.left = props.left + "px";
+      }
+      if (props.top) {
+        styles.top = props.top + "px";
+      }
+      if (props.location) {
+        styles["transform-origin"] = props.location;
+      }
+      return styles;
+    };
     return () => (
-      <div class={styles.panel_wrapper}>
+      <div
+        class={styles.panel_wrapper}
+        onContextmenu={(evt: MouseEvent) => {
+          evt.preventDefault();
+        }}
+      >
         <div class={[styles.panel_handle, props.showPanel && styles.is_active]}>
           {slots.handle && slots.handle()}
         </div>
@@ -43,13 +77,13 @@ export default defineComponent({
                 style={{
                   width: state.panelWidth + "px",
                   height: state.panelHeight + "px",
+                  ...positionPlace(),
                 }}
               >
                 {props.items.map((item) => (
                   <div
                     onClick={() => {
-                      global.invokeCommand(item.command, item.commandOptions);
-                      emit("closePanel");
+                      emit("clickItem", item);
                     }}
                   >
                     {item.icon && (

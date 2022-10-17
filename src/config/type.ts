@@ -7,6 +7,7 @@ import type {
   ThemeVars,
   I18nVars,
   WidgetVars,
+  NodeVars,
 } from "./var";
 
 interface CommonProps {
@@ -19,8 +20,8 @@ interface CommonProps {
 export interface PluginProps extends CommonProps {
   icon: string;
   label?: string;
-  componentName: string;
-  component: Component;
+  menuComp?: Component;
+  canvasComp?: Component;
 }
 
 /**
@@ -58,6 +59,8 @@ export type I18n = keyof typeof I18nVars;
 
 export type GlobalCommandOption = Theme | I18n;
 export type Setting = keyof typeof SettingVars;
+export type NodeDirOp = keyof typeof NodeVars;
+export type NodeDirOpProps = SourceProps & { command: NodeDirOp };
 export interface CommandGroupItem extends CommonProps {
   kind: GlobalCommandOption;
   label: string;

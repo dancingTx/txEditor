@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import ToolKit from "@/components/toolkit/canvasCommand";
-import Canvas from "@/packages/sourceManage/canvas";
+import Canvas from "./canvas";
 export default defineComponent({
   setup() {
     return () => (

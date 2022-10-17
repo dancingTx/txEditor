@@ -2,9 +2,12 @@ import { defineComponent } from "vue";
 import PluginList from "./pluginList";
 import Settings from "./settings";
 import Account from "./account";
-import { pluginList } from "@/config/default";
+import { plugins } from "@/config/default";
 import { useLayoutStore } from "@/store/layout";
 import styles from "@/style/module/layout.module.scss";
+const collectPlugins = () => {
+  return plugins.map((plugin) => ({ link: plugin.path, ...plugin.meta }));
+};
 export default defineComponent({
   setup() {
     const layout = useLayoutStore();
@@ -23,7 +26,7 @@ export default defineComponent({
               onClick={() => layout.switchCollapse("menu")}
             ></svg-icon>
           )}
-          <PluginList items={pluginList}></PluginList>
+          <PluginList items={collectPlugins()}></PluginList>
         </div>
         <div class={styles.layout_aside_bottom}>
           <Account></Account>

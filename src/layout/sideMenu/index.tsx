@@ -5,20 +5,15 @@ import {
   ref,
   resolveComponent,
   watch,
-  type Component,
 } from "vue";
 import Menu from "./menu";
 import NavBar from "../base/navBar";
-import { pluginList, type PluginProps } from "@/config/default";
+import { plugins, type PluginProps } from "@/config/default";
+import { compoundComponents } from "@/shared/component";
 import { useLayoutStore } from "@/store/layout";
 import styles from "@/style/module/layout.module.scss";
-const compoundComponents = (list: PluginProps[]): Record<string, Component> => {
-  return list.reduce((total, curr) => {
-    total[curr.componentName] = curr.component;
-    return total;
-  }, {} as Record<string, Component>);
-};
-const components = compoundComponents(pluginList);
+const collectPlugins = () => plugins.map((plugin) => plugin.meta);
+const components = compoundComponents(collectPlugins(), "menuComp");
 export default defineComponent({
   components,
   setup() {
@@ -27,7 +22,7 @@ export default defineComponent({
     watch(
       () => layout.pluginUid,
       (uid) => {
-        for (const item of pluginList) {
+        for (const item of collectPlugins()) {
           if (item.uid === uid) {
             pluginItem.value = item;
             break;
@@ -41,10 +36,8 @@ export default defineComponent({
     return () => (
       <div class={styles.layout_menu}>
         <Menu title={pluginItem?.value?.label}>
-          {pluginItem.value?.component && (
-            <KeepAlive>
-              {h(resolveComponent(pluginItem.value?.componentName))}
-            </KeepAlive>
+          {pluginItem.value?.menuComp && (
+            <KeepAlive>{h(resolveComponent(pluginItem.value?.uid))}</KeepAlive>
           )}
         </Menu>
         <div class={styles.layout_menu_main}>

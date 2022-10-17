@@ -3,6 +3,7 @@ export * from "./type";
 export * from "./ratio";
 
 import { defineAsyncComponent } from "vue";
+import type { RouteRecordRaw } from "vue-router";
 import type {
   PluginProps,
   SourceProps,
@@ -12,34 +13,48 @@ import type {
   SettingProps,
   WidgetProps,
   CommandGroupItem,
+  FileProps,
+  NodeDirOpProps,
 } from "./type";
 import { makeUUID } from "@/shared/variables";
 
-export const pluginList: PluginProps[] = [
+export const plugins: (RouteRecordRaw & { meta: PluginProps })[] = [
   {
-    uid: makeUUID(),
-    icon: "edit",
-    label: "资源管理器",
-    componentName: "sourceManage",
-    component: defineAsyncComponent(
-      () => import("@/packages/sourceManage/menu")
-    ),
+    path: "sourceManage",
+    name: "sourceManage",
+    component: () => import("@/packages/sourceManage"),
+    meta: {
+      uid: makeUUID(),
+      icon: "edit",
+      label: "资源管理器",
+      menuComp: defineAsyncComponent(
+        () => import("@/packages/sourceManage/menu")
+      ),
+    },
   },
   {
-    uid: makeUUID(),
-    icon: "code",
-    label: "低代码平台",
-    componentName: "lowCode",
-    component: defineAsyncComponent(() => import("@/packages/lowCode/menu")),
+    path: "lowCode",
+    name: "lowCode",
+    component: () => import("@/packages/lowCode"),
+    meta: {
+      uid: makeUUID(),
+      icon: "code",
+      label: "低代码平台",
+      menuComp: defineAsyncComponent(() => import("@/packages/lowCode/menu")),
+    },
   },
   {
-    uid: makeUUID(),
-    icon: "flow",
-    label: "流程设计器",
-    componentName: "flowProcess",
-    component: defineAsyncComponent(
-      () => import("@/packages/flowProcess/menu")
-    ),
+    path: "flowProcess",
+    name: "flowProcess",
+    component: () => import("@/packages/flowProcess"),
+    meta: {
+      uid: makeUUID(),
+      icon: "flow",
+      label: "流程设计器",
+      menuComp: defineAsyncComponent(
+        () => import("@/packages/flowProcess/menu")
+      ),
+    },
   },
 ];
 
@@ -250,3 +265,67 @@ export const settings: SettingProps[] = [
     commandOptions: [],
   },
 ];
+
+export const fileList: FileProps[] = [
+  {
+    uid: "1..dfafafa",
+    label: "file.js",
+    icon: "javascript",
+    kind: "Modify",
+  },
+  {
+    uid: "2..fdsaafas",
+    label: "file2.js",
+    icon: "html",
+    kind: "Locked",
+  },
+  {
+    uid: "3..ffafdsafs",
+    label: "file3.js",
+    icon: "css",
+    kind: "Deleted",
+  },
+  {
+    uid: "4..ffafdsafs",
+    label: "file3.js",
+    icon: "javascript",
+    kind: "Created",
+  },
+];
+
+export const dirSettings: NodeDirOpProps[] = [
+  {
+    uid: makeUUID(),
+    label: "新建文件",
+    command: "CreateNode",
+  },
+  {
+    uid: makeUUID(),
+    label: "新建文件夹",
+    command: "CreateDir",
+  },
+  {
+    uid: makeUUID(),
+    label: "重命名",
+    command: "RenameDir",
+  },
+  {
+    uid: makeUUID(),
+    label: "删除文件夹",
+    command: "DeleteDir",
+  },
+];
+
+export const nodeSettings: NodeDirOpProps[] = [
+  {
+    uid: makeUUID(),
+    label: "重命名",
+    command: "RenameNode",
+  },
+  {
+    uid: makeUUID(),
+    label: "删除文件",
+    command: "DeleteNode",
+  },
+];
+export const fileSettings: SourceProps[] = [];

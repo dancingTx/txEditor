@@ -3,7 +3,7 @@ import { calcNavWidth } from "@/hook";
 import { useLayoutStore } from "@/store/layout";
 import styles from "@/style/module/components.module.scss";
 export default defineComponent({
-  setup() {
+  setup(props, { slots }) {
     const layout = useLayoutStore();
     const state = reactive<{
       canvasWidth: number;
@@ -29,7 +29,7 @@ export default defineComponent({
             height: state.canvasHeight + "px",
           }}
         >
-          1
+          {slots.default && slots.default()}
         </div>
       </div>
     );

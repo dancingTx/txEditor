@@ -21,6 +21,16 @@ export const enum SettingVars {
   Theme = "theme",
   I18n = "i18n",
 }
+export const enum NodeVars {
+  CreateNode = "createNode",
+  RenameNode = "renameNode",
+  MoveNode = "moveNode",
+  DeleteNode = "deleteNode",
+  CreateDir = "createDir",
+  RenameDir = "renameDir",
+  MoveDir = "moveDir",
+  DeleteDir = "deleteDir",
+}
 
 export const enum WidgetVars {
   DarkMode = "darkMode",

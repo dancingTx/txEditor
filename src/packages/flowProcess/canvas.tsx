@@ -1,11 +1,11 @@
 import { defineComponent } from "vue";
-import Menu from "@/components/menu";
+import Canvas from "@/components/canvas";
 
 export default defineComponent({
   setup() {
     return () => (
       <div>
-        <Menu>{"flowProcess"}</Menu>
+        <Canvas>flowProcess</Canvas>
       </div>
     );
   },

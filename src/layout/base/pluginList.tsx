@@ -2,11 +2,12 @@ import { defineComponent, reactive, type PropType } from "vue";
 import type { PluginProps } from "@/config/default";
 import { useLayoutStore } from "@/store/layout";
 import styles from "@/style/module/layout.module.scss";
-
+import router from "@/router";
+type Props = PluginProps & { link: string };
 export default defineComponent({
   props: {
     items: {
-      type: Array as PropType<PluginProps[]>,
+      type: Array as PropType<Props[]>,
       default: () => [],
     },
   },
@@ -20,13 +21,19 @@ export default defineComponent({
       layout.storePluginUid(uid);
     };
     storePluginUid(state.isActive);
+    const goto = (item: Props) => {
+      storePluginUid(item.uid);
+      return router.push({
+        name: item.link,
+      });
+    };
     return () => (
       <div class={styles.plugin_box}>
         {props.items.map((item) => (
           <div data-label={item.label} class={item.label && styles.aside_label}>
             <div
               class={[state.isActive === item.uid && styles.is_active]}
-              onClick={() => storePluginUid(item.uid)}
+              onClick={() => goto(item)}
             >
               <svg-icon
                 iconClass={item.icon}

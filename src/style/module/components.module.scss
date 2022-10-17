@@ -208,25 +208,13 @@
     &.is_active {
       position: relative;
       pointer-events: none;
-      &::after {
-        content: "";
-        position: absolute;
-        left: $--aside-width - 10px;
-        top: 50%;
-        display: block;
-        border: 5px solid;
-        @include border_color("--color-mix8");
-        border-top-color: transparent;
-        border-bottom-color: transparent;
-        border-right-color: transparent;
-        transform: translateY(-50%);
-      }
     }
   }
   &_inner {
     position: absolute;
     bottom: 0;
-    left: $--aside-width - 5px;
+    left: $--aside-width - 8px;
+    z-index: 1000;
     padding: $--common-padding2;
     box-sizing: border-box;
     border-radius: $--common-border-radius-light;
@@ -257,6 +245,7 @@
     display: inline-block;
     width: calc(100% - 25px);
     vertical-align: middle;
+    font-weight: $--font-weight-normal;
     @include ellipsis();
   }
 }

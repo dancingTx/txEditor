@@ -3,39 +3,13 @@ import {
   widgets,
   FileStatusVars,
   DarkModeVars,
-  type FileProps,
+  fileList,
   type Widget,
 } from "@/config/default";
 import { calcNavWidth } from "@/hook";
 import { useLayoutStore } from "@/store/layout";
 import styles from "@/style/module/layout.module.scss";
 import styleFile from "@/style/module/file.module.scss";
-const fileList: FileProps[] = [
-  {
-    uid: "1..dfafafa",
-    label: "file.js",
-    icon: "javascript",
-    kind: "Modify",
-  },
-  {
-    uid: "2..fdsaafas",
-    label: "file2.js",
-    icon: "html",
-    kind: "Locked",
-  },
-  {
-    uid: "3..ffafdsafs",
-    label: "file3.js",
-    icon: "css",
-    kind: "Deleted",
-  },
-  {
-    uid: "4..ffafdsafs",
-    label: "file3.js",
-    icon: "javascript",
-    kind: "Created",
-  },
-];
 export default defineComponent({
   setup() {
     const state = reactive<{
@@ -82,7 +56,7 @@ export default defineComponent({
         }}
       >
         <div class={styles.layout_nav_bar}>
-          {fileList.map((file) => (
+          {/* {fileList.map((file) => (
             <div
               class={[
                 styles.layout_nav_bar__item,
@@ -113,7 +87,7 @@ export default defineComponent({
                 )}
               </div>
             </div>
-          ))}
+          ))} */}
         </div>
         <div class={styles.layout_nav_settings}>
           {widgets.map((item) => item.icon && renderWidgets(item.command))}

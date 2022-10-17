@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { plugins } from "@/config/default";
 
 import layout from "@/layout";
 const router = createRouter({
@@ -7,15 +8,9 @@ const router = createRouter({
     {
       path: "/",
       name: "layout",
-      redirect: "/dashboard",
+      redirect: "/sourceManage",
       component: layout,
-      children: [
-        {
-          path: "dashboard",
-          name: "dashboard",
-          component: () => import("@/views/dashboard"),
-        },
-      ],
+      children: plugins,
     },
   ],
 });
