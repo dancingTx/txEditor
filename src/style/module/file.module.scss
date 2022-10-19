@@ -1,6 +1,5 @@
 @import "../variables.scss";
 .file {
-  margin: 0 5px;
   &.is {
     &_created {
       color: $--file-created-color;
@@ -33,15 +32,23 @@
         margin-left: $--common-padding;
       }
     }
-  }
-}
-
-.is_unknown {
-  &_input {
-    outline: none;
-    border: 1px solid $--status-bar-bg;
-    font-size: $--font-small;
-    color: $--color-bwmix1;
-    background-color: transparent;
+    &_unknown {
+      width: 100%;
+      padding: 0 $--common-padding2;
+      box-sizing: border-box;
+      cursor: pointer;
+      &:hover {
+        background-color: $--color-bwmix7;
+      }
+      &_input {
+        flex: auto;
+        margin: 0;
+        outline: none;
+        border: 1px solid $--status-bar-bg;
+        font-size: $--font-small;
+        color: $--color-bwmix1;
+        background-color: transparent;
+      }
+    }
   }
 }

@@ -78,3 +78,8 @@ export const screen2BodyRatio = (
     ? parseFloat(((width / a) * b).toFixed(decimals))
     : Number((width / a) * b);
 };
+
+export const getExtName = (fileName: string) => {
+  const matchs = fileName.match(/\.[^\.]+$/);
+  return matchs ? matchs[0].slice(1) : "";
+};

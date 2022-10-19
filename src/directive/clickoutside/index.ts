@@ -1,6 +1,6 @@
 import { on } from "@/shared/domOp";
 import { makeUUID } from "@/shared/variables";
-import type { DirectiveBinding, VNode } from "vue";
+import type { App, DirectiveBinding, VNode } from "vue";
 
 const nodeList: HTMLElement[] = [];
 const ctx = "@@clickoutsideContext";
@@ -60,7 +60,7 @@ function createDocumentHandler(
  * <div v-element-clickoutside="handleClose">
  * ```
  */
-export default {
+export const clickOutside = {
   mounted(el: HTMLElement, binding: DirectiveBinding, vnode: VNode) {
     nodeList.push(el);
     const id = seed++;
@@ -99,3 +99,4 @@ export default {
     delete (el as Record<string, any>)[ctx];
   },
 };
+export default (app: App) => app.directive("clickoutside", clickOutside);

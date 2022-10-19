@@ -70,3 +70,10 @@ export enum ThemeVars {
   LightRed = "is_light_red",
   DarkRed = "is_dark_red",
 }
+
+export enum FileIconVars {
+  htm = "html",
+  html = "html",
+  css = "css",
+  js = "javascript",
+}

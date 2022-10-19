@@ -5,7 +5,7 @@ import {
   withDirectives,
   type PropType,
 } from "vue";
-import clickoutside from "@/directive/clickoutside";
+import { clickOutside } from "@/directive/clickoutside";
 import { screen2BodyRatio } from "@/shared/tool";
 import { Vars, type SettingProps, type NodeDirOpProps } from "@/config/default";
 import styles from "@/style/module/components.module.scss";
@@ -59,12 +59,7 @@ export default defineComponent({
       return styles;
     };
     return () => (
-      <div
-        class={styles.panel_wrapper}
-        onContextmenu={(evt: MouseEvent) => {
-          evt.preventDefault();
-        }}
-      >
+      <div class={styles.panel_wrapper}>
         <div class={[styles.panel_handle, props.showPanel && styles.is_active]}>
           {slots.handle && slots.handle()}
         </div>
@@ -100,7 +95,7 @@ export default defineComponent({
           </Transition>,
           [
             [
-              clickoutside,
+              clickOutside,
               {
                 handler() {
                   emit("closePanel");

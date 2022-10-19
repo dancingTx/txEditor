@@ -9,7 +9,7 @@ import {
 import type { CommandGroupItem } from "@/config/default";
 import type { GlobalCommand } from "./command/command";
 import { useGlobalStore } from "@/store/global";
-import clickoutside from "@/directive/clickoutside";
+import { clickOutside } from "@/directive/clickoutside";
 import styles from "@/style/module/components.module.scss";
 
 export default defineComponent({
@@ -66,7 +66,7 @@ export default defineComponent({
             </div>,
             [
               [
-                clickoutside,
+                clickOutside,
                 {
                   handler() {
                     global.disposeCommand();

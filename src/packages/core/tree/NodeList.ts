@@ -3,14 +3,21 @@ import { makeUUID } from "@/shared/variables";
 export default class TreeNodeList {
   public uid!: string;
   private items: TreeNode[];
+  private keepAlive: TreeNode[];
 
   constructor(uid?: string) {
     this.uid = uid || makeUUID();
     this.items = [];
+    this.keepAlive = [];
   }
   getItems() {
     return this.items;
   }
+
+  getKeepAliveItems() {
+    return this.keepAlive;
+  }
+
   add(node: TreeNode, mode?: "unshift" | "push") {
     if (this.contains(node)) {
       return this;

@@ -21,9 +21,7 @@ export default defineComponent({
         >
           <Tabs v-model={state.isActive}>
             {attrList.map((item) => (
-              <TabItem icon={item.icon} label={item.label} value={item.uid}>
-                <span>{item.enLabel}</span>
-              </TabItem>
+              <TabItem item={item}></TabItem>
             ))}
           </Tabs>
         </div>,

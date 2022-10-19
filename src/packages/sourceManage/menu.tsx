@@ -1,4 +1,4 @@
-import { defineComponent, watch } from "vue";
+import { defineComponent } from "vue";
 import Menu from "@/components/menu";
 import { sourceList } from "@/config/default";
 import { useNodeStore } from "@/store/node";

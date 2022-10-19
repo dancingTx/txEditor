@@ -110,7 +110,7 @@ export default class DragSplit {
       if (siblingDom) {
         const width = calculateDistance(moveLength - Vars.__ASIDE_WIDTH__);
         (siblingDom as HTMLElement).style.width = width;
-        bus.emit("menuWidth", parseInt(width));
+        bus.emit("dragSplit:menuWidth", parseInt(width));
       }
     }
 

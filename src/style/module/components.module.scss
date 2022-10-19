@@ -98,7 +98,6 @@
       }
       &__content {
         overflow: auto;
-        padding: 0 $--common-padding2;
         line-height: 2em;
         transition: all 0.2s linear;
         &.is_collapse {
@@ -206,7 +205,6 @@
   }
   &_handle {
     &.is_active {
-      position: relative;
       pointer-events: none;
     }
   }
