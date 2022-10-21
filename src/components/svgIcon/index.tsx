@@ -4,6 +4,7 @@ import { isExternal } from "@/shared/validate";
 import styles from "@/style/module/components.module.scss";
 export default defineComponent({
   name: "svgIcon",
+  inheritAttrs: false,
   props: {
     className: {
       type: String as PropType<string>,
@@ -26,29 +27,26 @@ export default defineComponent({
         "-webkit-mask": attribute,
       };
     });
-    return () => (
-      <>
-        {isExternal(props.iconClass) ? (
-          <div
+    return () =>
+      isExternal(props.iconClass) ? (
+        <div
+          {...attrs}
+          style={{ ...styleExternalIcon }}
+          class={[styles.svg_icon, styles.svg_external_icon]}
+        />
+      ) : (
+        <span
+          class={props.tip && styles.svg_icon_wrapper}
+          data-label={props.tip}
+        >
+          <svg
             {...attrs}
-            style={{ ...styleExternalIcon }}
-            class={[styles.svg_icon, styles.svg_external_icon]}
-          />
-        ) : (
-          <span
-            class={props.tip && styles.svg_icon_wrapper}
-            data-label={props.tip}
+            class={[styles.svg_icon, props.className]}
+            aria-hidden="true"
           >
-            <svg
-              {...attrs}
-              class={[styles.svg_icon, props.className]}
-              aria-hidden="true"
-            >
-              <use xlinkHref={`#icon-${props.iconClass}`} />
-            </svg>
-          </span>
-        )}
-      </>
-    );
+            <use xlinkHref={`#icon-${props.iconClass}`} />
+          </svg>
+        </span>
+      );
   },
 });

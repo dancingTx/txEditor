@@ -6,6 +6,7 @@ export const enum Vars {
   __ASIDE_WIDTH__ = 48,
   __CANVAS_WIDTH__ = 800,
   __PANEL_WIDTH__ = 180,
+  __STATUS_BAR_HEIGHT__ = 20,
 }
 
 export enum NodeStatusVars {

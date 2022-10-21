@@ -1,13 +1,13 @@
 import { defineComponent, reactive } from "vue";
 import { screenSize, canvasCommands, type ScreenProps } from "@/config/default";
 import { useLayoutStore } from "@/store/layout";
-import { useGlobalStore } from "@/store/global";
+import { useCommandStore } from "@/store/global";
 import { screen2BodyRatio } from "@/shared/tool";
 import styles from "@/style/module/components.module.scss";
 export default defineComponent({
   setup() {
     const layout = useLayoutStore();
-    const global = useGlobalStore();
+    const global = useCommandStore();
     const state = reactive({
       isActiveScreenSize: "",
       isManual: false,

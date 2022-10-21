@@ -29,3 +29,5 @@ export const buildKeyValueMap = (
 export const valueMapLabel = (source: [] | object) => {
   return buildKeyValueMap(source, "value", "label");
 };
+
+export const noop = () => {};

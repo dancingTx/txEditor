@@ -7,6 +7,7 @@
   }
   &_inner {
     display: flex;
+    height: calc(100vh - $--status-bar-height);
     .layout {
       &_aside {
         flex: 0 1 $--aside-width;
@@ -18,7 +19,7 @@
         flex-direction: column;
         justify-content: space-between;
         min-width: $--aside-width;
-        height: calc(100vh - $--status-bar-height);
+        height: 100%;
         margin: 0 auto;
         @include background_color("--color-mix8");
         .aside {
@@ -94,6 +95,7 @@
         .layout {
           &_menu {
             display: flex;
+            height: 100%;
             &_inner {
               width: $--menu-width;
               @include background_color("--color-mix85");
@@ -132,8 +134,8 @@
       }
       &_props_bar {
         width: $--menu-width;
-        height: 100vh;
         padding: $--common-padding2 0;
+        box-sizing: border-box;
         @include background_color("--color-mix85");
         @include font_color("--color-mix2");
         -webkit-transition: all 0.2s linear;
@@ -247,10 +249,6 @@
     }
   }
   .status_bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
     height: $--status-bar-height;
     padding: 0 $--common-padding4;
     font-size: $--font-small;

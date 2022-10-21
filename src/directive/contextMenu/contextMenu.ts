@@ -6,7 +6,7 @@ import { screen2BodyRatio } from "@/shared/tool";
 import { makeUUID } from "@/shared/variables";
 import { Vars, type NodeDirOpProps } from "@/config/default";
 import styles from "@/style/module/components.module.scss";
-type Orientation =
+export type Orientation =
   | "left top"
   | "left bottom"
   | "left center"

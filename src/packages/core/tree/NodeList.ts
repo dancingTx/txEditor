@@ -3,10 +3,13 @@ import { makeUUID } from "@/shared/variables";
 export default class TreeNodeList {
   public uid!: string;
   private items: TreeNode[];
+  private prevNodeIndex: number;
+  private currNodeIndex: number;
   private keepAlive: TreeNode[];
 
   constructor(uid?: string) {
     this.uid = uid || makeUUID();
+    this.prevNodeIndex = this.currNodeIndex = -1;
     this.items = [];
     this.keepAlive = [];
   }
@@ -19,17 +22,11 @@ export default class TreeNodeList {
   }
 
   add(node: TreeNode, mode?: "unshift" | "push") {
-    if (this.contains(node)) {
-      return this;
-    }
-    mode = mode || "push";
+    mode = mode || "unshift";
     this.items[mode](node);
     return this;
   }
   remove(node: TreeNode, mode?: "shift" | "pop") {
-    if (!this.contains(node)) {
-      return this;
-    }
     if (node) {
       for (let i = this.items.length; i--; ) {
         const item = this.items[i];
@@ -44,6 +41,19 @@ export default class TreeNodeList {
 
     return this;
   }
+  update(node: TreeNode, label: string) {
+    if (!this.contains(node)) {
+      return this;
+    }
+    for (let i = this.items.length; i--; ) {
+      const item = this.items[i];
+      if (item.uid === node.uid) {
+        item.value.label = label;
+      }
+    }
+    return this;
+  }
+
   contains(node: TreeNode) {
     for (const item of this.items) {
       if (item.uid === node.uid) {

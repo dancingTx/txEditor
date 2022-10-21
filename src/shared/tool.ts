@@ -83,3 +83,23 @@ export const getExtName = (fileName: string) => {
   const matchs = fileName.match(/\.[^\.]+$/);
   return matchs ? matchs[0].slice(1) : "";
 };
+
+export const traceMouseLocation = (): Record<string, number> => {
+  const evt = (event || window.event) as MouseEvent;
+  if (!evt) return {};
+  let pointerX = 0;
+  let pointerY = 0;
+  if (evt.pageX || evt.pageY) {
+    pointerX = evt.pageX;
+    pointerY = evt.pageY;
+  } else if (evt.clientX || evt.clientY) {
+    const scrollLeft = (document.body || document.documentElement).scrollLeft;
+    const scrollTop = (document.body || document.documentElement).scrollTop;
+    pointerX = evt.clientX + scrollLeft;
+    pointerY = evt.clientY + scrollTop;
+  }
+  return {
+    x: pointerX,
+    y: pointerY,
+  };
+};

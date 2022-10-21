@@ -200,37 +200,26 @@
 /** ------------ panel start ------------- */
 
 .panel {
-  &_wrapper {
-    position: relative;
-  }
-  &_handle {
-    &.is_active {
-      pointer-events: none;
-    }
-  }
   &_inner {
     position: absolute;
-    bottom: 0;
-    left: $--aside-width - 8px;
     z-index: 1000;
     padding: $--common-padding2;
     box-sizing: border-box;
     border-radius: $--common-border-radius-light;
     font-size: $--font-small1;
-    @include shadow_color(0 0 5px, "--color-mix8");
-    @include font_color("--color-mix9");
-    @include background_color("--color-mix2");
+    box-shadow: 0 0 5px $--color-bwmix7;
+    background-color: $--color-bwmix2;
+    color: $--color-bwmix9;
     div {
       padding: 0 $--common-padding;
       line-height: 2em;
       cursor: pointer;
       &:not(:last-child) {
-        border-bottom: 1px solid;
-        @include border_color("--color-mix3");
+        border-bottom: 1px solid $--color-bwmix3;
       }
       &:hover {
         border-radius: $--common-border-radius-light;
-        @include background_color("--color-mix3");
+        background-color: $--color-bwmix3;
       }
     }
   }

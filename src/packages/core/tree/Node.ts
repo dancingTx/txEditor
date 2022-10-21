@@ -1,9 +1,8 @@
-import { h, reactive } from "vue";
+import { h } from "vue";
+import svgIcon from "@/components/svgIcon";
 import { makeUUID } from "@/shared/variables";
 import { getExtName } from "@/shared/tool";
 import {
-  dirSettings,
-  nodeSettings,
   NodeStatusVars,
   FileIconVars,
   type NodeStatus,
@@ -11,14 +10,12 @@ import {
 } from "@/config/default";
 import bus from "@/shared/bus";
 import styles from "@/style/module/file.module.scss";
-import svgIcon from "@/components/svgIcon";
 
 interface TreeNodeOptions {
   readonly?: boolean;
   isModified?: boolean;
   isDeleted?: boolean;
   isMoved?: boolean;
-  isActived?: string;
 }
 interface NodeValue {
   uid?: string;
@@ -36,18 +33,26 @@ export interface PanelInfo {
   panelTop: number;
   items: NodeDirOpProps[];
 }
+
+export interface NodeInfo {
+  uid: string;
+  active: boolean;
+  type: NodeType;
+  raw: TreeNode;
+  evt?: Event;
+}
 export default class TreeNode {
   public uid: string;
   public type: NodeType;
   public value: NodeValue;
   public options?: TreeNodeOptions;
-  public active: string;
-  public children?: TreeNode[];
-
+  public active: boolean;
+  public children: TreeNode[];
+  static id?: number;
   constructor(
     type: NodeType,
     value: NodeValue,
-    children?: TreeNode[],
+    children: TreeNode[] = [],
     options: TreeNodeOptions = {}
   ) {
     this.uid = value.uid || makeUUID();
@@ -55,8 +60,32 @@ export default class TreeNode {
     this.value = value;
     this.children = children;
     this.options = options;
-    this.active = options.isActived || "";
+    this.active = false;
   }
+  private sendMessage(namespace: string, evt: Event) {
+    bus.emit(namespace, {
+      uid: this.uid,
+      type: this.type,
+      active: this.active,
+      raw: this,
+      evt,
+    } as NodeInfo);
+
+    evt.stopPropagation();
+    evt.preventDefault();
+  }
+  private clickShortcutMenu(evt: Event) {
+    this.sendMessage("treeNode:contextmenu", evt);
+  }
+
+  private onClick(evt: Event) {
+    this.sendMessage("treeNode:click", evt);
+  }
+
+  private onDbClick(evt: Event) {
+    this.sendMessage("treeNode:dbclick", evt);
+  }
+
   private renderUnknownNode(
     node: NodeValue,
     options: { domId: string; iconClass: string }
@@ -100,6 +129,7 @@ export default class TreeNode {
       ]
     );
   }
+
   private renderKnownNode(
     node: NodeValue,
     options: {
@@ -110,26 +140,14 @@ export default class TreeNode {
     }
   ) {
     const { domId, iconClass, isFile, nodeStatus } = options;
-    const state = reactive<PanelInfo>({
-      showPanel: false,
-      panelLeft: 0,
-      panelTop: 0,
-      items: isFile ? nodeSettings : dirSettings,
-    });
-    const clickShortcutMenu = (evt: MouseEvent) => {
-      state.showPanel = false;
-      state.panelLeft = evt.offsetX;
-      state.panelTop = evt.offsetY;
-      console.log(state.panelLeft, state.panelTop, "...");
-      state.showPanel = true;
-      bus.emit("treeNode:panelInfo", state);
-    };
     return h(
       "div",
       {
         id: domId,
         class: [styles.file, styles.is_unknown, isFile && styles[nodeStatus]],
-        onContextmenu: clickShortcutMenu,
+        onContextmenu: (evt: Event) => this.clickShortcutMenu(evt),
+        onClick: this.onClick,
+        onDbClick: this.onDbClick,
       },
       [
         h(svgIcon, {
@@ -139,7 +157,15 @@ export default class TreeNode {
             margin: "0 5px",
           },
         }),
-        h("span", node.label),
+        h(
+          "span",
+          {
+            style: {
+              "pointer-events": "none",
+            },
+          },
+          node.label
+        ),
       ]
     );
   }

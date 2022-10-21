@@ -1,21 +1,133 @@
-import { defineComponent } from "vue";
+import {
+  defineComponent,
+  onMounted,
+  ref,
+  getCurrentInstance,
+  reactive,
+  type RendererNode,
+} from "vue";
 import Menu from "@/components/menu";
-import { sourceList } from "@/config/default";
+import bus from "@/shared/bus";
+import {
+  sourceList,
+  type NodeDirOpProps,
+  type SourceProps,
+} from "@/config/default";
+import TreeNode, { type NodeInfo, type NodeType } from "../core/tree/Node";
+import { useContextMenuStore } from "@/store/global";
 import { useNodeStore } from "@/store/node";
 export default defineComponent({
   setup() {
+    const app = getCurrentInstance();
+    const menu = ref(null);
+    const state = reactive({
+      currNode: null as unknown,
+    });
     const nodeStore = useNodeStore();
+    const contextMenu = useContextMenuStore();
+
+    const clickShortcutMenu = (tabInfo: SourceProps) => {
+      if (tabInfo.enLabel === "workspace") {
+        contextMenu.setPanelOrientation("left top");
+        contextMenu.setPanelType("menu:workspace");
+        if (app && app.uid) {
+          contextMenu.setUniqueId(app.uid);
+        }
+        if (menu.value) {
+          contextMenu.setIgnoreElement(menu.value);
+        }
+        contextMenu.show();
+      }
+    };
+
+    const clickNodeShortcutMenu = (evt: NodeInfo) => {
+      contextMenu.setPanelOrientation("left top");
+      contextMenu.setPanelType(
+        evt.type === "node" ? "workspace:node" : "workspace:tree"
+      );
+      if (app && app.uid) {
+        contextMenu.setUniqueId(app.uid);
+      }
+      if (evt.raw) {
+        contextMenu.setIgnoreElement(evt.raw);
+        state.currNode = evt.raw;
+      }
+      contextMenu.show();
+    };
+
+    const createDirOrNode = (type: NodeType) => {
+      if (state.currNode) {
+        const childNode = new TreeNode(type, {
+          kind: "Created",
+        });
+        (state.currNode as TreeNode).children.push(childNode);
+      } else {
+        const treeNode = new TreeNode(type, {
+          kind: "Created",
+        });
+        nodeStore.treeNodeList.add(treeNode);
+      }
+
+      if (!TreeNode.id) {
+        TreeNode.id = app?.uid;
+      }
+    };
+
+    const renameDirOrNode = (node: TreeNode) => {
+      if (node) {
+        nodeStore.treeNodeList.update(node, "");
+        node.renderNode();
+      }
+    };
+
+    const deleteDirOrNode = (node: TreeNode) => {
+      if (node) {
+        nodeStore.treeNodeList.remove(node);
+      }
+    };
+
+    const processCommand = (info: NodeDirOpProps) => {
+      const nodeType = info.command.indexOf("Dir") !== -1 ? "dir" : "node";
+      if (info.command === "CreateDir" || info.command === "CreateNode") {
+        createDirOrNode(nodeType);
+      }
+
+      if (info.command === "RenameDir" || info.command === "RenameNode") {
+        renameDirOrNode(state.currNode as TreeNode);
+      }
+
+      if (info.command === "DeleteDir" || info.command === "DeleteNode") {
+        deleteDirOrNode(state.currNode as TreeNode);
+      }
+    };
+    
+    const renderTreeView = (): RendererNode => {
+      return nodeStore.treeNodeList.getItems().map((node) => node.renderNode());
+    };
+
+    onMounted(() => {
+      bus.on("contextMenu:clickItem", (info) => {
+        if (app?.uid === contextMenu.uid) {
+          processCommand(info as NodeDirOpProps);
+          contextMenu.hide();
+          state.currNode = null;
+        }
+      });
+      bus.on("treeNode:contextmenu", (evt) => {
+        if (TreeNode.id === app?.uid) {
+          clickNodeShortcutMenu(evt as NodeInfo);
+        }
+      });
+    });
     return () => (
       <div>
-        <Menu items={sourceList}>
+        <Menu
+          items={sourceList}
+          ref={menu}
+          onClickContextMenu={clickShortcutMenu}
+        >
           {{
-            workspace: () => (
-              <div>
-                {nodeStore.treeNodeList
-                  .getItems()
-                  .map((node) => node.renderNode())}
-              </div>
-            ),
+            workspace: () => <div>{renderTreeView()}</div>,
           }}
         </Menu>
       </div>

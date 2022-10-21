@@ -8,7 +8,7 @@ import {
 } from "vue";
 import type { CommandGroupItem } from "@/config/default";
 import type { GlobalCommand } from "./command/command";
-import { useGlobalStore } from "@/store/global";
+import { useCommandStore } from "@/store/global";
 import { clickOutside } from "@/directive/clickoutside";
 import styles from "@/style/module/components.module.scss";
 
@@ -21,7 +21,7 @@ export default defineComponent({
     const globalCommand = computed(
       () => app?.appContext.config.globalProperties.globalCommand
     ).value as GlobalCommand;
-    const global = useGlobalStore();
+    const global = useCommandStore();
     const searchCommand = (evt: FocusEvent): void => {
       console.log("message", state.searchMessage);
     };
