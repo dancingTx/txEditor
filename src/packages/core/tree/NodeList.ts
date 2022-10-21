@@ -1,5 +1,7 @@
+import { h, type RendererNode } from "vue";
 import type TreeNode from "./Node";
 import { makeUUID } from "@/shared/variables";
+import styles from "@/style/module/components.module.scss";
 export default class TreeNodeList {
   public uid!: string;
   private items: TreeNode[];
@@ -26,7 +28,7 @@ export default class TreeNodeList {
     this.items[mode](node);
     return this;
   }
-  remove(node: TreeNode, mode?: "shift" | "pop") {
+  remove(node?: TreeNode, mode?: "shift" | "pop") {
     if (node) {
       for (let i = this.items.length; i--; ) {
         const item = this.items[i];
@@ -61,5 +63,31 @@ export default class TreeNodeList {
       }
     }
     return false;
+  }
+
+  renderTreeView(items?: TreeNode[]): RendererNode {
+    const recurisveTree = (node: TreeNode): RendererNode => {
+      return node.children.length
+        ? h(
+            "div",
+            {
+              class: styles.tree,
+            },
+            [
+              node.renderNode(),
+              h(
+                "ul",
+                {
+                  class: styles.tree_inner,
+                },
+                node.children.map((child) => h("li", recurisveTree(child)))
+              ),
+            ]
+          )
+        : node.renderNode();
+    };
+
+    items = items || this.items;
+    return items.map((node) => recurisveTree(node));
   }
 }

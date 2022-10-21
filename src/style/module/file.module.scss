@@ -32,23 +32,5 @@
         margin-left: $--common-padding;
       }
     }
-    &_unknown {
-      width: 100%;
-      padding: 0 $--common-padding2;
-      box-sizing: border-box;
-      cursor: pointer;
-      &:hover {
-        background-color: $--color-bwmix7;
-      }
-      &_input {
-        flex: auto;
-        margin: 0;
-        outline: none;
-        border: 1px solid $--status-bar-bg;
-        font-size: $--font-small;
-        color: $--color-bwmix1;
-        background-color: transparent;
-      }
-    }
   }
 }

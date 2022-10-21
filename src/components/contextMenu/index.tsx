@@ -12,7 +12,6 @@ import {
   type NodeDirOpProps,
 } from "@/config/default";
 import styles from "@/style/module/components.module.scss";
-
 const mapCommandPanel: Record<
   ContextMenuType,
   (NodeDirOpProps | SettingProps)[]
@@ -22,7 +21,7 @@ const mapCommandPanel: Record<
   "workspace:tree": dirSettings,
   "workspace:node": nodeSettings,
 };
-
+const __OFFSET_DISTANCE__ = 1;
 export default defineComponent({
   setup() {
     const contextMenu = useContextMenuStore();
@@ -33,8 +32,8 @@ export default defineComponent({
       const { x, y } = traceMouseLocation();
       if (!contextMenu.location) {
         return {
-          left: x + "px",
-          top: y + "px",
+          left: x - __OFFSET_DISTANCE__ + "px",
+          top: y - __OFFSET_DISTANCE__ + "px",
         };
       }
       return Object.keys(contextMenu.location).reduce((total, curr) => {

@@ -9,7 +9,8 @@ import {
   type NodeDirOpProps,
 } from "@/config/default";
 import bus from "@/shared/bus";
-import styles from "@/style/module/file.module.scss";
+import styles from "@/style/module/components.module.scss";
+import stylesFile from "@/style/module/file.module.scss";
 
 interface TreeNodeOptions {
   readonly?: boolean;
@@ -47,6 +48,7 @@ export default class TreeNode {
   public value: NodeValue;
   public options?: TreeNodeOptions;
   public active: boolean;
+  public parentNode?: TreeNode;
   public children: TreeNode[];
   static id?: number;
   constructor(
@@ -62,6 +64,45 @@ export default class TreeNode {
     this.options = options;
     this.active = false;
   }
+
+  remove(node?: TreeNode, mode?: "shift" | "pop") {
+    if (node) {
+      for (let i = this.children.length; i--; ) {
+        const item = this.children[i];
+        if (item.uid === node.uid) {
+          this.children.splice(i, 1);
+        }
+      }
+    } else {
+      mode = mode || "pop";
+      this.children[mode]();
+    }
+
+    return this;
+  }
+
+  update(node: TreeNode, label: string) {
+    if (!this.contains(node)) {
+      return this;
+    }
+    for (let i = this.children.length; i--; ) {
+      const item = this.children[i];
+      if (item.uid === node.uid) {
+        item.value.label = label;
+      }
+    }
+    return this;
+  }
+
+  contains(node: TreeNode) {
+    for (const item of this.children) {
+      if (item.uid === node.uid) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   private sendMessage(namespace: string, evt: Event) {
     bus.emit(namespace, {
       uid: this.uid,
@@ -74,6 +115,7 @@ export default class TreeNode {
     evt.stopPropagation();
     evt.preventDefault();
   }
+
   private clickShortcutMenu(evt: Event) {
     this.sendMessage("treeNode:contextmenu", evt);
   }
@@ -94,23 +136,16 @@ export default class TreeNode {
     return h(
       "div",
       {
-        style: {
-          display: "flex",
-          "padding-left": "10px",
-          "box-sizing": "border-box",
-        },
+        class: styles.tree_node_unknown,
       },
       [
         h(svgIcon, {
           iconClass,
-          style: {
-            flex: "0 1 10px",
-            margin: "0 5px",
-          },
+          class: styles.icon,
         }),
         h("input", {
           id: domId,
-          class: [styles.file, styles.is_unknown_input],
+          class: styles.input,
           autofocus: "autofocus",
           onChange: (evt: InputEvent) => {
             this.value.label = (evt.target as any).value;
@@ -144,7 +179,11 @@ export default class TreeNode {
       "div",
       {
         id: domId,
-        class: [styles.file, styles.is_unknown, isFile && styles[nodeStatus]],
+        class: [
+          styles.tree_node_known,
+          stylesFile.file,
+          isFile && stylesFile[nodeStatus],
+        ],
         onContextmenu: (evt: Event) => this.clickShortcutMenu(evt),
         onClick: this.onClick,
         onDbClick: this.onDbClick,
@@ -152,23 +191,13 @@ export default class TreeNode {
       [
         h(svgIcon, {
           iconClass,
-          style: {
-            flex: "0 1 10px",
-            margin: "0 5px",
-          },
+          class: styles.icon,
         }),
-        h(
-          "span",
-          {
-            style: {
-              "pointer-events": "none",
-            },
-          },
-          node.label
-        ),
+        h("span", null, node.label),
       ]
     );
   }
+
   renderNode(node?: NodeValue) {
     node = node || this.value;
     const isFile = this.type === "node";

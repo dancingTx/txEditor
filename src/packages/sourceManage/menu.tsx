@@ -4,7 +4,6 @@ import {
   ref,
   getCurrentInstance,
   reactive,
-  type RendererNode,
 } from "vue";
 import Menu from "@/components/menu";
 import bus from "@/shared/bus";
@@ -33,9 +32,6 @@ export default defineComponent({
         if (app && app.uid) {
           contextMenu.setUniqueId(app.uid);
         }
-        if (menu.value) {
-          contextMenu.setIgnoreElement(menu.value);
-        }
         contextMenu.show();
       }
     };
@@ -49,7 +45,6 @@ export default defineComponent({
         contextMenu.setUniqueId(app.uid);
       }
       if (evt.raw) {
-        contextMenu.setIgnoreElement(evt.raw);
         state.currNode = evt.raw;
       }
       contextMenu.show();
@@ -60,6 +55,7 @@ export default defineComponent({
         const childNode = new TreeNode(type, {
           kind: "Created",
         });
+        childNode.parentNode = state.currNode as TreeNode;
         (state.currNode as TreeNode).children.push(childNode);
       } else {
         const treeNode = new TreeNode(type, {
@@ -74,14 +70,18 @@ export default defineComponent({
     };
 
     const renameDirOrNode = (node: TreeNode) => {
-      if (node) {
+      if (node.parentNode) {
+        node.parentNode.update(node, "");
+      } else {
         nodeStore.treeNodeList.update(node, "");
-        node.renderNode();
       }
+      node.renderNode();
     };
 
     const deleteDirOrNode = (node: TreeNode) => {
-      if (node) {
+      if (node.parentNode) {
+        node.parentNode.remove(node);
+      } else {
         nodeStore.treeNodeList.remove(node);
       }
     };
@@ -99,10 +99,6 @@ export default defineComponent({
       if (info.command === "DeleteDir" || info.command === "DeleteNode") {
         deleteDirOrNode(state.currNode as TreeNode);
       }
-    };
-    
-    const renderTreeView = (): RendererNode => {
-      return nodeStore.treeNodeList.getItems().map((node) => node.renderNode());
     };
 
     onMounted(() => {
@@ -127,7 +123,7 @@ export default defineComponent({
           onClickContextMenu={clickShortcutMenu}
         >
           {{
-            workspace: () => <div>{renderTreeView()}</div>,
+            workspace: () => nodeStore.treeNodeList.renderTreeView(),
           }}
         </Menu>
       </div>

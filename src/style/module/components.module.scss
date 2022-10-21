@@ -308,3 +308,47 @@
 }
 
 /** ------------ command end ------------- */
+
+/** ------------ tree node start ------------- */
+.tree {
+  &_inner {
+    margin: 0;
+    padding-left: $--common-padding;
+    box-sizing: border-box;
+    list-style: none;
+  }
+  &_node {
+    &_known,
+    &_unknown {
+      .icon {
+        flex: 0 1 10px;
+        margin: 0 $--common-padding;
+      }
+    }
+
+    &_known {
+      width: 100%;
+      padding: 0 $--common-padding2;
+      box-sizing: border-box;
+      cursor: pointer;
+      &:hover {
+        background-color: $--color-bwmix7;
+      }
+    }
+    &_unknown {
+      display: flex;
+      padding-left: $--common-padding2;
+      box-sizing: "border-box";
+      .input {
+        flex: auto;
+        margin: 0;
+        outline: none;
+        border: 1px solid $--status-bar-bg;
+        font-size: $--font-small;
+        color: $--color-bwmix1;
+        background-color: transparent;
+      }
+    }
+  }
+}
+/** ------------ tree node end ------------- */
