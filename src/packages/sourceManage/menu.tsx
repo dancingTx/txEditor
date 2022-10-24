@@ -48,19 +48,15 @@ export default defineComponent({
         state.currNode = evt.raw;
       }
       contextMenu.show();
-    };
+    };  
 
     const createDirOrNode = (type: NodeType) => {
+      const treeNode = new TreeNode(type, {
+        kind: "Created",
+      });
       if (state.currNode) {
-        const childNode = new TreeNode(type, {
-          kind: "Created",
-        });
-        childNode.parentNode = state.currNode as TreeNode;
-        (state.currNode as TreeNode).children.push(childNode);
+        (state.currNode as TreeNode).add(treeNode);
       } else {
-        const treeNode = new TreeNode(type, {
-          kind: "Created",
-        });
         nodeStore.treeNodeList.add(treeNode);
       }
 

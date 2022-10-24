@@ -65,6 +65,11 @@ export default class TreeNode {
     this.active = false;
   }
 
+  add(node: TreeNode) {
+    node.parentNode = this;
+    this.children.push(node);
+  }
+
   remove(node?: TreeNode, mode?: "shift" | "pop") {
     if (node) {
       for (let i = this.children.length; i--; ) {
