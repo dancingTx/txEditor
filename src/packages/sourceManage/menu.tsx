@@ -48,7 +48,7 @@ export default defineComponent({
         state.currNode = evt.raw;
       }
       contextMenu.show();
-    };  
+    };
 
     const createDirOrNode = (type: NodeType) => {
       const treeNode = new TreeNode(type, {
@@ -67,9 +67,9 @@ export default defineComponent({
 
     const renameDirOrNode = (node: TreeNode) => {
       if (node.parentNode) {
-        node.parentNode.update(node, "");
+        node.parentNode.update(node, "", true);
       } else {
-        nodeStore.treeNodeList.update(node, "");
+        nodeStore.treeNodeList.update(node, "", true);
       }
       node.renderNode();
     };
@@ -112,17 +112,15 @@ export default defineComponent({
       });
     });
     return () => (
-      <div>
-        <Menu
-          items={sourceList}
-          ref={menu}
-          onClickContextMenu={clickShortcutMenu}
-        >
-          {{
-            workspace: () => nodeStore.treeNodeList.renderTreeView(),
-          }}
-        </Menu>
-      </div>
+      <Menu
+        items={sourceList}
+        ref={menu}
+        onClickContextMenu={clickShortcutMenu}
+      >
+        {{
+          workspace: () => nodeStore.treeNodeList.renderTreeView(),
+        }}
+      </Menu>
     );
   },
 });

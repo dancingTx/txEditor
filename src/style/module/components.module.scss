@@ -101,7 +101,7 @@
         line-height: 2em;
         transition: all 0.2s linear;
         &.is_collapse {
-          height: 0 !important;
+          height: 0;
         }
       }
     }

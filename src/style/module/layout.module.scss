@@ -113,6 +113,7 @@
               display: flex;
               align-items: center;
               justify-content: space-between;
+              height: $--menu-title-height;
               padding: $--common-padding2 16px;
               box-sizing: border-box;
             }
@@ -134,8 +135,6 @@
       }
       &_props_bar {
         width: $--menu-width;
-        padding: $--common-padding2 0;
-        box-sizing: border-box;
         @include background_color("--color-mix85");
         @include font_color("--color-mix2");
         -webkit-transition: all 0.2s linear;
@@ -150,7 +149,7 @@
       &_nav_bar_wrapper {
         display: flex;
         justify-content: space-between;
-        @include background_color("--color-mix9");
+        @include background_color("--color-mix85");
       }
       &_nav_settings {
         flex: 0 1 80px;
@@ -206,6 +205,7 @@
         white-space: nowrap;
         height: $--nav-bar-height;
         line-height: $--nav-bar-height;
+        @include background_color("--color-mix85");
         &::-webkit-scrollbar {
           display: none;
         }
@@ -213,10 +213,14 @@
           display: inline-block;
           padding: 0 $--common-padding2;
           font-size: $--font-small;
+          border-right: 1px solid;
           @include border_color("--color-mix9");
           @include font_color("--color-mix1");
           @include background_color("--color-mix8");
           cursor: pointer;
+          &:last-child {
+            border-right: none;
+          }
           .item_icon {
             margin: 0 $--common-padding2;
             width: 1.2em;
@@ -227,16 +231,17 @@
           .icon_close {
             width: 1.6em;
             height: 1.6em;
-            vertical-align: middle;
             &_outer {
               display: inline-block;
-              width: 1.8em;
-              height: 1.8em;
-              line-height: 1.8em;
+              width: 1.6em;
+              height: 1.6em;
+              margin-left: $--common-padding;
+              line-height: 1.6em;
+              vertical-align: middle;
               text-align: center;
               &:hover {
                 border-radius: $--common-border-radius-light;
-                @include background_color("--color-mix8");
+                @include background_color("--color-mix85");
               }
             }
           }
@@ -249,6 +254,8 @@
     }
   }
   .status_bar {
+    position: relative;
+    z-index: 1000;
     height: $--status-bar-height;
     padding: 0 $--common-padding4;
     font-size: $--font-small;

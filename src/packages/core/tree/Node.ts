@@ -1,5 +1,6 @@
 import { h } from "vue";
 import svgIcon from "@/components/svgIcon";
+import type TreeNodeList from "./NodeList";
 import { makeUUID } from "@/shared/variables";
 import { getExtName } from "@/shared/tool";
 import {
@@ -26,6 +27,7 @@ interface NodeValue {
   subTitle?: string;
   enLabel?: string;
   enSubTitle?: string;
+  rawLabel?: string;
 }
 export type NodeType = "dir" | "node";
 export interface PanelInfo {
@@ -50,6 +52,7 @@ export default class TreeNode {
   public active: boolean;
   public parentNode?: TreeNode;
   public children: TreeNode[];
+  public container?: TreeNodeList;
   static id?: number;
   constructor(
     type: NodeType,
@@ -68,6 +71,17 @@ export default class TreeNode {
   add(node: TreeNode) {
     node.parentNode = this;
     this.children.push(node);
+
+    if (node.type === "node") {
+      node.alive();
+      const container = node.container || node.parentNode.container;
+      if (container) {
+        container.activateNode(node);
+        container.setKeepAliveNode(node);
+      }
+    }
+
+    return this;
   }
 
   remove(node?: TreeNode, mode?: "shift" | "pop") {
@@ -86,13 +100,16 @@ export default class TreeNode {
     return this;
   }
 
-  update(node: TreeNode, label: string) {
+  update(node: TreeNode, label: string, rename?: boolean) {
     if (!this.contains(node)) {
       return this;
     }
     for (let i = this.children.length; i--; ) {
       const item = this.children[i];
       if (item.uid === node.uid) {
+        if (rename) {
+          item.value.rawLabel = item.value.label;
+        }
         item.value.label = label;
       }
     }
@@ -106,6 +123,20 @@ export default class TreeNode {
       }
     }
     return false;
+  }
+
+  alive(node?: TreeNode) {
+    node = node || this;
+    if (node.type === "node") {
+      node.active = true;
+    }
+  }
+
+  unlive(node?: TreeNode) {
+    node = node || this;
+    if (node.type === "node") {
+      node.active = false;
+    }
   }
 
   private sendMessage(namespace: string, evt: Event) {
@@ -126,10 +157,12 @@ export default class TreeNode {
   }
 
   private onClick(evt: Event) {
+    this.alive();
     this.sendMessage("treeNode:click", evt);
   }
 
   private onDbClick(evt: Event) {
+    this.alive();
     this.sendMessage("treeNode:dbclick", evt);
   }
 
@@ -152,6 +185,7 @@ export default class TreeNode {
           id: domId,
           class: styles.input,
           autofocus: "autofocus",
+          value: node.rawLabel,
           onChange: (evt: InputEvent) => {
             this.value.label = (evt.target as any).value;
           },
@@ -190,8 +224,8 @@ export default class TreeNode {
           isFile && stylesFile[nodeStatus],
         ],
         onContextmenu: (evt: Event) => this.clickShortcutMenu(evt),
-        onClick: this.onClick,
-        onDbClick: this.onDbClick,
+        onClick: (evt: Event) => this.onClick(evt),
+        onDbClick: (evt: Event) => this.onDbClick(evt),
       },
       [
         h(svgIcon, {
@@ -208,9 +242,11 @@ export default class TreeNode {
     const isFile = this.type === "node";
     const nodeStatus = NodeStatusVars[node.kind];
     const domId = `node_${node.uid || this.uid}`;
-    const iconName =
-      node.label &&
-      FileIconVars[getExtName(node.label) as keyof typeof FileIconVars];
+    const iconExt = node.label && getExtName(node.label);
+    const iconName = FileIconVars[iconExt as keyof typeof FileIconVars];
+    if (!node.icon) {
+      node.icon = iconName;
+    }
     const iconClass = !isFile
       ? "folder-unopen"
       : iconName

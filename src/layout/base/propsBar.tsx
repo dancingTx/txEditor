@@ -8,7 +8,7 @@ import styles from "@/style/module/layout.module.scss";
 export default defineComponent({
   setup() {
     const state = reactive({
-      isActive: attrList[0]?.uid,
+      isActive: "",
     });
     const layout = useLayoutStore();
     return () =>
@@ -21,7 +21,13 @@ export default defineComponent({
         >
           <Tabs v-model={state.isActive}>
             {attrList.map((item) => (
-              <TabItem item={item}></TabItem>
+              <TabItem
+                item={item}
+                total={attrList.length}
+                onHeaderClick={(info) => {
+                  state.isActive = state.isActive === info.uid ? "" : info.uid;
+                }}
+              ></TabItem>
             ))}
           </Tabs>
         </div>,

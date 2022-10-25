@@ -1,13 +1,13 @@
-import { defineComponent, reactive } from "vue";
+import { computed, defineComponent, reactive, watchEffect } from "vue";
 import {
   widgets,
   NodeStatusVars,
   DarkModeVars,
-  fileList,
   type Widget,
 } from "@/config/default";
 import { calcNavWidth } from "@/hook";
 import { useLayoutStore } from "@/store/layout";
+import { useNodeStore } from "@/store/node";
 import styles from "@/style/module/layout.module.scss";
 import styleFile from "@/style/module/file.module.scss";
 export default defineComponent({
@@ -16,10 +16,14 @@ export default defineComponent({
       isActive: string;
       isHover: string;
     }>({
-      isActive: fileList[0].uid,
+      isActive: "",
       isHover: "",
     });
     const layout = useLayoutStore();
+    const node = useNodeStore();
+    const keepAliveNodeList = computed(() =>
+      node.treeNodeList.getKeepAliveItems()
+    );
     const renderDarkLight = () => (
       <div class={styles.darkset}>
         <svg-icon
@@ -48,6 +52,9 @@ export default defineComponent({
         } as Record<Widget, JSX.Element>
       )[type];
     };
+    watchEffect(() => {
+      state.isActive = node.treeNodeList.activate;
+    });
     return () => (
       <div
         class={styles.layout_nav_bar_wrapper}
@@ -56,38 +63,45 @@ export default defineComponent({
         }}
       >
         <div class={styles.layout_nav_bar}>
-          {/* {fileList.map((file) => (
-            <div
-              class={[
-                styles.layout_nav_bar__item,
-                state.isActive === file.uid && styles.is_active,
-              ]}
-              onClick={() => (state.isActive = file.uid)}
-              onMouseenter={() => (state.isHover = file.uid)}
-              onMouseleave={() => (state.isHover = "")}
-            >
-              {file.icon && (
-                <svg-icon
-                  iconClass={file.icon}
-                  class={styles.item_icon}
-                ></svg-icon>
-              )}
-              <span
-                class={[styleFile.file, styleFile[FileStatusVars[file.kind]]]}
-              >
-                {file.label}
-              </span>
-              <div class={styles.icon_close_outer}>
-                {(file.uid === state.isActive ||
-                  state.isHover === file.uid) && (
-                  <svg-icon
-                    iconClass="close"
-                    class={styles.icon_close}
-                  ></svg-icon>
-                )}
-              </div>
-            </div>
-          ))} */}
+          {keepAliveNodeList.value.map(
+            (node) =>
+              (node.value.label || node.value.rawLabel) && (
+                <div
+                  class={[
+                    styles.layout_nav_bar__item,
+                    state.isActive === node.uid && styles.is_active,
+                  ]}
+                  onClick={() => (state.isActive = node.uid)}
+                  onMouseenter={() => (state.isHover = node.uid)}
+                  onMouseleave={() => (state.isHover = "")}
+                >
+                  {node.value.icon && (
+                    <svg-icon
+                      iconClass={node.value.icon}
+                      class={styles.item_icon}
+                    ></svg-icon>
+                  )}
+                  <span
+                    class={[
+                      styleFile.file,
+                      styleFile[NodeStatusVars[node.value.kind]],
+                    ]}
+                  >
+                    {node.value.label || node.value.rawLabel}
+                  </span>
+                  <div class={styles.icon_close_outer}>
+                    {(node.uid === state.isActive ||
+                      state.isHover === node.uid) && (
+                      <svg-icon
+                        iconClass="close"
+                        class={styles.icon_close}
+                        onClick={() => node.unlive()}
+                      ></svg-icon>
+                    )}
+                  </div>
+                </div>
+              )
+          )}
         </div>
         <div class={styles.layout_nav_settings}>
           {widgets.map((item) => item.icon && renderWidgets(item.command))}

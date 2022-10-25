@@ -5,27 +5,40 @@ import styles from "@/style/module/components.module.scss";
 export default class TreeNodeList {
   public uid!: string;
   private items: TreeNode[];
-  private prevNodeIndex: number;
-  private currNodeIndex: number;
-  private keepAlive: TreeNode[];
+  protected keepAlive: TreeNode[];
+  public activate: string;
 
   constructor(uid?: string) {
     this.uid = uid || makeUUID();
-    this.prevNodeIndex = this.currNodeIndex = -1;
     this.items = [];
     this.keepAlive = [];
+    this.activate = "";
   }
   getItems() {
     return this.items;
   }
+  setKeepAliveNode(node: TreeNode) {
+    this.keepAlive.push(node);
+  }
 
   getKeepAliveItems() {
-    return this.keepAlive;
+    return this.keepAlive.filter((node) => node.active);
+  }
+  activateNode(node: TreeNode) {
+    this.activate = node.uid;
   }
 
   add(node: TreeNode, mode?: "unshift" | "push") {
     mode = mode || "unshift";
     this.items[mode](node);
+    node.container = this;
+
+    if (node.type === "node") {
+      node.alive();
+      this.activateNode(node);
+      this.setKeepAliveNode(node);
+    }
+
     return this;
   }
   remove(node?: TreeNode, mode?: "shift" | "pop") {
@@ -43,13 +56,16 @@ export default class TreeNodeList {
 
     return this;
   }
-  update(node: TreeNode, label: string) {
+  update(node: TreeNode, label: string, rename?: boolean) {
     if (!this.contains(node)) {
       return this;
     }
     for (let i = this.items.length; i--; ) {
       const item = this.items[i];
       if (item.uid === node.uid) {
+        if (rename) {
+          item.value.rawLabel = item.value.label;
+        }
         item.value.label = label;
       }
     }

@@ -13,7 +13,7 @@ export default defineComponent({
   emits: ["clickContextMenu"],
   setup(props, { slots, emit }) {
     const state = reactive({
-      isActive: props.items[0]?.uid,
+      isActive: "",
     });
     return () =>
       props.items.length ? (
@@ -21,11 +21,12 @@ export default defineComponent({
           {props.items.map((item) => (
             <TabItem
               item={item}
-              {...{
-                onContextmenu: () => {
-                  emit("clickContextMenu", item);
-                },
+              total={props.items.length}
+              onHeaderClick={(info) => {
+                state.isActive = state.isActive === info.uid ? "" : info.uid;
               }}
+              onHeaderContextMenu={() => emit("clickContextMenu", item)}
+              hasTitle
             >
               {item.enLabel
                 ? slots[item.enLabel] && (slots[item.enLabel] as () => {})()
