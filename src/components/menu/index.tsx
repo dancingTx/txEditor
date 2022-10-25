@@ -30,7 +30,7 @@ export default defineComponent({
             >
               {item.enLabel
                 ? slots[item.enLabel] && (slots[item.enLabel] as () => {})()
-                : slots.default && slots.default(item)}
+                : slots.default && slots.default()}
             </TabItem>
           ))}
         </Tabs>

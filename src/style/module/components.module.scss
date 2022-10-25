@@ -317,6 +317,7 @@
     box-sizing: border-box;
     list-style: none;
   }
+
   &_node {
     &_known,
     &_unknown {
@@ -330,7 +331,15 @@
       width: 100%;
       padding: 0 $--common-padding2;
       box-sizing: border-box;
+      border: 1px solid transparent;
       cursor: pointer;
+      &.is_active {
+        border: 1px solid $--status-bar-bg;
+        background-color: rgba(
+          $color: $--status-bar-bg,
+          $alpha: 0.2
+        ) !important;
+      }
       &:hover {
         background-color: $--color-bwmix7;
       }

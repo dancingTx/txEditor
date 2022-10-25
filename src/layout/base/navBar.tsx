@@ -12,18 +12,15 @@ import styles from "@/style/module/layout.module.scss";
 import styleFile from "@/style/module/file.module.scss";
 export default defineComponent({
   setup() {
-    const state = reactive<{
-      isActive: string;
-      isHover: string;
-    }>({
-      isActive: "",
+    const state = reactive({
       isHover: "",
     });
     const layout = useLayoutStore();
-    const node = useNodeStore();
+    const nodeStore = useNodeStore();
     const keepAliveNodeList = computed(() =>
-      node.treeNodeList.getKeepAliveItems()
+      nodeStore.treeNodeList.getKeepAliveItems()
     );
+    const activateNode = computed(() => nodeStore.treeNodeList.activate);
     const renderDarkLight = () => (
       <div class={styles.darkset}>
         <svg-icon
@@ -52,9 +49,6 @@ export default defineComponent({
         } as Record<Widget, JSX.Element>
       )[type];
     };
-    watchEffect(() => {
-      state.isActive = node.treeNodeList.activate;
-    });
     return () => (
       <div
         class={styles.layout_nav_bar_wrapper}
@@ -69,9 +63,11 @@ export default defineComponent({
                 <div
                   class={[
                     styles.layout_nav_bar__item,
-                    state.isActive === node.uid && styles.is_active,
+                    activateNode.value === node.uid && styles.is_active,
                   ]}
-                  onClick={() => (state.isActive = node.uid)}
+                  onClick={() => {
+                    nodeStore.treeNodeList.activateNode(node);
+                  }}
                   onMouseenter={() => (state.isHover = node.uid)}
                   onMouseleave={() => (state.isHover = "")}
                 >
@@ -90,7 +86,7 @@ export default defineComponent({
                     {node.value.label || node.value.rawLabel}
                   </span>
                   <div class={styles.icon_close_outer}>
-                    {(node.uid === state.isActive ||
+                    {(node.uid === activateNode.value ||
                       state.isHover === node.uid) && (
                       <svg-icon
                         iconClass="close"

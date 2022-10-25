@@ -28,6 +28,12 @@ export default class TreeNodeList {
     this.activate = node.uid;
   }
 
+  unactivateNode(node: TreeNode) {
+    if (node.uid === this.activate) {
+      this.activate = "";
+    }
+  }
+
   add(node: TreeNode, mode?: "unshift" | "push") {
     mode = mode || "unshift";
     this.items[mode](node);

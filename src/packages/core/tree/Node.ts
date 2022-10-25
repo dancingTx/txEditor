@@ -71,10 +71,10 @@ export default class TreeNode {
   add(node: TreeNode) {
     node.parentNode = this;
     this.children.push(node);
-
+    const container = (node.container =
+      node.container || node.parentNode.container);
     if (node.type === "node") {
       node.alive();
-      const container = node.container || node.parentNode.container;
       if (container) {
         container.activateNode(node);
         container.setKeepAliveNode(node);
@@ -136,6 +136,9 @@ export default class TreeNode {
     node = node || this;
     if (node.type === "node") {
       node.active = false;
+      if (node.container) {
+        node.container.unactivateNode(node);
+      }
     }
   }
 
@@ -157,13 +160,19 @@ export default class TreeNode {
   }
 
   private onClick(evt: Event) {
-    this.alive();
     this.sendMessage("treeNode:click", evt);
+    this.alive();
+    if (this.container) {
+      this.container.activateNode(this);
+    }
   }
 
   private onDbClick(evt: Event) {
-    this.alive();
     this.sendMessage("treeNode:dbclick", evt);
+    this.alive();
+    if (this.container) {
+      this.container.activateNode(this);
+    }
   }
 
   private renderUnknownNode(
@@ -184,7 +193,7 @@ export default class TreeNode {
         h("input", {
           id: domId,
           class: styles.input,
-          autofocus: "autofocus",
+          autofocus: true,
           value: node.rawLabel,
           onChange: (evt: InputEvent) => {
             this.value.label = (evt.target as any).value;
@@ -222,6 +231,7 @@ export default class TreeNode {
           styles.tree_node_known,
           stylesFile.file,
           isFile && stylesFile[nodeStatus],
+          this.container?.activate === this.uid && styles.is_active,
         ],
         onContextmenu: (evt: Event) => this.clickShortcutMenu(evt),
         onClick: (evt: Event) => this.onClick(evt),
@@ -252,7 +262,6 @@ export default class TreeNode {
       : iconName
       ? iconName
       : "file-unknown";
-
     return node.label
       ? this.renderKnownNode(node, { domId, iconClass, isFile, nodeStatus })
       : this.renderUnknownNode(node, { domId, iconClass });
