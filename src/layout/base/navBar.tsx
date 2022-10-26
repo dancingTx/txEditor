@@ -1,4 +1,4 @@
-import { computed, defineComponent, reactive, watchEffect } from "vue";
+import { computed, defineComponent, reactive } from "vue";
 import {
   widgets,
   NodeStatusVars,
@@ -63,7 +63,7 @@ export default defineComponent({
                 <div
                   class={[
                     styles.layout_nav_bar__item,
-                    activateNode.value === node.uid && styles.is_active,
+                    activateNode.value?.uid === node.uid && styles.is_active,
                   ]}
                   onClick={() => {
                     nodeStore.treeNodeList.activateNode(node);
@@ -86,7 +86,7 @@ export default defineComponent({
                     {node.value.label || node.value.rawLabel}
                   </span>
                   <div class={styles.icon_close_outer}>
-                    {(node.uid === activateNode.value ||
+                    {(node.uid === activateNode.value?.uid ||
                       state.isHover === node.uid) && (
                       <svg-icon
                         iconClass="close"

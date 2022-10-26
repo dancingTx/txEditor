@@ -6,13 +6,13 @@ export default class TreeNodeList {
   public uid!: string;
   private items: TreeNode[];
   protected keepAlive: TreeNode[];
-  public activate: string;
+  public activate: TreeNode | null;
 
   constructor(uid?: string) {
     this.uid = uid || makeUUID();
     this.items = [];
     this.keepAlive = [];
-    this.activate = "";
+    this.activate = null;
   }
   getItems() {
     return this.items;
@@ -25,12 +25,12 @@ export default class TreeNodeList {
     return this.keepAlive.filter((node) => node.active);
   }
   activateNode(node: TreeNode) {
-    this.activate = node.uid;
+    this.activate = node;
   }
 
   unactivateNode(node: TreeNode) {
-    if (node.uid === this.activate) {
-      this.activate = "";
+    if (node.uid === this.activate?.uid) {
+      this.activate = null;
     }
   }
 

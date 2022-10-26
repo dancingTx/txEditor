@@ -1,5 +1,6 @@
 import { h } from "vue";
 import svgIcon from "@/components/svgIcon";
+import Canvas from "../canvas";
 import type TreeNodeList from "./NodeList";
 import { makeUUID } from "@/shared/variables";
 import { getExtName } from "@/shared/tool";
@@ -53,6 +54,7 @@ export default class TreeNode {
   public parentNode?: TreeNode;
   public children: TreeNode[];
   public container?: TreeNodeList;
+  public canvas?: Canvas;
   static id?: number;
   constructor(
     type: NodeType,
@@ -223,6 +225,9 @@ export default class TreeNode {
     }
   ) {
     const { domId, iconClass, isFile, nodeStatus } = options;
+    if (isFile) {
+      this.canvas = new Canvas(this.uid);
+    }
     return h(
       "div",
       {
@@ -231,7 +236,7 @@ export default class TreeNode {
           styles.tree_node_known,
           stylesFile.file,
           isFile && stylesFile[nodeStatus],
-          this.container?.activate === this.uid && styles.is_active,
+          this.container?.activate?.uid === this.uid && styles.is_active,
         ],
         onContextmenu: (evt: Event) => this.clickShortcutMenu(evt),
         onClick: (evt: Event) => this.onClick(evt),

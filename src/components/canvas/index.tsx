@@ -5,10 +5,7 @@ import styles from "@/style/module/components.module.scss";
 export default defineComponent({
   setup(props, { slots }) {
     const layout = useLayoutStore();
-    const state = reactive<{
-      canvasWidth: number;
-      canvasHeight: number;
-    }>({
+    const state = reactive({
       canvasWidth: layout.canvasWidth,
       canvasHeight: layout.canvasHeight,
     });
