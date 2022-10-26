@@ -1,10 +1,13 @@
 import {
   ThemeVars,
+  I18nVars,
   type Setting,
   type CommandGroupItem,
   type Theme,
+  type I18n,
 } from "@/config/default";
 import { query, type DomQuery } from "@/shared/domOp";
+import i18n from "@/locale";
 interface Options {
   el?: DomQuery;
 }
@@ -42,6 +45,8 @@ export class GlobalCommand {
     this.command = command;
     this.commandInfo = commandInfo;
     this.el = query(options.el || "#app");
+
+    return this;
   }
   execute() {
     (this as Record<string, any>)[orderMap[this.command]]();
@@ -53,7 +58,9 @@ export class GlobalCommand {
       ThemeVars[this.commandInfo.kind as Theme]
     );
   }
-  private switchI18n() {}
+  private switchI18n() {
+    i18n.global.locale.value = I18nVars[this.commandInfo.kind as I18n];
+  }
 }
 
 export class CanvasCommand {}

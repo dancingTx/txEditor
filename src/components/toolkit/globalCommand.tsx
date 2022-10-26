@@ -10,6 +10,7 @@ import type { CommandGroupItem } from "@/config/default";
 import type { GlobalCommand } from "./command/command";
 import { useCommandStore } from "@/store/global";
 import { clickOutside } from "@/directive/clickoutside";
+import { useI18nTitle } from "@/hook";
 import styles from "@/style/module/components.module.scss";
 
 export default defineComponent({
@@ -46,7 +47,9 @@ export default defineComponent({
               <section class={styles.panel}>
                 {global.commandOptions.map((options) => (
                   <section class={styles.panel_group}>
-                    <span class={styles.panel_title}>{options.group}</span>
+                    <span class={styles.panel_title}>
+                      {useI18nTitle(options, "group")}
+                    </span>
                     <section>
                       {options.children?.map((option) => (
                         <span
@@ -56,7 +59,7 @@ export default defineComponent({
                           }}
                           onClick={() => executeCommand(option)}
                         >
-                          {option.label}
+                          {useI18nTitle(option)}
                         </span>
                       ))}
                     </section>

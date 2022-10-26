@@ -20,8 +20,8 @@ interface CommonProps {
 export interface PluginProps extends CommonProps {
   icon: string;
   label?: string;
+  i18n?: string;
   menuComp?: Component;
-  canvasComp?: Component;
 }
 
 /**
@@ -33,6 +33,7 @@ export interface SourceProps extends CommonProps {
   subTitle?: string;
   enLabel?: string;
   enSubTitle?: string;
+  i18n?: string;
 }
 
 /**
@@ -66,10 +67,12 @@ export interface CommandGroupItem extends CommonProps {
   label: string;
   icon?: string;
   color?: string;
+  i18n?: string;
 }
 
 export interface CommandOptions extends CommonProps {
   group: string;
+  i18n?: string;
   children: CommandGroupItem[];
 }
 

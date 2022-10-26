@@ -11,6 +11,7 @@ import NavBar from "../base/navBar";
 import { plugins, type PluginProps } from "@/config/default";
 import { compoundComponents } from "@/shared/component";
 import { useLayoutStore } from "@/store/layout";
+import { useI18nTitle } from "@/hook";
 import styles from "@/style/module/layout.module.scss";
 const collectPlugins = () => plugins.map((plugin) => plugin.meta);
 const components = compoundComponents(collectPlugins(), "menuComp");
@@ -35,7 +36,7 @@ export default defineComponent({
     );
     return () => (
       <div class={styles.layout_menu}>
-        <Menu title={pluginItem?.value?.label}>
+        <Menu title={useI18nTitle(pluginItem.value)}>
           {pluginItem.value?.menuComp && (
             <KeepAlive>{h(resolveComponent(pluginItem.value?.uid))}</KeepAlive>
           )}

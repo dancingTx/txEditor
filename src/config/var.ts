@@ -58,10 +58,10 @@ export const enum DarkModeVars {
   Dark = "is_dark",
 }
 
-export const enum I18nVars {
-  English = "enUs",
-  Chinese = "zhCn",
-  HongKong = "zhHk",
+export enum I18nVars {
+  English = "en_US",
+  Chinese = "zh_CN",
+  HongKong = "zh_HK",
 }
 
 export enum ThemeVars {

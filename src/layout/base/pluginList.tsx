@@ -1,8 +1,9 @@
 import { defineComponent, reactive, type PropType } from "vue";
+import router from "@/router";
+import { useI18nTitle } from "@/hook";
 import type { PluginProps } from "@/config/default";
 import { useLayoutStore } from "@/store/layout";
 import styles from "@/style/module/layout.module.scss";
-import router from "@/router";
 type Props = PluginProps & { link: string };
 export default defineComponent({
   props: {
@@ -27,10 +28,14 @@ export default defineComponent({
         name: item.link,
       });
     };
+
     return () => (
       <div class={styles.plugin_box}>
         {props.items.map((item) => (
-          <div data-label={item.label} class={item.label && styles.aside_label}>
+          <div
+            data-label={useI18nTitle(item)}
+            class={item.label && styles.aside_label}
+          >
             <div
               class={[state.isActive === item.uid && styles.is_active]}
               onClick={() => goto(item)}

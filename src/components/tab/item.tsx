@@ -6,6 +6,7 @@ import {
   withDirectives,
   type PropType,
 } from "vue";
+import { useI18nTitle } from "@/hook";
 import { dragDirective } from "@/directive/drag";
 import { Vars, type SourceProps } from "@/config/default";
 import styles from "@/style/module/components.module.scss";
@@ -71,7 +72,7 @@ export default defineComponent({
               class={styles.tab_icon}
             ></svg-icon>
           )}
-          <span>{props.item?.label}</span>
+          <span>{useI18nTitle(props.item)}</span>
         </div>
         {withDirectives(
           <div

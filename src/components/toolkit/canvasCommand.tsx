@@ -3,6 +3,7 @@ import { screenSize, canvasCommands, type ScreenProps } from "@/config/default";
 import { useLayoutStore } from "@/store/layout";
 import { useCommandStore } from "@/store/global";
 import { screen2BodyRatio } from "@/shared/tool";
+import { useI18nTitle } from "@/hook";
 import styles from "@/style/module/components.module.scss";
 export default defineComponent({
   setup() {
@@ -41,7 +42,7 @@ export default defineComponent({
               <svg-icon
                 iconClass={item.icon}
                 class={styles.item_icon}
-                tip={item.label}
+                tip={useI18nTitle(item)}
               ></svg-icon>
             </div>
           ))}
@@ -76,7 +77,7 @@ export default defineComponent({
               <svg-icon
                 iconClass={item.icon}
                 class={styles.item_icon}
-                tip={item.label}
+                tip={useI18nTitle(item)}
               ></svg-icon>
             </div>
           ))}

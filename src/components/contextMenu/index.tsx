@@ -1,5 +1,6 @@
 import { defineComponent, Transition, withDirectives, computed } from "vue";
 import bus from "@/shared/bus";
+import { useI18nTitle } from "@/hook";
 import { clickOutside } from "@/directive/clickoutside";
 import { useContextMenuStore, type ContextMenuType } from "@/store/global";
 import { traceMouseLocation } from "@/shared/tool";
@@ -81,7 +82,7 @@ export default defineComponent({
                         class={styles.panel_icon}
                       ></svg-icon>
                     )}
-                    <span class={styles.panel_item}>{item.label}</span>
+                    <span class={styles.panel_item}>{useI18nTitle(item)}</span>
                   </div>
                 ))}
               </div>
