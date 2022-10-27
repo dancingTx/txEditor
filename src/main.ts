@@ -5,6 +5,7 @@ import "virtual:svg-icons-register";
 import svgIcon from "./components/svgIcon";
 import { GlobalCommand } from "@/components/toolkit/command/command";
 import { defaultTheme, defaultLanguage } from "@/config/default";
+import { useNodeStore } from "@/store/node";
 
 import App from "./App";
 import router from "./router";
@@ -30,5 +31,10 @@ app.config.globalProperties = {
 };
 
 app.use(createPinia()).use(router).use(i18n).component("svg-icon", svgIcon);
+
+/**
+ * 创建默认节点
+ */
+useNodeStore().createDefaultNode();
 
 app.mount("#app");

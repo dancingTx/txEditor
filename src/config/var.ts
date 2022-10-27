@@ -8,6 +8,12 @@ export const enum Vars {
   __PANEL_WIDTH__ = 180,
   __STATUS_BAR_HEIGHT__ = 20,
   __MENU_TITLE_HEIGHT__ = 40,
+  __AMPLIFICATION__ = 6,
+}
+
+export const enum DefaultVars {
+  __CONTEXTMENU_RATIO__ = "3:4",
+  __CANVAS_RATIO__ = "4:3",
 }
 
 export enum NodeStatusVars {
@@ -40,6 +46,7 @@ export const enum WidgetVars {
 }
 
 export const enum CanvasCommandVars {
+  Gird = "gird",
   Undo = "undo",
   Redo = "redo",
   Preview = "preview",

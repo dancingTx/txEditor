@@ -163,6 +163,13 @@ export const screenSize: ScreenProps[] = [
 export const canvasCommands: CanvasCommandProps[] = [
   {
     uid: makeUUID(),
+    label: "网格",
+    icon: "gird",
+    command: "Gird",
+    i18n: "canvas.gird",
+  },
+  {
+    uid: makeUUID(),
     label: "撤销",
     icon: "undo",
     command: "Undo",

@@ -1,28 +1,34 @@
-import { h, type RendererNode } from "vue";
+import { h, type VNode } from "vue";
 import type TreeNode from "./Node";
 import { makeUUID } from "@/shared/variables";
 import styles from "@/style/module/components.module.scss";
 export default class TreeNodeList {
-  public uid!: string;
-  private items: TreeNode[];
-  protected keepAlive: TreeNode[];
+  public uid: string;
+  private items: Set<TreeNode>;
+  protected keepAlive: Set<TreeNode>;
   public activate: TreeNode | null;
 
   constructor(uid?: string) {
     this.uid = uid || makeUUID();
-    this.items = [];
-    this.keepAlive = [];
+    this.items = new Set<TreeNode>();
+    this.keepAlive = new Set<TreeNode>();
     this.activate = null;
   }
+
   getItems() {
     return this.items;
   }
+
   setKeepAliveNode(node: TreeNode) {
-    this.keepAlive.push(node);
+    this.keepAlive.add(node);
+  }
+
+  removeKeepAliveNode(node: TreeNode) {
+    this.keepAlive.delete(node);
   }
 
   getKeepAliveItems() {
-    return this.keepAlive.filter((node) => node.active);
+    return Array.from(this.keepAlive).filter((node) => node.active);
   }
   activateNode(node: TreeNode) {
     this.activate = node;
@@ -30,66 +36,42 @@ export default class TreeNodeList {
 
   unactivateNode(node: TreeNode) {
     if (node.uid === this.activate?.uid) {
-      this.activate = null;
-    }
-  }
-
-  add(node: TreeNode, mode?: "unshift" | "push") {
-    mode = mode || "unshift";
-    this.items[mode](node);
-    node.container = this;
-
-    if (node.type === "node") {
-      node.alive();
-      this.activateNode(node);
-      this.setKeepAliveNode(node);
-    }
-
-    return this;
-  }
-  remove(node?: TreeNode, mode?: "shift" | "pop") {
-    if (node) {
-      for (let i = this.items.length; i--; ) {
-        const item = this.items[i];
-        if (item.uid === node.uid) {
-          this.items.splice(i, 1);
-        }
+      if (this.keepAlive.size > 1) {
+        this.activate = Array.from(this.keepAlive)[this.keepAlive.size - 1];
+      } else {
+        this.activate = null;
       }
-    } else {
-      mode = mode || "pop";
-      this.items[mode]();
     }
+  }
 
+  add(node: TreeNode) {
+    this.items.add(node);
+    node.container = this;
     return this;
   }
+
+  remove(node: TreeNode) {
+    node.unlive();
+    this.items.delete(node);
+    return this;
+  }
+
   update(node: TreeNode, label: string, rename?: boolean) {
-    if (!this.contains(node)) {
-      return this;
-    }
-    for (let i = this.items.length; i--; ) {
-      const item = this.items[i];
+    this.items.forEach((item) => {
       if (item.uid === node.uid) {
         if (rename) {
           item.value.rawLabel = item.value.label;
         }
         item.value.label = label;
+        return;
       }
-    }
+    });
     return this;
   }
 
-  contains(node: TreeNode) {
-    for (const item of this.items) {
-      if (item.uid === node.uid) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  renderTreeView(items?: TreeNode[]): RendererNode {
-    const recurisveTree = (node: TreeNode): RendererNode => {
-      return node.children.length
+  renderTreeView(items?: Set<TreeNode>): VNode[] {
+    const recurisveTree = (node: TreeNode): VNode => {
+      return node.children.size
         ? h(
             "div",
             {
@@ -102,7 +84,9 @@ export default class TreeNodeList {
                 {
                   class: styles.tree_inner,
                 },
-                node.children.map((child) => h("li", recurisveTree(child)))
+                Array.from(node.children).map((child) =>
+                  h("li", recurisveTree(child))
+                )
               ),
             ]
           )
@@ -110,6 +94,6 @@ export default class TreeNodeList {
     };
 
     items = items || this.items;
-    return items.map((node) => recurisveTree(node));
+    return Array.from(items).map((node) => recurisveTree(node));
   }
 }

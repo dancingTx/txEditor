@@ -82,6 +82,7 @@ export type SettingProps = SourceProps & {
 };
 
 export type CanvasCommand = keyof typeof CanvasCommandVars;
+export type SpecialCanvasCommand = "Preview" | "Gird";
 
 export type CanvasCommandProps = SourceProps & { command: CanvasCommand };
 

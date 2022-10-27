@@ -73,3 +73,9 @@ $--file-created-color: #74c991 !default;
 $--file-modified-color: #e1bf8d !default;
 $--file-deleted-color: #f78070 !default;
 $--file-locked-color: $--color-bwmix6 !default;
+
+// Canvas
+$--grid-row-weight: 1px !default;
+$--grid-row-color: #b3d8ff !default;
+$--grid-column-weight: $--grid-row-weight;
+$--grid-column-color: $--grid-row-color;

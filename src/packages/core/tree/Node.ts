@@ -52,85 +52,60 @@ export default class TreeNode {
   public options?: TreeNodeOptions;
   public active: boolean;
   public parentNode?: TreeNode;
-  public children: TreeNode[];
+  public children: Set<TreeNode>;
   public container?: TreeNodeList;
   public canvas?: Canvas;
   static id?: number;
   constructor(
     type: NodeType,
     value: NodeValue,
-    children: TreeNode[] = [],
+    children?: Set<TreeNode>,
     options: TreeNodeOptions = {}
   ) {
     this.uid = value.uid || makeUUID();
     this.type = type;
     this.value = value;
-    this.children = children;
+    this.children = children || new Set();
     this.options = options;
     this.active = false;
   }
 
   add(node: TreeNode) {
     node.parentNode = this;
-    this.children.push(node);
-    const container = (node.container =
-      node.container || node.parentNode.container);
-    if (node.type === "node") {
-      node.alive();
-      if (container) {
-        container.activateNode(node);
-        container.setKeepAliveNode(node);
-      }
-    }
+    node.container = node.container || node.parentNode.container;
+    this.children.add(node);
 
     return this;
   }
 
-  remove(node?: TreeNode, mode?: "shift" | "pop") {
-    if (node) {
-      for (let i = this.children.length; i--; ) {
-        const item = this.children[i];
-        if (item.uid === node.uid) {
-          this.children.splice(i, 1);
-        }
-      }
-    } else {
-      mode = mode || "pop";
-      this.children[mode]();
-    }
+  remove(node: TreeNode) {
+    node.unlive();
+    this.children.delete(node);
 
     return this;
   }
 
   update(node: TreeNode, label: string, rename?: boolean) {
-    if (!this.contains(node)) {
-      return this;
-    }
-    for (let i = this.children.length; i--; ) {
-      const item = this.children[i];
-      if (item.uid === node.uid) {
+    this.children.forEach((child) => {
+      if (child.uid === node.uid) {
         if (rename) {
-          item.value.rawLabel = item.value.label;
+          child.value.rawLabel = child.value.label;
         }
-        item.value.label = label;
+        child.value.label = label;
+        return;
       }
-    }
+    });
     return this;
-  }
-
-  contains(node: TreeNode) {
-    for (const item of this.children) {
-      if (item.uid === node.uid) {
-        return true;
-      }
-    }
-    return false;
   }
 
   alive(node?: TreeNode) {
     node = node || this;
     if (node.type === "node") {
       node.active = true;
+      if (node.container) {
+        node.container.setKeepAliveNode(node);
+        node.container.activateNode(node);
+      }
     }
   }
 
@@ -140,7 +115,15 @@ export default class TreeNode {
       node.active = false;
       if (node.container) {
         node.container.unactivateNode(node);
+        node.container.removeKeepAliveNode(node);
       }
+    }
+  }
+
+  private withNodeRenderFinish(isNode: boolean) {
+    if (isNode && !this.canvas) {
+      this.alive();
+      this.canvas = new Canvas(this.uid);
     }
   }
 
@@ -164,17 +147,11 @@ export default class TreeNode {
   private onClick(evt: Event) {
     this.sendMessage("treeNode:click", evt);
     this.alive();
-    if (this.container) {
-      this.container.activateNode(this);
-    }
   }
 
   private onDbClick(evt: Event) {
     this.sendMessage("treeNode:dbclick", evt);
     this.alive();
-    if (this.container) {
-      this.container.activateNode(this);
-    }
   }
 
   private renderUnknownNode(
@@ -220,14 +197,12 @@ export default class TreeNode {
     options: {
       domId: string;
       iconClass: string;
-      isFile: boolean;
+      isNode: boolean;
       nodeStatus: string;
     }
   ) {
-    const { domId, iconClass, isFile, nodeStatus } = options;
-    if (isFile) {
-      this.canvas = new Canvas(this.uid);
-    }
+    const { domId, iconClass, isNode, nodeStatus } = options;
+    this.withNodeRenderFinish(isNode);
     return h(
       "div",
       {
@@ -235,7 +210,7 @@ export default class TreeNode {
         class: [
           styles.tree_node_known,
           stylesFile.file,
-          isFile && stylesFile[nodeStatus],
+          isNode && stylesFile[nodeStatus],
           this.container?.activate?.uid === this.uid && styles.is_active,
         ],
         onContextmenu: (evt: Event) => this.clickShortcutMenu(evt),
@@ -254,7 +229,7 @@ export default class TreeNode {
 
   renderNode(node?: NodeValue) {
     node = node || this.value;
-    const isFile = this.type === "node";
+    const isNode = this.type === "node";
     const nodeStatus = NodeStatusVars[node.kind];
     const domId = `node_${node.uid || this.uid}`;
     const iconExt = node.label && getExtName(node.label);
@@ -262,13 +237,13 @@ export default class TreeNode {
     if (!node.icon) {
       node.icon = iconName;
     }
-    const iconClass = !isFile
+    const iconClass = !isNode
       ? "folder-unopen"
       : iconName
       ? iconName
       : "file-unknown";
     return node.label
-      ? this.renderKnownNode(node, { domId, iconClass, isFile, nodeStatus })
+      ? this.renderKnownNode(node, { domId, iconClass, isNode, nodeStatus })
       : this.renderUnknownNode(node, { domId, iconClass });
   }
 }

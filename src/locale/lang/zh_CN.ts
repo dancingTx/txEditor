@@ -67,6 +67,7 @@ export default {
     },
   },
   canvas: {
+    gird: "网格",
     undo: "撤销",
     redo: "重做",
     preview: "预览",

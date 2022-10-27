@@ -2,9 +2,9 @@ import { h, render } from "vue";
 import svgIcon from "@/components/svgIcon";
 import bus from "@/shared/bus";
 import { on, off, query } from "@/shared/domOp";
-import { screen2BodyRatio } from "@/shared/tool";
 import { makeUUID } from "@/shared/variables";
-import { Vars, type NodeDirOpProps } from "@/config/default";
+import type { NodeDirOpProps } from "@/config/default";
+import { useContextMenuStore } from "@/store/global";
 import styles from "@/style/module/components.module.scss";
 export type Orientation =
   | "left top"
@@ -37,14 +37,15 @@ export default class ContextMenu {
 
   private render(evt: Event, context: this) {
     if (ContextMenu.Target && !(ContextMenu.Target as any).panelId) {
+      const contextmenu = useContextMenuStore();
       ContextMenu.Target.style.position = "relative";
       const left = (evt as MouseEvent).offsetX;
       const top = (evt as MouseEvent).offsetY;
       const targetId = `context_${this.uid}`;
 
       const defaultStyle = `
-        width:${Vars.__PANEL_WIDTH__}px;
-        height: ${screen2BodyRatio(Vars.__PANEL_WIDTH__, "3:4")}px;
+        width:${contextmenu.panelWidth}px;
+        height: ${contextmenu.panelHeight}px;
         position: absolute;
         left: ${left}px;
         top: ${top}px;

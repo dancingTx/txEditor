@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { screen2BodyRatio } from "@/shared/tool";
-import { Vars, DarkModeVars } from "@/config/default";
+import { Vars, DarkModeVars, DefaultVars } from "@/config/default";
 interface LayoutState {
   isCollapse: boolean;
   isCollapseProp: boolean;
@@ -29,7 +29,10 @@ export const useLayoutStore = defineStore("layout", {
       menuWidth: 0,
       canvasSize: "",
       canvasWidth: Vars.__CANVAS_WIDTH__,
-      canvasHeight: screen2BodyRatio(Vars.__CANVAS_WIDTH__, "4:3"),
+      canvasHeight: screen2BodyRatio(
+        Vars.__CANVAS_WIDTH__,
+        DefaultVars.__CANVAS_RATIO__
+      ),
       mode: DarkModeVars.Dark,
     } as LayoutState & LayoutProps;
   },

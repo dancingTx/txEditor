@@ -67,6 +67,7 @@ export default {
     },
   },
   canvas: {
+    gird: "Gird",
     undo: "Undo",
     redo: "Redo",
     preview: "Preview",
