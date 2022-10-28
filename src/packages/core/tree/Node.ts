@@ -175,7 +175,7 @@ export default class TreeNode {
           autofocus: true,
           value: node.rawLabel,
           onChange: (evt: InputEvent) => {
-            this.value.label = (evt.target as any).value;
+            this.value.label = (evt.target as Record<string, any>).value;
           },
           onBlur: (evt: FocusEvent) => {
             if (this.value.label) {

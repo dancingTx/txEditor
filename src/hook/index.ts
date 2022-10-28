@@ -18,12 +18,11 @@ export const calcNavWidth = (): string => {
 };
 
 type combineType = SourceProps | PluginProps | CommandOptions | undefined;
-export const useI18nTitle = (source: combineType, prop?: string) => {
+export const useI18nTitle = (
+  source: combineType & Record<string, any>,
+  prop?: string
+) => {
   if (!source) return "";
   const { t } = useI18n();
-  return source.i18n
-    ? t(source.i18n)
-    : prop
-    ? (source as Record<string, any>)[prop]
-    : (source as Record<string, any>).label;
+  return source.i18n ? t(source.i18n) : prop ? source[prop] : source.label;
 };

@@ -22,7 +22,7 @@ export default class ContextMenu {
   private options: ContextMenuOptions;
   private items: NodeDirOpProps[];
   private orientation: Orientation;
-  static Target: HTMLElement;
+  static Target: HTMLElement & Record<string, any>;
 
   constructor(options: ContextMenuOptions = {} as ContextMenuOptions) {
     this.uid = makeUUID();
@@ -36,7 +36,7 @@ export default class ContextMenu {
   }
 
   private render(evt: Event, context: this) {
-    if (ContextMenu.Target && !(ContextMenu.Target as any).panelId) {
+    if (ContextMenu.Target && !ContextMenu.Target.panelId) {
       const contextmenu = useContextMenuStore();
       ContextMenu.Target.style.position = "relative";
       const left = (evt as MouseEvent).offsetX;
@@ -44,13 +44,13 @@ export default class ContextMenu {
       const targetId = `context_${this.uid}`;
 
       const defaultStyle = `
-        width:${contextmenu.panelWidth}px;
+        width: ${contextmenu.panelWidth}px;
         height: ${contextmenu.panelHeight}px;
         position: absolute;
         left: ${left}px;
         top: ${top}px;
       `;
-      (ContextMenu.Target as any).panelId = targetId;
+      ContextMenu.Target.panelId = targetId;
       const panelDom = h(
         "div",
         {
@@ -90,9 +90,9 @@ export default class ContextMenu {
     }
   }
   private controllPanel(status: string) {
-    if (ContextMenu.Target && (ContextMenu.Target as any).panelId) {
+    if (ContextMenu.Target && ContextMenu.Target.panelId) {
       const child = query(
-        `[id="${(ContextMenu.Target as any).panelId}"]`,
+        `[id="${ContextMenu.Target.panelId}"]`,
         ContextMenu.Target
       );
       (child as HTMLElement).style.display = status;
@@ -114,9 +114,9 @@ export default class ContextMenu {
   destroy() {
     if (ContextMenu.Target) {
       off(ContextMenu.Target, "contextmenu", this.contextMenuHandler(this));
-      if ((ContextMenu.Target as any).panelId) {
+      if (ContextMenu.Target.panelId) {
         const child = query(
-          `[id="${(ContextMenu.Target as any).panelId}"]`,
+          `[id="${ContextMenu.Target.panelId}"]`,
           ContextMenu.Target
         );
         ContextMenu.Target.removeChild(child as Node);

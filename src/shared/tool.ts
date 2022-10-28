@@ -61,7 +61,7 @@ export function debounce(
 /**
  * array
  */
-export const arrayify = (source: unknown): Array<any> => {
+export const arrayify = <Type>(source: Type): Array<Type> => {
   if (source == null) {
     return [];
   }

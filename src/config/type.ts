@@ -8,6 +8,7 @@ import type {
   I18nVars,
   WidgetVars,
   NodeVars,
+  NamespaceVars,
 } from "./var";
 
 interface CommonProps {
@@ -21,6 +22,8 @@ export interface PluginProps extends CommonProps {
   icon: string;
   label?: string;
   i18n?: string;
+  path?: string;
+  namespace?: Namespace;
   menuComp?: Component;
 }
 
@@ -36,6 +39,7 @@ export interface SourceProps extends CommonProps {
   i18n?: string;
 }
 
+export type Namespace = keyof typeof NamespaceVars;
 /**
  * 文件所属状态 impl
  */
@@ -83,6 +87,7 @@ export type SettingProps = SourceProps & {
 
 export type CanvasCommand = keyof typeof CanvasCommandVars;
 export type SpecialCanvasCommand = "Preview" | "Gird";
+export type NormalCanvasCommand = Exclude<CanvasCommand, SpecialCanvasCommand>;
 
 export type CanvasCommandProps = SourceProps & { command: CanvasCommand };
 
@@ -92,10 +97,16 @@ export type WidgetProps = SourceProps & { command: Widget };
 
 type Tag = keyof typeof TagVars;
 
-export type ComponentProps = SourceProps & {
-  tag: Tag;
-  attributes?: object;
-  props?: object;
-  events?: () => {} | [];
-  children?: [];
-};
+interface ComponentAttrs {}
+interface ComponentProps {}
+interface ComponentEvents {}
+export type ComponentInfo<T> = T extends string
+  ? string
+  : T & {
+      tag: Tag;
+      attributes?: ComponentAttrs;
+      props?: ComponentProps;
+      events?: ComponentEvents;
+      value?: string;
+      children?: ComponentInfo<T>[];
+    };

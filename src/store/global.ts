@@ -4,6 +4,7 @@ import {
   Vars,
   DefaultVars,
   type CanvasCommand,
+  type NormalCanvasCommand,
   type SpecialCanvasCommand,
   type Setting,
   type CommandOptions,
@@ -18,7 +19,7 @@ export const useCommandStore = defineStore("command", {
       showCommand: false,
       command: "" as Setting,
       commandOptions: [] as CommandOptions[],
-      canvasCommand: "" as CanvasCommand,
+      canvasCommand: "" as NormalCanvasCommand,
       canSelected: [] as SpecialCanvasCommand[],
     };
   },
@@ -39,7 +40,7 @@ export const useCommandStore = defineStore("command", {
       if (selects.includes(command as SpecialCanvasCommand)) {
         this.toggleSpecialCommand(command as SpecialCanvasCommand);
       } else {
-        this.canvasCommand = command;
+        this.canvasCommand = command as NormalCanvasCommand;
       }
     },
     toggleSpecialCommand(command: SpecialCanvasCommand) {

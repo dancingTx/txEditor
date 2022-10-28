@@ -1,13 +1,13 @@
 import type { App, DirectiveBinding, VNode } from "vue";
-import { clickOutside } from "../clickoutside";
+import { clickOutside, type ClickOutsideEl } from "../clickoutside";
 import ContextMenu from "./contextMenu";
 const context = "__context_menu__";
-
+type ContextMenuEl = ClickOutsideEl & Record<string, ContextMenu>;
 export const contextMenu = {
-  mounted(el: HTMLElement, binding: DirectiveBinding, vnode: VNode) {
+  mounted(el: ContextMenuEl, binding: DirectiveBinding, vnode: VNode) {
     const contextMenu = new ContextMenu(binding.value);
     contextMenu.setInnerDomTarget(el);
-    (el as any)[context] = contextMenu;
+    el[context] = contextMenu;
     contextMenu.execute();
     clickOutside.mounted(
       el,
@@ -22,14 +22,14 @@ export const contextMenu = {
     );
   },
 
-  updated(el: HTMLElement, binding: DirectiveBinding, vnode: VNode) {
+  updated(el: ContextMenuEl, binding: DirectiveBinding, vnode: VNode) {
     clickOutside.updated(el, binding, vnode);
   },
 
-  beforeUnmount(el: HTMLElement) {
+  beforeUnmount(el: ContextMenuEl) {
     clickOutside.beforeUnmount(el);
-    if ((el as any)[context]) {
-      (el as any)[context].destroy();
+    if (el[context]) {
+      el[context].destroy();
     }
   },
 };

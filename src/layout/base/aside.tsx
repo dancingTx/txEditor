@@ -6,7 +6,7 @@ import { plugins } from "@/config/default";
 import { useLayoutStore } from "@/store/layout";
 import styles from "@/style/module/layout.module.scss";
 const collectPlugins = () => {
-  return plugins.map((plugin) => ({ link: plugin.path, ...plugin.meta }));
+  return plugins.map((plugin) => ({ path: plugin.path, ...plugin.meta }));
 };
 export default defineComponent({
   setup() {

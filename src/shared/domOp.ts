@@ -20,7 +20,7 @@ export const on = (
   } else if (target.attachEvent) {
     target.attachEvent("on" + eventName, eventHandler);
   } else {
-    (target as any)["on" + eventName] = eventHandler;
+    (target as Record<string, any>)["on" + eventName] = eventHandler;
   }
 };
 
@@ -43,7 +43,7 @@ export const off = (
   } else if (target.detachEvent) {
     target.detachEvent("on" + eventName, eventHandler);
   } else {
-    let event = (target as any)["on" + eventName];
+    let event = (target as Record<string, any>)["on" + eventName];
     if (event) {
       event = null;
     }
@@ -157,8 +157,8 @@ export const createElement = (
   tag: string,
   id?: string,
   className?: string,
-  props?: {},
-  attributes?: HTMLAttributes
+  props?: {} & Record<string, any>,
+  attributes?: HTMLAttributes & Record<string, any>
 ): HTMLElement => {
   const domEl = document.createElement(tag);
   if (id) {
@@ -170,16 +170,16 @@ export const createElement = (
 
   if (props) {
     Object.keys(props).forEach((key) => {
-      if ((props as any)[key] != null) {
-        (domEl as any)[key] = (props as any)[key];
+      if (props[key] != null) {
+        (domEl as Record<string, any>)[key] = props[key];
       }
     });
   }
 
   if (attributes) {
     Object.keys(attributes).forEach((key) => {
-      if ((attributes as any)[key] != null) {
-        domEl.setAttribute(key, (attributes as any)[key]);
+      if (attributes[key] != null) {
+        domEl.setAttribute(key, attributes[key]);
       }
     });
   }

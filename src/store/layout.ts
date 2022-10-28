@@ -1,6 +1,11 @@
 import { defineStore } from "pinia";
 import { screen2BodyRatio } from "@/shared/tool";
-import { Vars, DarkModeVars, DefaultVars } from "@/config/default";
+import {
+  Vars,
+  DarkModeVars,
+  DefaultVars,
+  type Namespace,
+} from "@/config/default";
 interface LayoutState {
   isCollapse: boolean;
   isCollapseProp: boolean;
@@ -9,6 +14,7 @@ interface LayoutState {
   hasLogo: boolean;
 }
 interface LayoutProps {
+  namespace?: Namespace;
   pluginUid: string;
   menuWidth: number;
   canvasSize: string;
@@ -26,6 +32,7 @@ export const useLayoutStore = defineStore("layout", {
       hasLogo: false,
       // cache value
       pluginUid: "",
+      namespace: "" as Namespace,
       menuWidth: 0,
       canvasSize: "",
       canvasWidth: Vars.__CANVAS_WIDTH__,
@@ -57,8 +64,11 @@ export const useLayoutStore = defineStore("layout", {
     switchPropsBar(): void {
       this.switchState({ key: "hasPropsBar", value: !this.hasPropsBar });
     },
-    storePluginUid(uid: string): void {
+    storePluginUid(uid: string, namespace?: Namespace): void {
       this.pluginUid = uid;
+      if (namespace) {
+        this.namespace = namespace;
+      }
     },
     storeMenuWidth(width: number): void {
       this.menuWidth = width;

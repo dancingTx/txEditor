@@ -2,7 +2,7 @@ import { h, Fragment, type VNode } from "vue";
 import {
   DefaultVars,
   Vars,
-  type CanvasCommand,
+  type NormalCanvasCommand,
   type SpecialCanvasCommand,
 } from "@/config/default";
 import styles from "@/style/module/components.module.scss";
@@ -44,7 +44,7 @@ export default class Canvas {
     return h("div", null, [h("div", [1111, slot])]);
   }
 
-  private executeCommand2Vnode(slot: VNode, type: CanvasCommand) {
+  private executeCommand2Vnode(slot: VNode, type: NormalCanvasCommand) {
     console.log(type, "tyep");
     return slot;
   }
@@ -53,7 +53,7 @@ export default class Canvas {
     return h("div", null, this.uid);
   }
 
-  render(type?: CanvasCommand, inherent?: SpecialCanvasCommand[]) {
+  render(type?: NormalCanvasCommand, inherent?: SpecialCanvasCommand[]) {
     let slot = this.renderRawContent();
 
     if (inherent && inherent.length) {

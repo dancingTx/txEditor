@@ -2,7 +2,7 @@ import { on } from "@/shared/domOp";
 import { makeUUID } from "@/shared/variables";
 import type { App, DirectiveBinding, VNode } from "vue";
 
-const nodeList: HTMLElement[] = [];
+const nodeList: (HTMLElement & Record<string, any>)[] = [];
 const ctx = "@@clickoutsideContext";
 const uuid = makeUUID();
 let startClick: MouseEvent;
@@ -11,19 +11,26 @@ let seed = 0;
 interface Options {}
 
 interface ValueProps extends Options {
-  handler: (e: Event) => void;
+  handler: (e?: Event) => void;
 }
+
+interface CtxProps {
+  id?: number;
+  documentHandler?: (e: MouseEvent, evt: MouseEvent) => void;
+  methodName?: string;
+  bindingFn?: (e?: Event) => void;
+}
+
+export type ClickOutsideEl = HTMLElement & Record<string, CtxProps>;
 
 on(document, "mousedown", (e: Event) => (startClick = e as MouseEvent));
 
 on(document, "mouseup", (e: Event) => {
-  nodeList.forEach((node) =>
-    (node as Record<string, any>)[ctx].documentHandler(e, startClick)
-  );
+  nodeList.forEach((node) => node[ctx].documentHandler(e, startClick));
 });
 
 function createDocumentHandler(
-  el: HTMLElement,
+  el: ClickOutsideEl,
   binding: DirectiveBinding,
   vnode: VNode & Record<string, any>
 ) {
@@ -39,15 +46,10 @@ function createDocumentHandler(
       return;
     }
 
-    if (
-      uuid &&
-      (el as Record<string, any>)[ctx].methodName &&
-      vnode[(el as Record<string, any>)[ctx].methodName]
-    ) {
-      vnode[(el as Record<string, any>)[ctx].methodName]();
+    if (uuid && el[ctx].methodName && vnode[el[ctx].methodName]) {
+      vnode[el[ctx].methodName]();
     } else {
-      (el as Record<string, any>)[ctx].bindingFn &&
-        (el as Record<string, any>)[ctx].bindingFn();
+      typeof el[ctx].bindingFn === "function" && el[ctx].bindingFn();
     }
   };
 }
@@ -61,11 +63,11 @@ function createDocumentHandler(
  * ```
  */
 export const clickOutside = {
-  mounted(el: HTMLElement, binding: DirectiveBinding, vnode: VNode) {
+  mounted(el: ClickOutsideEl, binding: DirectiveBinding, vnode: VNode) {
     nodeList.push(el);
     const id = seed++;
     const { handler } = binding.value as ValueProps;
-    (el as Record<string, any>)[ctx] = {
+    el[ctx] = {
       id,
       documentHandler: createDocumentHandler(el, binding, vnode),
       methodName: uuid,
@@ -73,30 +75,23 @@ export const clickOutside = {
     };
   },
 
-  updated(el: HTMLElement, binding: DirectiveBinding, vnode: VNode) {
+  updated(el: ClickOutsideEl, binding: DirectiveBinding, vnode: VNode) {
     const { handler } = binding.value as ValueProps;
-    (el as Record<string, any>)[ctx].documentHandler = createDocumentHandler(
-      el,
-      binding,
-      vnode
-    );
-    (el as Record<string, any>)[ctx].methodName = uuid;
-    (el as Record<string, any>)[ctx].bindingFn = handler;
+    el[ctx].documentHandler = createDocumentHandler(el, binding, vnode);
+    el[ctx].methodName = uuid;
+    el[ctx].bindingFn = handler;
   },
 
-  beforeUnmount(el: HTMLElement) {
+  beforeUnmount(el: ClickOutsideEl) {
     let len = nodeList.length;
 
     for (let i = 0; i < len; i++) {
-      if (
-        (nodeList[i] as Record<string, any>)[ctx].id ===
-        (el as Record<string, any>)[ctx].id
-      ) {
+      if (nodeList[i][ctx].id === el[ctx].id) {
         nodeList.splice(i, 1);
         break;
       }
     }
-    delete (el as Record<string, any>)[ctx];
+    delete el[ctx];
   },
 };
 export default (app: App) => app.directive("clickoutside", clickOutside);

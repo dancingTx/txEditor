@@ -4,6 +4,7 @@ import {
   ref,
   getCurrentInstance,
   reactive,
+  computed,
 } from "vue";
 import Menu from "@/components/menu";
 import bus from "@/shared/bus";
@@ -15,6 +16,7 @@ import {
 import TreeNode, { type NodeInfo, type NodeType } from "../core/tree/Node";
 import { useContextMenuStore } from "@/store/global";
 import { useNodeStore } from "@/store/node";
+import { useLayoutStore } from "@/store/layout";
 export default defineComponent({
   setup() {
     const app = getCurrentInstance();
@@ -22,9 +24,12 @@ export default defineComponent({
     const state = reactive({
       currNode: null as unknown,
     });
+    const layout = useLayoutStore();
     const nodeStore = useNodeStore();
     const contextMenu = useContextMenuStore();
-
+    const nodeTree = computed(
+      () => layout.namespace && nodeStore[layout.namespace].raw
+    );
     const clickShortcutMenu = (tabInfo: SourceProps) => {
       if (tabInfo.enLabel === "workspace") {
         contextMenu.setPanelOrientation("left top");
@@ -57,7 +62,7 @@ export default defineComponent({
       if (state.currNode) {
         (state.currNode as TreeNode).add(treeNode);
       } else {
-        nodeStore.treeNodeList.add(treeNode);
+        nodeTree.value?.add(treeNode);
       }
 
       if (!TreeNode.id) {
@@ -69,7 +74,7 @@ export default defineComponent({
       if (node.parentNode) {
         node.parentNode.update(node, "", true);
       } else {
-        nodeStore.treeNodeList.update(node, "", true);
+        nodeTree.value?.update(node, "", true);
       }
       node.renderNode();
     };
@@ -78,7 +83,7 @@ export default defineComponent({
       if (node.parentNode) {
         node.parentNode.remove(node);
       } else {
-        nodeStore.treeNodeList.remove(node);
+        nodeTree.value?.remove(node);
       }
     };
 
@@ -118,7 +123,7 @@ export default defineComponent({
         onClickContextMenu={clickShortcutMenu}
       >
         {{
-          workspace: () => nodeStore.treeNodeList.renderTreeView(),
+          workspace: () => nodeTree.value?.renderTreeView(),
         }}
       </Menu>
     );

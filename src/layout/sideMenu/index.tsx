@@ -36,7 +36,7 @@ export default defineComponent({
     );
     return () => (
       <div class={styles.layout_menu}>
-        <Menu title={useI18nTitle(pluginItem.value)}>
+        <Menu title={pluginItem.value && useI18nTitle(pluginItem.value)}>
           {pluginItem.value?.menuComp && (
             <KeepAlive>{h(resolveComponent(pluginItem.value?.uid))}</KeepAlive>
           )}

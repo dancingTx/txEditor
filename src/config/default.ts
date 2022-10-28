@@ -9,16 +9,19 @@ import type {
   SourceProps,
   ScreenProps,
   CanvasCommandProps,
-  ComponentProps,
   SettingProps,
   WidgetProps,
   CommandOptions,
   CommandGroupItem,
   NodeDirOpProps,
+  ComponentInfo,
+  Namespace,
 } from "./type";
 import { makeUUID } from "@/shared/variables";
 
-export const plugins: (RouteRecordRaw & { meta: PluginProps })[] = [
+export const plugins: (RouteRecordRaw & {
+  meta: PluginProps;
+})[] = [
   {
     path: "sourceManage",
     name: "sourceManage",
@@ -28,6 +31,7 @@ export const plugins: (RouteRecordRaw & { meta: PluginProps })[] = [
       icon: "edit",
       label: "资源管理器",
       i18n: "sourceManage.menu.title",
+      namespace: "sourceManage",
       menuComp: defineAsyncComponent(
         () => import("@/packages/sourceManage/menu")
       ),
@@ -42,6 +46,7 @@ export const plugins: (RouteRecordRaw & { meta: PluginProps })[] = [
       icon: "code",
       label: "低代码平台",
       i18n: "lowCode.menu.title",
+      namespace: "lowCode",
       menuComp: defineAsyncComponent(() => import("@/packages/lowCode/menu")),
     },
   },
@@ -54,6 +59,7 @@ export const plugins: (RouteRecordRaw & { meta: PluginProps })[] = [
       icon: "flow",
       label: "流程设计器",
       i18n: "flowProcess.menu.title",
+      namespace: "flowProcess",
       menuComp: defineAsyncComponent(
         () => import("@/packages/flowProcess/menu")
       ),
@@ -204,8 +210,6 @@ export const canvasCommands: CanvasCommandProps[] = [
     i18n: "canvas.delete",
   },
 ];
-
-export const componentList: ComponentProps[] = [];
 
 export const widgets: WidgetProps[] = [
   {
@@ -384,5 +388,23 @@ export const nodeSettings: NodeDirOpProps[] = [
     label: "删除文件",
     command: "DeleteNode",
     i18n: "workspace.node.delete",
+  },
+];
+
+export const componentList: ComponentInfo<SourceProps>[] = [
+  {
+    uid: makeUUID(),
+    tag: "Text",
+    label: "文本",
+  },
+  {
+    uid: makeUUID(),
+    tag: "Button",
+    label: "按钮",
+  },
+  {
+    uid: makeUUID(),
+    tag: "Image",
+    label: "图片",
   },
 ];

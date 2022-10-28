@@ -35,6 +35,6 @@ app.use(createPinia()).use(router).use(i18n).component("svg-icon", svgIcon);
 /**
  * 创建默认节点
  */
-useNodeStore().createDefaultNode();
+useNodeStore().createDefaultNode("sourceManage");
 
 app.mount("#app");

@@ -15,7 +15,7 @@ export const buildKeyValueMap = (
 ) => {
   if (!typeOf(source, "object") && !typeOf(source, "array")) return source;
   return Object.keys(source).reduce((total, curr) => {
-    const info = {} as Record<string | number, any>;
+    const info = {} as Record<keyof any, any>;
     info[keyName] = Array.isArray(source)
       ? Number(curr)
       : Number.isNaN(Number(curr))
@@ -24,7 +24,7 @@ export const buildKeyValueMap = (
     info[valueName] = (source as any)[curr];
     total.push(info);
     return total;
-  }, [] as Array<Record<string | number, any>>);
+  }, [] as Array<Record<keyof any, any>>);
 };
 export const valueMapLabel = (source: [] | object) => {
   return buildKeyValueMap(source, "value", "label");

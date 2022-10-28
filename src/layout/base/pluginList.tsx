@@ -4,28 +4,32 @@ import { useI18nTitle } from "@/hook";
 import type { PluginProps } from "@/config/default";
 import { useLayoutStore } from "@/store/layout";
 import styles from "@/style/module/layout.module.scss";
-type Props = PluginProps & { link: string };
+import { useRoute } from "vue-router";
+
 export default defineComponent({
   props: {
     items: {
-      type: Array as PropType<Props[]>,
+      type: Array as PropType<PluginProps[]>,
       default: () => [],
     },
   },
   setup(props) {
+    const route = useRoute();
+    const layout = useLayoutStore();
     const state = reactive({
-      isActive: props.items[0]?.uid,
+      isActive: route.name,
     });
-    const storePluginUid = (uid: string) => {
-      state.isActive = uid;
-      const layout = useLayoutStore();
-      layout.storePluginUid(uid);
-    };
-    storePluginUid(state.isActive);
-    const goto = (item: Props) => {
-      storePluginUid(item.uid);
+
+    const item = props.items.find((item) => item.path === state.isActive);
+    if (item) {
+      layout.storePluginUid(item.uid, item.namespace);
+    }
+
+    const goto = (item: PluginProps) => {
+      state.isActive = item.path;
+      layout.storePluginUid(item.uid, item.namespace);
       return router.push({
-        name: item.link,
+        name: item.path,
       });
     };
 
@@ -37,7 +41,7 @@ export default defineComponent({
             class={item.label && styles.aside_label}
           >
             <div
-              class={[state.isActive === item.uid && styles.is_active]}
+              class={[state.isActive === item.path && styles.is_active]}
               onClick={() => goto(item)}
             >
               <svg-icon

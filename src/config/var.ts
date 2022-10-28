@@ -86,3 +86,9 @@ export enum FileIconVars {
   css = "css",
   js = "javascript",
 }
+
+export enum NamespaceVars {
+  sourceManage = "sourceManage",
+  flowProcess = "flowProcess",
+  lowCode = "lowCode",
+}
