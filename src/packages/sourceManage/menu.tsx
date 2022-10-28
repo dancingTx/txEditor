@@ -16,7 +16,6 @@ import {
 import TreeNode, { type NodeInfo, type NodeType } from "../core/tree/Node";
 import { useContextMenuStore } from "@/store/global";
 import { useNodeStore } from "@/store/node";
-import { useLayoutStore } from "@/store/layout";
 export default defineComponent({
   setup() {
     const app = getCurrentInstance();
@@ -24,12 +23,9 @@ export default defineComponent({
     const state = reactive({
       currNode: null as unknown,
     });
-    const layout = useLayoutStore();
     const nodeStore = useNodeStore();
     const contextMenu = useContextMenuStore();
-    const nodeTree = computed(
-      () => layout.namespace && nodeStore[layout.namespace].raw
-    );
+    const nodeTree = computed(() => nodeStore.getNodeListNS());
     const clickShortcutMenu = (tabInfo: SourceProps) => {
       if (tabInfo.enLabel === "workspace") {
         contextMenu.setPanelOrientation("left top");

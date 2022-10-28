@@ -20,7 +20,7 @@ interface TreeNodeOptions {
   isDeleted?: boolean;
   isMoved?: boolean;
 }
-interface NodeValue {
+export interface NodeValue {
   uid?: string;
   kind: NodeStatus;
   icon?: string;

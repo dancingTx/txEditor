@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import TreeNodeList from "@/packages/core/tree/NodeList";
 import TreeNode from "@/packages/core/tree/Node";
 import { NamespaceVars, type Namespace } from "@/config/default";
+import { useLayoutStore } from "@/store/layout";
 interface TreeNodeInfo {
   raw: TreeNodeList;
   id: string;
@@ -22,18 +23,20 @@ const createNodeTreeViaNamespace = () => {
 export const useNodeStore = defineStore("node", {
   state: () => {
     return createNodeTreeViaNamespace();
-    // return {
-    //   treeNodeList: new TreeNodeList(),
-    //   // treeNodeListId:
-    // };
   },
   actions: {
+    getNodeListNS() {
+      const layout = useLayoutStore();
+      if (layout.namespace) {
+        return this[layout.namespace].raw;
+      }
+      return new TreeNodeList();
+    },
     createDefaultNode(namespace: Namespace) {
       const treeNode = new TreeNode("node", {
         kind: "Created",
         label: "default",
       });
-      // this.treeNodeList.add(treeNode);
       this[namespace].raw.add(treeNode);
       this[namespace].id = this[namespace].raw.uid;
     },

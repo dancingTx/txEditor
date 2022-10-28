@@ -18,13 +18,9 @@ export default defineComponent({
     const layout = useLayoutStore();
     const nodeStore = useNodeStore();
     const keepAliveNodeList = computed(() =>
-      layout.namespace
-        ? nodeStore[layout.namespace].raw.getKeepAliveItems()
-        : []
+      nodeStore.getNodeListNS().getKeepAliveItems()
     );
-    const activateNode = computed(
-      () => layout.namespace && nodeStore[layout.namespace].raw.activate
-    );
+    const activateNode = computed(() => nodeStore.getNodeListNS().activate);
     const renderDarkLight = () => (
       <div class={styles.darkset}>
         <svg-icon
@@ -70,9 +66,7 @@ export default defineComponent({
                     activateNode.value?.uid === node.uid && styles.is_active,
                   ]}
                   onClick={() => {
-                    if (layout.namespace) {
-                      nodeStore[layout.namespace].raw.activateNode(node);
-                    }
+                    nodeStore.getNodeListNS().activateNode(node);
                   }}
                   onMouseenter={() => (state.isHover = node.uid)}
                   onMouseleave={() => (state.isHover = "")}
