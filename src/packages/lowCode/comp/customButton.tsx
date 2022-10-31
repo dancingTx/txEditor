@@ -3,12 +3,12 @@ import type { ComponentInfo } from "@/config/default";
 
 export default defineComponent({
   props: {
-    componentInfo: {
+    value: {
       type: String as PropType<ComponentInfo<string>>,
       required: true,
     },
   },
   setup(props) {
-    return () => <button>{props.componentInfo}</button>;
+    return () => <button>{props.value}</button>;
   },
 });

@@ -1,30 +1,29 @@
-import { computed, defineComponent, type PropType } from "vue";
+import { defineComponent, ref, watch, type PropType } from "vue";
 import type { ComponentInfo } from "@/config/default";
 
 export default defineComponent({
   props: {
-    componentInfo: {
+    value: {
       type: String as PropType<ComponentInfo<string>>,
       required: true,
     },
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const modelValue = computed(() => ({
-      get() {
-        return props.componentInfo;
-      },
-      set(value: string) {
+    const modelValue = ref(props.value);
+    watch(
+      () => modelValue.value,
+      (value) => {
         emit("update:modelValue", value);
-      },
-    }));
+      }
+    );
     return () => (
       <textarea
         name=""
         id=""
         cols="10"
         rows="3"
-        v-model={modelValue}
+        v-model={modelValue.value}
       ></textarea>
     );
   },

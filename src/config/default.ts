@@ -15,7 +15,6 @@ import type {
   CommandGroupItem,
   NodeDirOpProps,
   ComponentInfo,
-  Namespace,
 } from "./type";
 import { makeUUID } from "@/shared/variables";
 
@@ -395,16 +394,34 @@ export const componentList: ComponentInfo<SourceProps>[] = [
   {
     uid: makeUUID(),
     tag: "Text",
+    icon: "text",
     label: "文本",
+    // render
+    value: "文字",
+    component: defineAsyncComponent(
+      () => import("@/packages/lowCode/comp/customText")
+    ),
   },
   {
     uid: makeUUID(),
     tag: "Button",
+    icon: "button",
     label: "按钮",
+    // render
+    value: "按钮",
+    component: defineAsyncComponent(
+      () => import("@/packages/lowCode/comp/customButton")
+    ),
   },
   {
     uid: makeUUID(),
     tag: "Image",
+    icon: "picture",
     label: "图片",
+    // render
+    value: "图片",
+    component: defineAsyncComponent(
+      () => import("@/packages/lowCode/comp/customPicture")
+    ),
   },
 ];

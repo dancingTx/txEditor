@@ -55,9 +55,9 @@ export const enum CanvasCommandVars {
 }
 
 export const enum TagVars {
-  Button = "button",
-  Text = "text",
-  Image = "image",
+  Button = "CustomButton",
+  Text = "CustomText",
+  Image = "CustomPicture",
 }
 
 export const enum DarkModeVars {

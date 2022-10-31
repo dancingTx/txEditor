@@ -1,4 +1,4 @@
-import type { Component } from "vue";
+import type { Component, CSSProperties } from "vue";
 import type {
   NodeStatusVars,
   CanvasCommandVars,
@@ -11,7 +11,7 @@ import type {
   NamespaceVars,
 } from "./var";
 
-interface CommonProps {
+export interface CommonProps {
   uid: string;
 }
 /**
@@ -98,8 +98,13 @@ export type WidgetProps = SourceProps & { command: Widget };
 type Tag = keyof typeof TagVars;
 
 interface ComponentAttrs {}
-interface ComponentProps {}
+interface ComponentProps {
+  id?: string;
+  className?: string;
+  style?: CSSProperties;
+}
 interface ComponentEvents {}
+interface ComponentAnimation {}
 export type ComponentInfo<T> = T extends string
   ? string
   : T & {
@@ -107,6 +112,8 @@ export type ComponentInfo<T> = T extends string
       attributes?: ComponentAttrs;
       props?: ComponentProps;
       events?: ComponentEvents;
+      animates?: ComponentAnimation[];
       value?: string;
       children?: ComponentInfo<T>[];
+      component?: Component;
     };

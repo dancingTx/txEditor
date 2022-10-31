@@ -1,12 +1,12 @@
 import type { Component } from "vue";
-import type { PluginProps } from "@/config/default";
+import type { CommonProps } from "@/config/default";
 
-export const compoundComponents = (
-  list: PluginProps[],
-  compType: keyof PluginProps
+export const compoundComponents = <Props extends CommonProps>(
+  list: Props[],
+  compType: keyof Props
 ): Record<string, Component> => {
   return list.reduce((total, curr) => {
-    if (curr[compType]) {
+    if (curr[compType] && curr) {
       total[curr.uid] = curr[compType] as Component;
     }
     return total;

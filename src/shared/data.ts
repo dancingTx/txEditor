@@ -30,4 +30,17 @@ export const valueMapLabel = (source: [] | object) => {
   return buildKeyValueMap(source, "value", "label");
 };
 
+export const deepClone = <Source>(source: Source): Source => {
+  if (typeof source !== "object" || source === null) return source;
+
+  const target = Array.isArray(source) ? [] : {};
+
+  for (const key in source) {
+    if (Object.hasOwnProperty.call(source, key)) {
+      (target as Record<string, any>)[key] = deepClone(source[key]);
+    }
+  }
+  return target as Source;
+};
+
 export const noop = () => {};

@@ -271,7 +271,6 @@
         display: flex;
         flex-wrap: wrap;
         font-size: $--font-small;
-        text-align: center;
       }
       &_item {
         width: 100px;
@@ -282,9 +281,19 @@
         border: 2px solid $--comp-bg-color;
         box-shadow: inset 0px 0px 10px 5px
           rgba($color: $--comp-bg-color, $alpha: 0.2);
+        text-align: center;
+        background-color: transparent;
         color: $--color-bwmix1;
         user-select: none;
         cursor: pointer;
+      }
+      &_label {
+        vertical-align: middle;
+      }
+      &_icon {
+        margin-right: 5px;
+        vertical-align: middle;
+        font-size: $--font-base;
       }
     }
   }
