@@ -5,13 +5,14 @@ import {
   type NormalCanvasCommand,
   type SpecialCanvasCommand,
 } from "@/config/default";
+import { makeUUID } from "@/shared/variables";
 import styles from "@/style/module/components.module.scss";
 
 export default class Canvas {
   public uid: string;
 
-  constructor(uid: string) {
-    this.uid = uid;
+  constructor(uid?: string) {
+    this.uid = uid || makeUUID();
   }
 
   private renderGird(slot: VNode) {
@@ -49,13 +50,16 @@ export default class Canvas {
     return slot;
   }
 
-  private renderRawContent() {
-    return h("div", null, this.uid);
+  private renderRawContent(content?: VNode): VNode {
+    return content || h("div");
   }
 
-  render(type?: NormalCanvasCommand, inherent?: SpecialCanvasCommand[]) {
-    let slot = this.renderRawContent();
-
+  render(
+    type?: NormalCanvasCommand,
+    inherent?: SpecialCanvasCommand[],
+    content?: VNode
+  ) {
+    let slot = this.renderRawContent(content);
     if (inherent && inherent.length) {
       for (let i = 0, len = inherent.length; i < len; i++) {
         slot = (this as any)[`render${inherent[i]}`](slot);

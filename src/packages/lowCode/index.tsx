@@ -10,6 +10,8 @@ import {
 import { on, off, query } from "@/shared/domOp";
 import { deepClone } from "@/shared/data";
 import { compoundComponents } from "@/shared/component";
+import CanvasClass from "@/packages/core/canvas";
+import CanvasCommand from "@/packages/core/canvas/command";
 import styles from "@/style/module/components.module.scss";
 const components = compoundComponents<ComponentInfo<SourceProps>>(
   componentList,
@@ -98,8 +100,12 @@ export default defineComponent({
       // evt.preventDefault();
       evt.stopPropagation();
     };
+    const C = new CanvasClass();
+    const Command = new CanvasCommand();
     const renderCustomComponent = (item: ComponentInfo<SourceProps>) => {
-      return (
+      return C.render(
+        Command.command,
+        Command.canSelected,
         <div
           style={{
             position: "absolute",
@@ -113,13 +119,17 @@ export default defineComponent({
         </div>
       );
     };
+    const initRender = () => {
+      if (state.bucket.length) {
+        return state.bucket.map((item) => renderCustomComponent(item));
+      }
+      return C.render(Command.command, Command.canSelected);
+    };
     return () => (
       <div>
-        <ToolKit></ToolKit>
+        <ToolKit canvasCommand={Command}></ToolKit>
         <div onDrop={handleDrop} onDragover={handleDropOver}>
-          <Canvas ref={canvas}>
-            {state.bucket.map((item) => renderCustomComponent(item))}
-          </Canvas>
+          <Canvas ref={canvas}>{initRender()}</Canvas>
         </div>
       </div>
     );

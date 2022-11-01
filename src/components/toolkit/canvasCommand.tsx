@@ -1,4 +1,4 @@
-import { defineComponent, reactive } from "vue";
+import { defineComponent, reactive, computed, type PropType } from "vue";
 import {
   DefaultVars,
   screenSize,
@@ -7,20 +7,29 @@ import {
   type SpecialCanvasCommand,
 } from "@/config/default";
 import { useLayoutStore } from "@/store/layout";
-import { useCommandStore } from "@/store/global";
+import { useNodeStore } from "@/store/node";
 import { screen2BodyRatio } from "@/shared/tool";
 import { useI18nTitle } from "@/hook";
+import type CanvasCommand from "@/packages/core/canvas/command";
 import styles from "@/style/module/components.module.scss";
 export default defineComponent({
-  setup() {
+  props: {
+    canvasCommand: {
+      type: Object as PropType<CanvasCommand>,
+    },
+  },
+  setup(props) {
+    const node = useNodeStore();
     const layout = useLayoutStore();
-    const global = useCommandStore();
     const state = reactive({
       isActiveScreenSize: "",
       isManual: false,
       canvasWidth: layout.canvasWidth,
       canvasHeight: layout.canvasHeight,
     });
+    const canvasCommand = computed(
+      () => node.getNodeListNS().activate?.canvasCommand || props.canvasCommand
+    );
     const resizeScreen = (item: ScreenProps): void => {
       state.isManual = false;
       state.isActiveScreenSize = item.uid;
@@ -82,11 +91,11 @@ export default defineComponent({
             <div
               class={[
                 styles.canvas_size_wrapper,
-                global.canSelected.includes(
+                canvasCommand.value?.canSelected.includes(
                   item.command as SpecialCanvasCommand
                 ) && styles.is_active,
               ]}
-              onClick={() => global.invokeCanvasCommand(item.command)}
+              onClick={() => canvasCommand.value?.invoke(item.command)}
             >
               <svg-icon
                 iconClass={item.icon}

@@ -3,24 +3,18 @@ import { defineStore } from "pinia";
 import {
   Vars,
   DefaultVars,
-  type CanvasCommand,
-  type NormalCanvasCommand,
-  type SpecialCanvasCommand,
   type Setting,
   type CommandOptions,
 } from "@/config/default";
 import type { Orientation } from "@/directive/contextMenu/contextMenu";
 import { screen2BodyRatio } from "@/shared/tool";
 
-const selects: SpecialCanvasCommand[] = ["Gird", "Preview"];
 export const useCommandStore = defineStore("command", {
   state: () => {
     return {
       showCommand: false,
       command: "" as Setting,
       commandOptions: [] as CommandOptions[],
-      canvasCommand: "" as NormalCanvasCommand,
-      canSelected: [] as SpecialCanvasCommand[],
     };
   },
   actions: {
@@ -35,27 +29,6 @@ export const useCommandStore = defineStore("command", {
       this.showCommand = false;
       this.command = "" as Setting;
       this.commandOptions = [];
-    },
-    invokeCanvasCommand(command: CanvasCommand) {
-      if (selects.includes(command as SpecialCanvasCommand)) {
-        this.toggleSpecialCommand(command as SpecialCanvasCommand);
-      } else {
-        this.canvasCommand = command as NormalCanvasCommand;
-      }
-    },
-    toggleSpecialCommand(command: SpecialCanvasCommand) {
-      let i = 0;
-      let len = this.canSelected.length;
-      for (; i < len; i++) {
-        const item = this.canSelected[i];
-        if (item === command) {
-          this.canSelected.splice(i, 1);
-          break;
-        }
-      }
-      if (i === len) {
-        this.canSelected.push(command);
-      }
     },
   },
 });

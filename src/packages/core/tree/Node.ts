@@ -1,6 +1,7 @@
 import { h } from "vue";
 import svgIcon from "@/components/svgIcon";
 import Canvas from "../canvas";
+import CanvasCommand from "../canvas/command";
 import type TreeNodeList from "./NodeList";
 import { makeUUID } from "@/shared/variables";
 import { getExtName } from "@/shared/tool";
@@ -55,6 +56,7 @@ export default class TreeNode {
   public children: Set<TreeNode>;
   public container?: TreeNodeList;
   public canvas?: Canvas;
+  public canvasCommand?: CanvasCommand;
   static id?: number;
   constructor(
     type: NodeType,
@@ -124,6 +126,7 @@ export default class TreeNode {
     if (isNode && !this.canvas) {
       this.alive();
       this.canvas = new Canvas(this.uid);
+      this.canvasCommand = new CanvasCommand(this.uid);
     }
   }
 
