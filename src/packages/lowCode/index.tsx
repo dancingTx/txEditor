@@ -1,9 +1,18 @@
-import { defineComponent, reactive, ref, h, resolveComponent } from "vue";
+import {
+  defineComponent,
+  reactive,
+  ref,
+  h,
+  resolveComponent,
+  getCurrentInstance,
+  onMounted,
+} from "vue";
 import ToolKit from "@/components/toolkit/canvasCommand";
 import Canvas from "@/components/canvas";
 import {
   Vars,
   componentList,
+  type CanvasCommandProps,
   type ComponentInfo,
   type SourceProps,
 } from "@/config/default";
@@ -12,7 +21,9 @@ import { deepClone } from "@/shared/data";
 import { compoundComponents } from "@/shared/component";
 import CanvasClass from "@/packages/core/canvas";
 import CanvasCommand from "@/packages/core/canvas/command";
+import { useContextMenuStore } from "@/store/global";
 import styles from "@/style/module/components.module.scss";
+import bus from "@/shared/bus";
 const components = compoundComponents<ComponentInfo<SourceProps>>(
   componentList,
   "component"
@@ -20,10 +31,13 @@ const components = compoundComponents<ComponentInfo<SourceProps>>(
 export default defineComponent({
   components,
   setup() {
+    const app = getCurrentInstance();
+
     const canvas = ref(null);
     const state = reactive({
       bucket: [] as ComponentInfo<SourceProps>[],
     });
+    const contextMenu = useContextMenuStore();
     const handleDrop = (evt: DragEvent) => {
       const compIndex = Number(evt.dataTransfer?.getData("compIndex"));
       if (compIndex || compIndex === 0) {
@@ -100,36 +114,57 @@ export default defineComponent({
       // evt.preventDefault();
       evt.stopPropagation();
     };
+    const showShortCutMenu = () => {
+      contextMenu.setPanelOrientation("left top");
+      contextMenu.setPanelType("canvas:item");
+      if (app?.uid) {
+        contextMenu.setUniqueId(app?.uid);
+      }
+      contextMenu.show();
+    };
+
     const C = new CanvasClass();
     const Command = new CanvasCommand();
-    const renderCustomComponent = (item: ComponentInfo<SourceProps>) => {
+    const renderCustomComponent = () => {
       return C.render(
         Command.command,
         Command.canSelected,
-        <div
-          style={{
-            position: "absolute",
-            ...item.props?.style,
-          }}
-          onMousedown={(evt: MouseEvent) => handleMouseDown(item, evt)}
-        >
-          {h(resolveComponent(item.uid), {
-            value: item.value,
-          })}
+        <div>
+          {state.bucket.map((item, index) => (
+            <div
+              style={{
+                position: "absolute",
+                zIndex: index,
+                ...item.props?.style,
+              }}
+              onMousedown={(evt: MouseEvent) => handleMouseDown(item, evt)}
+              onContextmenu={showShortCutMenu}
+            >
+              {h(resolveComponent(item.uid), {
+                value: item.value,
+              })}
+            </div>
+          ))}
         </div>
       );
     };
-    const initRender = () => {
-      if (state.bucket.length) {
-        return state.bucket.map((item) => renderCustomComponent(item));
-      }
-      return C.render(Command.command, Command.canSelected);
+    const processCommand = (info: CanvasCommandProps) => {
+      console.log(info, "info");
     };
+
+    onMounted(() => {
+      bus.on("contextMenu:clickItem", (info) => {
+        if (contextMenu.uid === app?.uid) {
+          processCommand(info as CanvasCommandProps);
+          contextMenu.hide();
+        }
+      });
+    });
     return () => (
       <div>
         <ToolKit canvasCommand={Command}></ToolKit>
         <div onDrop={handleDrop} onDragover={handleDropOver}>
-          <Canvas ref={canvas}>{initRender()}</Canvas>
+          <Canvas ref={canvas}>{renderCustomComponent()}</Canvas>
         </div>
       </div>
     );

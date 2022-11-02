@@ -69,7 +69,6 @@ export default class Canvas {
     if (type) {
       slot = this.executeCommand2Vnode(slot, type);
     }
-
     return slot;
   }
 }

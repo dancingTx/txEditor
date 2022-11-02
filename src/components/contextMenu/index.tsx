@@ -9,18 +9,21 @@ import {
   workspaceSettings,
   dirSettings,
   nodeSettings,
+  canvasItemSettings,
   type SettingProps,
   type NodeDirOpProps,
+  type CanvasItemProps,
 } from "@/config/default";
 import styles from "@/style/module/components.module.scss";
 const mapCommandPanel: Record<
   ContextMenuType,
-  (NodeDirOpProps | SettingProps)[]
+  (NodeDirOpProps | SettingProps | CanvasItemProps)[]
 > = {
   "global:settings": settings,
   "menu:workspace": workspaceSettings,
   "workspace:tree": dirSettings,
   "workspace:node": nodeSettings,
+  "canvas:item": canvasItemSettings,
 };
 const __OFFSET_DISTANCE__ = 1;
 export default defineComponent({

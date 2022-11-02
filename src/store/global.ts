@@ -37,7 +37,8 @@ export type ContextMenuType =
   | "global:settings"
   | "menu:workspace"
   | "workspace:tree"
-  | "workspace:node";
+  | "workspace:node"
+  | "canvas:item";
 type NumberOrString = number | string;
 export interface Pos {
   left?: NumberOrString;

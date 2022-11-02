@@ -4,7 +4,6 @@ import type {
   NormalCanvasCommand,
   SpecialCanvasCommand,
 } from "@/config/default";
-import type Canvas from ".";
 
 const selects: SpecialCanvasCommand[] = ["Gird", "Preview"];
 const isSpecialCommand = (command: Command): command is SpecialCanvasCommand =>

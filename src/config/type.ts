@@ -9,6 +9,7 @@ import type {
   WidgetVars,
   NodeVars,
   NamespaceVars,
+  CanvasItemVars,
 } from "./var";
 
 export interface CommonProps {
@@ -66,6 +67,8 @@ export type GlobalCommandOption = Theme | I18n;
 export type Setting = keyof typeof SettingVars;
 export type NodeDirOp = keyof typeof NodeVars;
 export type NodeDirOpProps = SourceProps & { command: NodeDirOp };
+export type CanvasItem = keyof typeof CanvasItemVars;
+export type CanvasItemProps = SourceProps & { command: CanvasItem };
 export interface CommandGroupItem extends CommonProps {
   kind: GlobalCommandOption;
   label: string;

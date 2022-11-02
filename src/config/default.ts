@@ -15,6 +15,7 @@ import type {
   CommandGroupItem,
   NodeDirOpProps,
   ComponentInfo,
+  CanvasItemProps,
 } from "./type";
 import { makeUUID } from "@/shared/variables";
 
@@ -423,5 +424,28 @@ export const componentList: ComponentInfo<SourceProps>[] = [
     component: defineAsyncComponent(
       () => import("@/packages/lowCode/comp/customPicture")
     ),
+  },
+];
+
+export const canvasItemSettings: CanvasItemProps[] = [
+  {
+    uid: makeUUID(),
+    label: "上移",
+    command: "ShiftUp",
+  },
+  {
+    uid: makeUUID(),
+    label: "下移",
+    command: "ShiftDown",
+  },
+  {
+    uid: makeUUID(),
+    label: "置顶",
+    command: "Topic",
+  },
+  {
+    uid: makeUUID(),
+    label: "置底",
+    command: "Bottom",
   },
 ];

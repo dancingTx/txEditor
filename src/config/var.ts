@@ -92,3 +92,12 @@ export enum NamespaceVars {
   flowProcess = "flowProcess",
   lowCode = "lowCode",
 }
+
+export enum CanvasItemVars {
+  ShiftUp = "shiftUp",
+  ShiftDown = "shiftDown",
+  Topic = "topic",
+  Bottom = "bottom",
+  Copy = "copy",
+  Delete = "delete",
+}
