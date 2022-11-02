@@ -448,4 +448,9 @@ export const canvasItemSettings: CanvasItemProps[] = [
     label: "置底",
     command: "Bottom",
   },
+  {
+    uid: makeUUID(),
+    label: "删除",
+    command: "Delete",
+  },
 ];

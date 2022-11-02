@@ -36,6 +36,7 @@ export default defineComponent({
     const canvas = ref(null);
     const state = reactive({
       bucket: [] as ComponentInfo<SourceProps>[],
+      currEl: null as ComponentInfo<SourceProps> | null,
     });
     const contextMenu = useContextMenuStore();
     const handleDrop = (evt: DragEvent) => {
@@ -114,7 +115,8 @@ export default defineComponent({
       // evt.preventDefault();
       evt.stopPropagation();
     };
-    const showShortCutMenu = () => {
+    const showShortCutMenu = (item: ComponentInfo<SourceProps>) => {
+      state.currEl = item;
       contextMenu.setPanelOrientation("left top");
       contextMenu.setPanelType("canvas:item");
       if (app?.uid) {
@@ -138,7 +140,7 @@ export default defineComponent({
                 ...item.props?.style,
               }}
               onMousedown={(evt: MouseEvent) => handleMouseDown(item, evt)}
-              onContextmenu={showShortCutMenu}
+              onContextmenu={() => showShortCutMenu(item)}
             >
               {h(resolveComponent(item.uid), {
                 value: item.value,
@@ -148,7 +150,20 @@ export default defineComponent({
         </div>
       );
     };
+    const removeItem = (item: ComponentInfo<SourceProps> | null) => {
+      if (item) {
+        for (let i = state.bucket.length; i--; ) {
+          if (state.bucket[i].uid === item.uid) {
+            state.bucket.splice(i, 1);
+            break;
+          }
+        }
+      }
+    };
     const processCommand = (info: CanvasCommandProps) => {
+      if (info.command === "Delete") {
+        removeItem(state.currEl);
+      }
       console.log(info, "info");
     };
 
