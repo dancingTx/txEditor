@@ -101,3 +101,21 @@ export enum CanvasItemVars {
   Copy = "copy",
   Delete = "delete",
 }
+
+export const enum DotMatrixVars {
+  Top = "t",
+  Right = "r",
+  Bottom = "b",
+  Left = "l",
+  LeftTop = "lt",
+  RightTop = "rt",
+  LeftBottom = "lb",
+  RightBottom = "rb",
+}
+
+export enum DirectionVars {
+  t = "n",
+  r = "e",
+  b = "s",
+  l = "w",
+}

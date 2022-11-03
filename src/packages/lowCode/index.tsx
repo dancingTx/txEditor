@@ -10,8 +10,8 @@ import {
 } from "vue";
 import ToolKit from "@/components/toolkit/canvasCommand";
 import Canvas from "@/components/canvas";
+import Shape from "@/components/shape";
 import {
-  Vars,
   componentList,
   type CanvasItemProps,
   type ComponentInfo,
@@ -59,6 +59,7 @@ export default defineComponent({
         compInfo.props!.style!.top = posY + "px";
 
         state.bucket.push(compInfo);
+        state.currEl = compInfo;
       }
 
       evt.preventDefault();
@@ -91,9 +92,12 @@ export default defineComponent({
             `.${styles.canvas}`,
             (canvas.value as InstanceType<typeof Canvas>).$el
           );
-          upper.x = (dom as HTMLElement).clientWidth - Vars.__ASIDE_WIDTH__;
+          upper.x =
+            (dom as HTMLElement).clientWidth -
+            parseInt(item.props?.style?.width + "");
           upper.y =
-            (dom as HTMLElement).clientHeight - Vars.__ASIDE_WIDTH__ / 2;
+            (dom as HTMLElement).clientHeight -
+            parseInt(item.props?.style?.height + "");
         }
         const currX = (evt as MouseEvent).clientX;
         const currY = (evt as MouseEvent).clientY;
@@ -201,17 +205,24 @@ export default defineComponent({
         <div>
           {state.bucket.map((item, index) => (
             <div
-              style={{
-                position: "absolute",
-                zIndex: index,
-                ...item.props?.style,
-              }}
               onMousedown={(evt: MouseEvent) => handleMouseDown(item, evt)}
               onContextmenu={() => showShortCutMenu(item)}
+              onClick={() => (state.currEl = item)}
             >
-              {h(resolveComponent(item.uid), {
-                value: item.value,
-              })}
+              <Shape
+                defaultStyle={item.props?.style}
+                active={state.currEl?.elId === item.elId}
+                style={{
+                  position: "absolute",
+                  zIndex: index,
+                  ...item.props?.style,
+                }}
+              >
+                {h(resolveComponent(item.uid), {
+                  value: item.value,
+                  style: item.props?.style,
+                })}
+              </Shape>
             </div>
           ))}
         </div>

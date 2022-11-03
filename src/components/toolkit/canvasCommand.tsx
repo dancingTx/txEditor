@@ -1,4 +1,4 @@
-import { defineComponent, reactive, computed, type PropType } from "vue";
+import { defineComponent, reactive, computed } from "vue";
 import {
   DefaultVars,
   screenSize,

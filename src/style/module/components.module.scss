@@ -401,11 +401,9 @@
 /** -------------- custom component start ---------- */
 .custom {
   &_btn {
-    width: 80px;
-    height: 40px;
     text-align: center;
     font-size: $--font-small;
-    border-radius: 10px;
+    border-radius: 2px;
     border: 2px solid $--comp-bg-color;
     box-shadow: inset 0px 0px 10px 5px
       rgba($color: $--comp-bg-color, $alpha: 0.2);
@@ -418,16 +416,30 @@
     }
   }
   &_pic {
-    width: 200px;
-    height: 200px;
     border-radius: 5px;
   }
   &_text {
-    width: 100px;
-    height: 40px;
     border-radius: 5px;
     font-size: $--font-small;
   }
 }
 
 /** -------------- custom component end ---------- */
+
+/** -------------- shape start ---------- */
+.shape {
+  position: relative;
+  .point {
+    position: absolute;
+    .dot {
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      border: 1px solid $--drag-split-bg;
+      border-radius: 50%;
+      background-color: $--color-bwmix1;
+    }
+  }
+}
+
+/** -------------- shape end ---------- */

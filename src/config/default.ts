@@ -402,6 +402,12 @@ export const componentList: ComponentInfo<SourceProps>[] = [
     component: defineAsyncComponent(
       () => import("@/packages/lowCode/comp/customText")
     ),
+    props: {
+      style: {
+        width: "100px",
+        height: "40px",
+      },
+    },
   },
   {
     uid: makeUUID(),
@@ -413,6 +419,12 @@ export const componentList: ComponentInfo<SourceProps>[] = [
     component: defineAsyncComponent(
       () => import("@/packages/lowCode/comp/customButton")
     ),
+    props: {
+      style: {
+        width: "80px",
+        height: "40px",
+      },
+    },
   },
   {
     uid: makeUUID(),
@@ -425,6 +437,12 @@ export const componentList: ComponentInfo<SourceProps>[] = [
     component: defineAsyncComponent(
       () => import("@/packages/lowCode/comp/customPicture")
     ),
+    props: {
+      style: {
+        width: "200px",
+        height: "200px",
+      },
+    },
   },
 ];
 
