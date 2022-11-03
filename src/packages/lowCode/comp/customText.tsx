@@ -1,5 +1,6 @@
 import { defineComponent, ref, watch, type PropType } from "vue";
 import type { ComponentInfo } from "@/config/default";
+import styles from "@/style/module/components.module.scss";
 
 export default defineComponent({
   props: {
@@ -23,6 +24,7 @@ export default defineComponent({
         id=""
         cols="10"
         rows="3"
+        class={styles.custom_text}
         v-model={modelValue.value}
       ></textarea>
     );

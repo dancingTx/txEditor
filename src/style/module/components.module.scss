@@ -397,3 +397,37 @@
   }
 }
 /** ------------ tree node end ------------- */
+
+/** -------------- custom component start ---------- */
+.custom {
+  &_btn {
+    width: 80px;
+    height: 40px;
+    text-align: center;
+    font-size: $--font-small;
+    border-radius: 10px;
+    border: 2px solid $--comp-bg-color;
+    box-shadow: inset 0px 0px 10px 5px
+      rgba($color: $--comp-bg-color, $alpha: 0.2);
+    color: $--color-bwmix8;
+    background-color: transparent;
+    cursor: pointer;
+    &:active {
+      border: 2px solid rgba($color: $--comp-bg-color, $alpha: 0.6);
+      color: $--color-bwmix6;
+    }
+  }
+  &_pic {
+    width: 200px;
+    height: 200px;
+    border-radius: 5px;
+  }
+  &_text {
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+    font-size: $--font-small;
+  }
+}
+
+/** -------------- custom component end ---------- */

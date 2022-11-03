@@ -420,7 +420,8 @@ export const componentList: ComponentInfo<SourceProps>[] = [
     icon: "picture",
     label: "图片",
     // render
-    value: "图片",
+    value:
+      "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.duoziwang.com%2F2018%2F04%2F2410215211859.jpg&refer=http%3A%2F%2Fimg.duoziwang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1669972594&t=a9a16776fc31c4cbc5e814b6ebedbec0",
     component: defineAsyncComponent(
       () => import("@/packages/lowCode/comp/customPicture")
     ),

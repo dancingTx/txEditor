@@ -4,6 +4,7 @@ import type {
   NormalCanvasCommand,
   SpecialCanvasCommand,
 } from "@/config/default";
+import bus from "@/shared/bus";
 
 const selects: SpecialCanvasCommand[] = ["Gird", "Preview"];
 const isSpecialCommand = (command: Command): command is SpecialCanvasCommand =>
@@ -33,6 +34,7 @@ export default class CanvasCommand {
     if (i === len) {
       this.canSelected.push(command);
     }
+    bus.emit("canvasCommand:canSelected", this.canSelected);
   }
 
   invoke(command: Command) {
@@ -40,6 +42,7 @@ export default class CanvasCommand {
       this.toggleSpecialCommand(command);
     } else {
       this.command = command;
+      bus.emit("canvasCommand:command", this.command);
     }
   }
 }

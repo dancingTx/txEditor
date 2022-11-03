@@ -1,6 +1,8 @@
 import { defineComponent, type PropType } from "vue";
 import type { ComponentInfo } from "@/config/default";
 
+import styles from "@/style/module/components.module.scss";
+
 export default defineComponent({
   props: {
     value: {
@@ -9,6 +11,6 @@ export default defineComponent({
     },
   },
   setup(props) {
-    return () => <button>{props.value}</button>;
+    return () => <button class={[styles.custom_btn]}>{props.value}</button>;
   },
 });

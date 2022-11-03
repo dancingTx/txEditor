@@ -119,4 +119,5 @@ export type ComponentInfo<T> = T extends string
       value?: string;
       children?: ComponentInfo<T>[];
       component?: Component;
+      elId?: string;
     };

@@ -10,15 +10,10 @@ import { useLayoutStore } from "@/store/layout";
 import { useNodeStore } from "@/store/node";
 import { screen2BodyRatio } from "@/shared/tool";
 import { useI18nTitle } from "@/hook";
-import type CanvasCommand from "@/packages/core/canvas/command";
+import CanvasCommand from "@/packages/core/canvas/command";
 import styles from "@/style/module/components.module.scss";
 export default defineComponent({
-  props: {
-    canvasCommand: {
-      type: Object as PropType<CanvasCommand>,
-    },
-  },
-  setup(props) {
+  setup() {
     const node = useNodeStore();
     const layout = useLayoutStore();
     const state = reactive({
@@ -28,7 +23,7 @@ export default defineComponent({
       canvasHeight: layout.canvasHeight,
     });
     const canvasCommand = computed(
-      () => node.getNodeListNS().activate?.canvasCommand || props.canvasCommand
+      () => node.getNodeListNS().activate?.canvasCommand || new CanvasCommand()
     );
     const resizeScreen = (item: ScreenProps): void => {
       state.isManual = false;

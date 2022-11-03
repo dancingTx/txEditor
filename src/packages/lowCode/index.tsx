@@ -6,21 +6,24 @@ import {
   resolveComponent,
   getCurrentInstance,
   onMounted,
+  onUnmounted,
 } from "vue";
 import ToolKit from "@/components/toolkit/canvasCommand";
 import Canvas from "@/components/canvas";
 import {
   Vars,
   componentList,
-  type CanvasCommandProps,
+  type CanvasItemProps,
   type ComponentInfo,
   type SourceProps,
+  type NormalCanvasCommand,
+  type SpecialCanvasCommand,
 } from "@/config/default";
 import { on, off, query } from "@/shared/domOp";
 import { deepClone } from "@/shared/data";
+import { makeUUID } from "@/shared/variables";
 import { compoundComponents } from "@/shared/component";
 import CanvasClass from "@/packages/core/canvas";
-import CanvasCommand from "@/packages/core/canvas/command";
 import { useContextMenuStore } from "@/store/global";
 import styles from "@/style/module/components.module.scss";
 import bus from "@/shared/bus";
@@ -32,19 +35,21 @@ export default defineComponent({
   components,
   setup() {
     const app = getCurrentInstance();
-
     const canvas = ref(null);
     const state = reactive({
       bucket: [] as ComponentInfo<SourceProps>[],
       currEl: null as ComponentInfo<SourceProps> | null,
+      slot: () => {},
     });
     const contextMenu = useContextMenuStore();
     const handleDrop = (evt: DragEvent) => {
-      const compIndex = Number(evt.dataTransfer?.getData("compIndex"));
-      if (compIndex || compIndex === 0) {
+      const compIndex = evt.dataTransfer?.getData("compIndex");
+      if (compIndex) {
         const posX = evt.offsetX;
         const posY = evt.offsetY;
-        const compInfo = deepClone(componentList[compIndex]);
+        const compInfo = deepClone(componentList[Number(compIndex)]);
+        // 拖拽到画布，需要生成唯一id
+        compInfo.elId = makeUUID();
         if (!compInfo.props) {
           compInfo.props = {
             style: {},
@@ -112,8 +117,10 @@ export default defineComponent({
       on(document, "mousemove", handleMouseMove);
       on(document, "mouseup", handleMouseUp);
 
-      // evt.preventDefault();
-      evt.stopPropagation();
+      if (item.tag !== "Text") {
+        evt.preventDefault();
+        evt.stopPropagation();
+      }
     };
     const showShortCutMenu = (item: ComponentInfo<SourceProps>) => {
       state.currEl = item;
@@ -125,12 +132,72 @@ export default defineComponent({
       contextMenu.show();
     };
 
+    const removeItem = (item: ComponentInfo<SourceProps> | null) => {
+      if (item) {
+        for (let i = state.bucket.length; i--; ) {
+          if (state.bucket[i].elId === item.elId) {
+            state.bucket.splice(i, 1);
+            break;
+          }
+        }
+      }
+    };
+    const swapItem = (
+      item: ComponentInfo<SourceProps> | null,
+      flag: number
+    ) => {
+      if (!item) return;
+      const index = state.bucket.findIndex((i) => i.elId === item.elId);
+      if (index !== -1) {
+        if (flag === Infinity || flag === -Infinity) {
+          state.bucket[flag === Infinity ? "push" : "unshift"](
+            state.bucket.splice(index, 1)[0]
+          );
+          return;
+        }
+
+        let targetIndex = 0;
+        if (flag > 0) {
+          targetIndex = Math.min(index + flag, state.bucket.length - 1);
+        } else if (flag < 0) {
+          targetIndex = Math.max(0, index - flag);
+        }
+        const temp = state.bucket[targetIndex];
+        state.bucket[targetIndex] = item;
+        state.bucket[index] = temp;
+      }
+    };
+
+    const processCommand = (info: CanvasItemProps) => {
+      if (info.command === "ShiftUp") {
+        swapItem(state.currEl, 1);
+      }
+
+      if (info.command === "Topic") {
+        swapItem(state.currEl, Infinity);
+      }
+
+      if (info.command === "ShiftDown") {
+        swapItem(state.currEl, -1);
+      }
+
+      if (info.command === "Bottom") {
+        swapItem(state.currEl, -Infinity);
+      }
+
+      if (info.command === "Delete") {
+        removeItem(state.currEl);
+      }
+    };
+
     const C = new CanvasClass();
-    const Command = new CanvasCommand();
-    const renderCustomComponent = () => {
+    const renderCustomComponent = (
+      command?: NormalCanvasCommand,
+      canSelected?: SpecialCanvasCommand[]
+    ) => {
       return C.render(
-        Command.command,
-        Command.canSelected,
+        command,
+        canSelected,
         <div>
           {state.bucket.map((item, index) => (
             <div
@@ -150,36 +217,39 @@ export default defineComponent({
         </div>
       );
     };
-    const removeItem = (item: ComponentInfo<SourceProps> | null) => {
-      if (item) {
-        for (let i = state.bucket.length; i--; ) {
-          if (state.bucket[i].uid === item.uid) {
-            state.bucket.splice(i, 1);
-            break;
-          }
-        }
-      }
-    };
-    const processCommand = (info: CanvasCommandProps) => {
-      if (info.command === "Delete") {
-        removeItem(state.currEl);
-      }
-      console.log(info, "info");
-    };
-
     onMounted(() => {
+      state.slot = renderCustomComponent;
+
       bus.on("contextMenu:clickItem", (info) => {
         if (contextMenu.uid === app?.uid) {
-          processCommand(info as CanvasCommandProps);
+          processCommand(info as CanvasItemProps);
           contextMenu.hide();
         }
       });
+      bus.on("canvasCommand:command", (command) => {
+        state.slot = renderCustomComponent.bind(
+          null,
+          command as NormalCanvasCommand
+        );
+      });
+      bus.on("canvasCommand:canSelected", (canSelected) => {
+        state.slot = renderCustomComponent.bind(
+          null,
+          undefined,
+          canSelected as SpecialCanvasCommand[]
+        );
+      });
+    });
+    onUnmounted(() => {
+      bus.off("contextMenu:clickItem");
+      bus.off("canvasCommand:command");
+      bus.off("canvasCommand:canSelected");
     });
     return () => (
       <div>
-        <ToolKit canvasCommand={Command}></ToolKit>
+        <ToolKit></ToolKit>
         <div onDrop={handleDrop} onDragover={handleDropOver}>
-          <Canvas ref={canvas}>{renderCustomComponent()}</Canvas>
+          <Canvas ref={canvas}>{state.slot()}</Canvas>
         </div>
       </div>
     );

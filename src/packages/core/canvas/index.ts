@@ -46,7 +46,6 @@ export default class Canvas {
   }
 
   private executeCommand2Vnode(slot: VNode, type: NormalCanvasCommand) {
-    console.log(type, "tyep");
     return slot;
   }
 
@@ -60,6 +59,7 @@ export default class Canvas {
     content?: VNode
   ) {
     let slot = this.renderRawContent(content);
+
     if (inherent && inherent.length) {
       for (let i = 0, len = inherent.length; i < len; i++) {
         slot = (this as any)[`render${inherent[i]}`](slot);
@@ -69,6 +69,7 @@ export default class Canvas {
     if (type) {
       slot = this.executeCommand2Vnode(slot, type);
     }
+
     return slot;
   }
 }
