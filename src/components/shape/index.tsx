@@ -23,7 +23,7 @@ export default defineComponent({
       default: () => ({}),
     },
   },
-  emits: ["elInfo"],
+  emits: ["pointMouseDown", "pointMouseMove", "pointMouseUp"],
   setup(props, { slots, emit }) {
     const makePointStyle = (point: DotMatrixVars) => {
       const hasT = /t/.test(point);
@@ -74,7 +74,7 @@ export default defineComponent({
       const rawLeft = parseInt(props.defaultStyle.left + "");
       const startX = (evt as MouseEvent).clientX;
       const startY = (evt as MouseEvent).clientY;
-
+      emit("pointMouseDown");
       const mouseMovePoint = (evt: Event) => {
         const currX = (evt as MouseEvent).clientX;
         const currY = (evt as MouseEvent).clientY;
@@ -87,11 +87,12 @@ export default defineComponent({
           Math.max(rawWidth + (hasL ? -disX : hasR ? disX : 0), 0) + "px";
         const top = rawTop + (hasT ? disY : 0) + "px";
         const left = rawLeft + (hasL ? disX : 0) + "px";
-        emit("elInfo", { width, height, top, left });
+        emit("pointMouseMove", { width, height, top, left });
       };
       const mouseUpPoint = () => {
         off(document, "mousemove", mouseMovePoint);
         off(document, "mouseup", mouseUpPoint);
+        emit("pointMouseUp");
       };
 
       on(document, "mousemove", mouseMovePoint);

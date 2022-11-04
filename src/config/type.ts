@@ -100,14 +100,14 @@ export type WidgetProps = SourceProps & { command: Widget };
 
 type Tag = keyof typeof TagVars;
 
-interface ComponentAttrs {}
-interface ComponentProps {
+export interface ComponentAttrs {}
+export interface ComponentProps {
   id?: string;
   className?: string;
   style?: CSSProperties;
 }
-interface ComponentEvents {}
-interface ComponentAnimation {}
+export interface ComponentEvents {}
+export interface ComponentAnimation {}
 export type ComponentInfo<T> = T extends string
   ? string
   : T & {

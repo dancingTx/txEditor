@@ -11,6 +11,8 @@ import {
 import ToolKit from "@/components/toolkit/canvasCommand";
 import Canvas from "@/components/canvas";
 import Shape from "@/components/shape";
+import CommandManager from "@/packages/core/canvas/manager";
+import CanvasClass from "@/packages/core/canvas";
 import {
   componentList,
   type CanvasItemProps,
@@ -23,10 +25,10 @@ import { on, off, query } from "@/shared/domOp";
 import { deepClone } from "@/shared/data";
 import { makeUUID } from "@/shared/variables";
 import { compoundComponents } from "@/shared/component";
-import CanvasClass from "@/packages/core/canvas";
+import bus from "@/shared/bus";
 import { useContextMenuStore } from "@/store/global";
 import styles from "@/style/module/components.module.scss";
-import bus from "@/shared/bus";
+
 const components = compoundComponents<ComponentInfo<SourceProps>>(
   componentList,
   "component"
@@ -35,6 +37,8 @@ export default defineComponent({
   components,
   setup() {
     const app = getCurrentInstance();
+    const manager = new CommandManager();
+    const C = new CanvasClass();
     const canvas = ref(null);
     const state = reactive({
       bucket: [] as ComponentInfo<SourceProps>[],
@@ -60,6 +64,7 @@ export default defineComponent({
 
         state.bucket.push(compInfo);
         state.currEl = compInfo;
+        manager.setRecord(state.bucket);
       }
 
       evt.preventDefault();
@@ -77,7 +82,6 @@ export default defineComponent({
 
       const startLeft = parseInt(item.props?.style?.left + "");
       const startTop = parseInt(item.props?.style?.top + "");
-
       const handleMouseMove = (evt: Event) => {
         const upper = {
           x: 0,
@@ -116,6 +120,7 @@ export default defineComponent({
       const handleMouseUp = () => {
         off(document, "mousemove", handleMouseMove);
         off(document, "mouseup", handleMouseUp);
+        manager.setRecord(state.bucket);
       };
 
       on(document, "mousemove", handleMouseMove);
@@ -138,6 +143,7 @@ export default defineComponent({
 
     const removeItem = (item: ComponentInfo<SourceProps> | null) => {
       if (item) {
+        manager.setRecord(state.bucket);
         for (let i = state.bucket.length; i--; ) {
           if (state.bucket[i].elId === item.elId) {
             state.bucket.splice(i, 1);
@@ -153,6 +159,7 @@ export default defineComponent({
       if (!item) return;
       const index = state.bucket.findIndex((i) => i.elId === item.elId);
       if (index !== -1) {
+        manager.setRecord(state.bucket);
         if (flag === Infinity || flag === -Infinity) {
           state.bucket[flag === Infinity ? "push" : "unshift"](
             state.bucket.splice(index, 1)[0]
@@ -193,8 +200,35 @@ export default defineComponent({
         removeItem(state.currEl);
       }
     };
+    const redoCanvas = () => {
+      manager.redo();
+      state.bucket = manager.getCurrRecord();
+      if (state.bucket.length) {
+        state.currEl = state.bucket[state.bucket.length - 1];
+      }
+    };
+    const undoCanvas = () => {
+      manager.undo();
+      state.bucket = manager.getCurrRecord();
+      if (state.bucket.length) {
+        state.currEl = state.bucket[state.bucket.length - 1];
+      }
+    };
+    const clearCanvas = () => {
+      state.bucket.length = 0;
+    };
+    const processCanvasCommand = (command?: NormalCanvasCommand) => {
+      if (command === "Redo") {
+        redoCanvas();
+      }
+      if (command === "Undo") {
+        undoCanvas();
+      }
+      if (command === "Clear") {
+        clearCanvas();
+      }
+    };
 
-    const C = new CanvasClass();
     const renderCustomComponent = (
       command?: NormalCanvasCommand,
       canSelected?: SpecialCanvasCommand[]
@@ -217,8 +251,11 @@ export default defineComponent({
                   zIndex: index,
                   ...item.props?.style,
                 }}
-                onElInfo={(info) => {
+                onPointMouseMove={(info) => {
                   Object.assign(item.props?.style || {}, info);
+                }}
+                onPointMouseUp={() => {
+                  manager.setRecord(state.bucket);
                 }}
               >
                 {h(resolveComponent(item.uid), {
@@ -241,10 +278,7 @@ export default defineComponent({
         }
       });
       bus.on("canvasCommand:command", (command) => {
-        state.slot = renderCustomComponent.bind(
-          null,
-          command as NormalCanvasCommand
-        );
+        processCanvasCommand(command as NormalCanvasCommand);
       });
       bus.on("canvasCommand:canSelected", (canSelected) => {
         state.slot = renderCustomComponent.bind(

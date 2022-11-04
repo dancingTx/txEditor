@@ -9,6 +9,7 @@ export const enum Vars {
   __STATUS_BAR_HEIGHT__ = 20,
   __MENU_TITLE_HEIGHT__ = 40,
   __AMPLIFICATION__ = 6,
+  __ELEMENT_GAP__ = 3,
 }
 
 export const enum DefaultVars {
@@ -122,4 +123,13 @@ export enum DirectionVars {
   rb = "nwse",
   rt = "nesw",
   lb = "nesw",
+}
+
+export enum MarkLineVars {
+  xTop = "xt",
+  xCenter = "xc",
+  xBottom = "xb",
+  yTop = "yt",
+  yCenter = "yc",
+  yBottom = "yb",
 }
