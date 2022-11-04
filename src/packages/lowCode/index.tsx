@@ -217,6 +217,9 @@ export default defineComponent({
                   zIndex: index,
                   ...item.props?.style,
                 }}
+                onElInfo={(info) => {
+                  Object.assign(item.props?.style || {}, info);
+                }}
               >
                 {h(resolveComponent(item.uid), {
                   value: item.value,

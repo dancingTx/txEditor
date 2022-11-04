@@ -114,8 +114,12 @@ export const enum DotMatrixVars {
 }
 
 export enum DirectionVars {
-  t = "n",
-  r = "e",
-  b = "s",
-  l = "w",
+  t = "ns",
+  b = "ns",
+  r = "ew",
+  l = "ew",
+  lt = "nwse",
+  rb = "nwse",
+  rt = "nesw",
+  lb = "nesw",
 }
