@@ -1,11 +1,12 @@
 import { defineStore } from "pinia";
-import { screen2BodyRatio } from "@/shared/tool";
+import { screen2BodyRatio } from "@/shared";
 import {
   Vars,
   DarkModeVars,
   DefaultVars,
   type Namespace,
 } from "@/config/default";
+
 interface LayoutState {
   isCollapse: boolean;
   isCollapseProp: boolean;

@@ -1,13 +1,13 @@
 import type { RendererNode } from "vue";
 import { defineStore } from "pinia";
+import type { Orientation } from "@/directive/contextMenu/contextMenu";
+import { screen2BodyRatio } from "@/shared";
 import {
   Vars,
   DefaultVars,
   type Setting,
   type CommandOptions,
 } from "@/config/default";
-import type { Orientation } from "@/directive/contextMenu/contextMenu";
-import { screen2BodyRatio } from "@/shared/tool";
 
 export const useCommandStore = defineStore("command", {
   state: () => {

@@ -1,7 +1,7 @@
 import { defineComponent, Teleport } from "vue";
 import ContextMenu from "@/components/contextMenu";
 import Command from "@/components/toolkit/globalCommand";
-import bus from "@/shared/bus";
+
 export default defineComponent({
   setup() {
     return () => (
