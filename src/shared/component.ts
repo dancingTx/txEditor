@@ -1,5 +1,6 @@
 import type { Component } from "vue";
-import type { CommonProps } from "@/config/default";
+import { isString } from "./validate";
+import type { CommonProps, ComponentInfo, SourceProps } from "@/config/default";
 
 export const compoundComponents = <Props extends CommonProps>(
   list: Props[],
@@ -11,4 +12,27 @@ export const compoundComponents = <Props extends CommonProps>(
     }
     return total;
   }, {} as Record<string, Component>);
+};
+
+export const isEqual = <T>(
+  comp1: ComponentInfo<T>,
+  comp2: ComponentInfo<T>
+): boolean => {
+  if (isString(comp1) && isString(comp2)) {
+    return comp1 === comp2;
+  }
+  if (
+    (comp1 as ComponentInfo<SourceProps>).elId &&
+    (comp2 as ComponentInfo<SourceProps>).elId
+  ) {
+    return (
+      (comp1 as ComponentInfo<SourceProps>).elId ===
+      (comp2 as ComponentInfo<SourceProps>).elId
+    );
+  }
+
+  return (
+    (comp1 as ComponentInfo<SourceProps>).uid ===
+    (comp2 as ComponentInfo<SourceProps>).uid
+  );
 };

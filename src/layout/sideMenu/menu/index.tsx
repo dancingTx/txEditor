@@ -2,6 +2,7 @@ import { defineComponent, withDirectives, type PropType } from "vue";
 import { useLayoutStore } from "@/store/layout";
 import { dragDirective } from "@/directive/drag";
 import styles from "@/style/module/layout.module.scss";
+
 export default defineComponent({
   props: {
     title: {

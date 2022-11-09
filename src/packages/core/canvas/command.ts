@@ -1,10 +1,9 @@
-import { makeUUID } from "@/shared/variables";
+import bus, { makeUUID } from "@/shared";
 import type {
   CanvasCommand as Command,
   NormalCanvasCommand,
   SpecialCanvasCommand,
 } from "@/config/default";
-import bus from "@/shared/bus";
 
 const selects: SpecialCanvasCommand[] = ["Gird", "Preview"];
 const isSpecialCommand = (command: Command): command is SpecialCanvasCommand =>

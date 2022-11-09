@@ -1,13 +1,3 @@
-import { isArray } from "./validate";
-/**
- *
- * @param {string} str
- * @returns
- * @description 首字符大写
- */
-export const capitalize = (str: string): string =>
-  str.charAt(0).toUpperCase() + str.slice(1);
-
 /**
  * @param {Function} func
  * @param {number} wait
@@ -57,16 +47,6 @@ export function debounce(
     return result;
   };
 }
-
-/**
- * array
- */
-export const arrayify = <Type>(source: Type): Array<Type> => {
-  if (source == null) {
-    return [];
-  }
-  return isArray(source) ? source : [source];
-};
 
 export const screen2BodyRatio = (
   width: number,

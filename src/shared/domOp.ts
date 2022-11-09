@@ -1,5 +1,6 @@
 import type { HTMLAttributes } from "vue";
-import { capitalize, arrayify } from "./tool";
+import { capitalize } from "./string";
+import { arrayify } from "./array";
 import { isString } from "./validate";
 /**
  *
@@ -185,4 +186,8 @@ export const createElement = (
   }
 
   return domEl;
+};
+
+export const mount2Body = (source: HTMLElement) => {
+  document.body.appendChild(source);
 };

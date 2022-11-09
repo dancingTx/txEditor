@@ -1,6 +1,7 @@
 import type { App, DirectiveBinding } from "vue";
-import styles from "@/style/module/components.module.scss";
 import DragSplit from "./dragSplit";
+import styles from "@/style/module/components.module.scss";
+
 let globalDragSplit: DragSplit;
 
 export const dragDirective = {

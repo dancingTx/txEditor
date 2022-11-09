@@ -17,7 +17,7 @@ import type {
   ComponentInfo,
   CanvasItemProps,
 } from "./type";
-import { makeUUID } from "@/shared/variables";
+import { makeUUID } from "@/shared";
 
 export const plugins: (RouteRecordRaw & {
   meta: PluginProps;

@@ -1,13 +1,13 @@
 import { computed, defineComponent, reactive } from "vue";
+import { calcNavWidth } from "@/hook";
+import { useLayoutStore } from "@/store/layout";
+import { useNodeStore } from "@/store/node";
 import {
   widgets,
   NodeStatusVars,
   DarkModeVars,
   type Widget,
 } from "@/config/default";
-import { calcNavWidth } from "@/hook";
-import { useLayoutStore } from "@/store/layout";
-import { useNodeStore } from "@/store/node";
 import styles from "@/style/module/layout.module.scss";
 import styleFile from "@/style/module/file.module.scss";
 export default defineComponent({

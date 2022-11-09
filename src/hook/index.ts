@@ -1,11 +1,11 @@
 import { useI18n } from "vue-i18n";
+import { useLayoutStore } from "@/store/layout";
 import {
   Vars,
   type SourceProps,
   type PluginProps,
   type CommandOptions,
 } from "@/config/default";
-import { useLayoutStore } from "@/store/layout";
 
 export const calcNavWidth = (): string => {
   const state = useLayoutStore();

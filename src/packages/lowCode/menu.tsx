@@ -2,6 +2,7 @@ import { defineComponent } from "vue";
 import Menu from "@/components/menu";
 import { componentList } from "@/config/default";
 import styles from "@/style/module/layout.module.scss";
+
 export default defineComponent({
   setup() {
     const handleDropStart = (evt: DragEvent) => {

@@ -3,15 +3,13 @@ import svgIcon from "@/components/svgIcon";
 import Canvas from "../canvas";
 import CanvasCommand from "../canvas/command";
 import type TreeNodeList from "./NodeList";
-import { makeUUID } from "@/shared/variables";
-import { getExtName } from "@/shared/tool";
+import bus, { makeUUID, getExtName } from "@/shared";
 import {
   NodeStatusVars,
   FileIconVars,
   type NodeStatus,
   type NodeDirOpProps,
 } from "@/config/default";
-import bus from "@/shared/bus";
 import styles from "@/style/module/components.module.scss";
 import stylesFile from "@/style/module/file.module.scss";
 

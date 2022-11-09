@@ -1,3 +1,5 @@
+import { query, type DomQuery } from "@/shared";
+import i18n from "@/locale";
 import {
   ThemeVars,
   I18nVars,
@@ -6,8 +8,6 @@ import {
   type Theme,
   type I18n,
 } from "@/config/default";
-import { query, type DomQuery } from "@/shared/domOp";
-import i18n from "@/locale";
 interface Options {
   el?: DomQuery;
 }

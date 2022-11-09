@@ -8,11 +8,12 @@ import {
 } from "vue";
 import Menu from "./menu";
 import NavBar from "../base/navBar";
-import { plugins, type PluginProps } from "@/config/default";
-import { compoundComponents } from "@/shared/component";
+import { compoundComponents } from "@/shared";
 import { useLayoutStore } from "@/store/layout";
 import { useI18nTitle } from "@/hook";
+import { plugins, type PluginProps } from "@/config/default";
 import styles from "@/style/module/layout.module.scss";
+
 const collectPlugins = () => plugins.map((plugin) => plugin.meta);
 const components = compoundComponents<PluginProps>(
   collectPlugins(),

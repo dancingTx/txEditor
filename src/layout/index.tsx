@@ -1,8 +1,8 @@
 import { defineComponent } from "vue";
 import Aside from "./base/aside";
-import SideMenu from "./sideMenu";
 import PropsBar from "./base/propsBar";
 import StatusBar from "./base/statusBar";
+import SideMenu from "./sideMenu";
 import { useLayoutStore } from "@/store/layout";
 import styles from "@/style/module/layout.module.scss";
 

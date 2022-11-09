@@ -24,7 +24,7 @@
         @include background_color("--color-mix8");
         .aside {
           &_icon {
-            margin: $--common-padding2 0;
+            margin: $--common-gap10 0;
             width: 1.8em;
             height: 1.8em;
             font-weight: $--font-weight-blod;
@@ -49,7 +49,7 @@
               left: $--aside-width;
               transform: translateY(-50%);
               min-width: 60px;
-              padding: 4px $--common-padding2;
+              padding: $--common-gap5 $--common-gap10;
               font-size: $--font-small;
               border: 1px solid;
               @include border_color("--color-mix6");
@@ -114,7 +114,7 @@
               align-items: center;
               justify-content: space-between;
               height: $--menu-title-height;
-              padding: $--common-padding2 16px;
+              padding: $--common-gap10 16px;
               box-sizing: border-box;
             }
             &_label {
@@ -157,7 +157,7 @@
         align-items: center;
         justify-content: flex-end;
         min-width: 80px;
-        padding: 0 $--common-padding2;
+        padding: 0 $--common-gap10;
         line-height: $--nav-bar-height;
         text-align: right;
         .nav_icon {
@@ -190,7 +190,7 @@
           }
         }
         .darkset {
-          margin: 0 $--common-padding2;
+          margin: 0 $--common-gap10;
           .nav_icon {
             width: 1.6em;
             height: 1.6em;
@@ -211,7 +211,7 @@
         }
         &__item {
           display: inline-block;
-          padding: 0 $--common-padding2;
+          padding: 0 $--common-gap10;
           font-size: $--font-small;
           border-right: 1px solid;
           @include border_color("--color-mix9");
@@ -222,7 +222,7 @@
             border-right: none;
           }
           .item_icon {
-            margin: 0 $--common-padding2;
+            margin: 0 $--common-gap10;
             width: 1.2em;
             height: 1.2em;
             vertical-align: middle;
@@ -235,7 +235,7 @@
               display: inline-block;
               width: 1.6em;
               height: 1.6em;
-              margin-left: $--common-padding;
+              margin-left: $--common-gap5;
               line-height: 1.6em;
               vertical-align: middle;
               text-align: center;
@@ -257,7 +257,7 @@
     position: relative;
     z-index: 1000;
     height: $--status-bar-height;
-    padding: 0 $--common-padding4;
+    padding: 0 $--common-gap20;
     font-size: $--font-small;
     line-height: $--status-bar-height;
     text-align: center;
@@ -275,9 +275,9 @@
       &_item {
         width: 100px;
         height: 36px;
-        margin: 5px;
+        margin: $--common-gap5;
         line-height: 36px;
-        border-radius: 10px;
+        border-radius: $--common-border-radius-normal;
         border: 2px solid $--comp-bg-color;
         box-shadow: inset 0px 0px 10px 5px
           rgba($color: $--comp-bg-color, $alpha: 0.2);
@@ -291,7 +291,7 @@
         vertical-align: middle;
       }
       &_icon {
-        margin-right: 5px;
+        margin-right: $--common-gap5;
         vertical-align: middle;
         font-size: $--font-base;
       }

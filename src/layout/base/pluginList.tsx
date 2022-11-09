@@ -1,10 +1,10 @@
 import { defineComponent, reactive, type PropType } from "vue";
+import { useRoute } from "vue-router";
 import router from "@/router";
 import { useI18nTitle } from "@/hook";
-import type { PluginProps } from "@/config/default";
 import { useLayoutStore } from "@/store/layout";
+import type { PluginProps } from "@/config/default";
 import styles from "@/style/module/layout.module.scss";
-import { useRoute } from "vue-router";
 
 export default defineComponent({
   props: {

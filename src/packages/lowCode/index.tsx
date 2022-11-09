@@ -11,22 +11,28 @@ import {
 import ToolKit from "@/components/toolkit/canvasCommand";
 import Canvas from "@/components/canvas";
 import Shape from "@/components/shape";
+import MarkLine, { type Direction } from "@/components/markLine";
+import Tip from "@/components/tip/main";
 import CommandManager from "@/packages/core/canvas/manager";
 import CanvasClass from "@/packages/core/canvas";
+import bus, {
+  deepClone,
+  makeUUID,
+  compoundComponents,
+  on,
+  off,
+  query,
+} from "@/shared";
+import { useContextMenuStore } from "@/store/global";
 import {
   componentList,
+  DotMatrixVars,
   type CanvasItemProps,
   type ComponentInfo,
   type SourceProps,
   type NormalCanvasCommand,
   type SpecialCanvasCommand,
 } from "@/config/default";
-import { on, off, query } from "@/shared/domOp";
-import { deepClone } from "@/shared/data";
-import { makeUUID } from "@/shared/variables";
-import { compoundComponents } from "@/shared/component";
-import bus from "@/shared/bus";
-import { useContextMenuStore } from "@/store/global";
 import styles from "@/style/module/components.module.scss";
 
 const components = compoundComponents<ComponentInfo<SourceProps>>(
@@ -42,7 +48,7 @@ export default defineComponent({
     const canvas = ref(null);
     const state = reactive({
       bucket: [] as ComponentInfo<SourceProps>[],
-      currEl: null as ComponentInfo<SourceProps> | null,
+      currEl: {} as ComponentInfo<SourceProps>,
       slot: () => {},
     });
     const contextMenu = useContextMenuStore();
@@ -116,11 +122,16 @@ export default defineComponent({
 
         item.props!.style!.left = disX + "px";
         item.props!.style!.top = disY + "px";
+        bus.emit("component:startMove", {
+          isDownward: currY - startY > 0,
+          isRightward: currX - startX > 0,
+        } as Direction);
       };
       const handleMouseUp = () => {
         off(document, "mousemove", handleMouseMove);
         off(document, "mouseup", handleMouseUp);
         manager.setRecord(state.bucket);
+        bus.emit("component:endMove");
       };
 
       on(document, "mousemove", handleMouseMove);
@@ -237,6 +248,15 @@ export default defineComponent({
         command,
         canSelected,
         <div>
+          <button
+            onClick={() => {
+              app?.proxy?.$tip.visable({
+                message: "111111",
+              });
+            }}
+          >
+            test
+          </button>
           {state.bucket.map((item, index) => (
             <div
               onMousedown={(evt: MouseEvent) => handleMouseDown(item, evt)}
@@ -265,6 +285,7 @@ export default defineComponent({
               </Shape>
             </div>
           ))}
+          <MarkLine bucket={state.bucket} activeEl={state.currEl}></MarkLine>
         </div>
       );
     };
@@ -298,6 +319,8 @@ export default defineComponent({
         <ToolKit></ToolKit>
         <div onDrop={handleDrop} onDragover={handleDropOver}>
           <Canvas ref={canvas}>{state.slot()}</Canvas>
+          {/* <Tip></Tip> */}
+          {/* <SvgIcon></SvgIcon> */}
         </div>
       </div>
     );

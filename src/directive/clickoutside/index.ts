@@ -1,6 +1,5 @@
-import { on } from "@/shared/domOp";
-import { makeUUID } from "@/shared/variables";
 import type { App, DirectiveBinding, VNode } from "vue";
+import { on, makeUUID } from "@/shared";
 
 const nodeList: (HTMLElement & Record<string, any>)[] = [];
 const ctx = "@@clickoutsideContext";

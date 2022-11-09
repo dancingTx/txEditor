@@ -24,7 +24,6 @@ export default class CanvasCommandManager {
   undo() {
     if (this.snapshotIndex < 0) return;
     this.snapshotIndex--;
-    console.log(this.records, this.snapshotIndex);
   }
   redo() {
     if (this.snapshotIndex >= this.records.length - 1) return;

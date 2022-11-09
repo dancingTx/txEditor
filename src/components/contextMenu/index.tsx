@@ -1,9 +1,8 @@
 import { defineComponent, Transition, withDirectives, computed } from "vue";
-import bus from "@/shared/bus";
+import bus, { traceMouseLocation } from "@/shared";
 import { useI18nTitle } from "@/hook";
 import { clickOutside } from "@/directive/clickoutside";
 import { useContextMenuStore, type ContextMenuType } from "@/store/global";
-import { traceMouseLocation } from "@/shared/tool";
 import {
   settings,
   workspaceSettings,

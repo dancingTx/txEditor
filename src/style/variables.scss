@@ -46,10 +46,10 @@ $--font-weight-bloder: 700 !default;
 /** Common */
 
 /**------------------*/
-$--common-padding: 5px !default;
-$--common-padding2: round(2 * $--common-padding) !default;
-$--common-padding3: round(3 * $--common-padding) !default;
-$--common-padding4: round(4 * $--common-padding) !default;
+$--common-gap5: 5px !default;
+$--common-gap10: round(2 * $--common-gap5) !default;
+$--common-gap15: round(3 * $--common-gap5) !default;
+$--common-gap20: round(4 * $--common-gap5) !default;
 $--common-border-radius-light: 4px !default;
 $--common-border-radius-normal: 6px !default;
 
@@ -82,3 +82,9 @@ $--grid-column-color: $--grid-row-color;
 
 // Custom Components
 $--comp-bg-color: #409eff !default;
+
+// Tip
+$--tip-color-success: #67c23a !default;
+$--tip-color-warning: #e6a23c !default;
+$--tip-color-error: #f56c6c !default;
+$--tip--color-info: #909399 !default;

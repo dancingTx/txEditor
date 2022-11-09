@@ -1,7 +1,8 @@
 import { defineComponent, type CSSProperties, type PropType } from "vue";
+import { on, off } from "@/shared";
 import { DotMatrixVars, DirectionVars } from "@/config/default";
-import { on, off } from "@/shared/domOp";
 import styles from "@/style/module/components.module.scss";
+
 const dotMatrix = [
   DotMatrixVars.Top,
   DotMatrixVars.Left,
@@ -87,7 +88,12 @@ export default defineComponent({
           Math.max(rawWidth + (hasL ? -disX : hasR ? disX : 0), 0) + "px";
         const top = rawTop + (hasT ? disY : 0) + "px";
         const left = rawLeft + (hasL ? disX : 0) + "px";
-        emit("pointMouseMove", { width, height, top, left });
+        emit("pointMouseMove", {
+          width,
+          height,
+          top,
+          left,
+        });
       };
       const mouseUpPoint = () => {
         off(document, "mousemove", mouseMovePoint);

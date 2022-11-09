@@ -2,9 +2,10 @@ import { defineComponent } from "vue";
 import PluginList from "./pluginList";
 import Settings from "./settings";
 import Account from "./account";
-import { plugins } from "@/config/default";
 import { useLayoutStore } from "@/store/layout";
+import { plugins } from "@/config/default";
 import styles from "@/style/module/layout.module.scss";
+
 const collectPlugins = () => {
   return plugins.map((plugin) => ({ path: plugin.path, ...plugin.meta }));
 };

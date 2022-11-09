@@ -1,11 +1,11 @@
 import { h, Fragment, type VNode } from "vue";
+import { makeUUID } from "@/shared";
 import {
   DefaultVars,
   Vars,
   type NormalCanvasCommand,
   type SpecialCanvasCommand,
 } from "@/config/default";
-import { makeUUID } from "@/shared/variables";
 import styles from "@/style/module/components.module.scss";
 
 export default class Canvas {

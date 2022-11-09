@@ -122,7 +122,7 @@
   justify-content: space-between;
   width: 100%;
   height: $--toolkit-bar-height;
-  padding: 0 $--common-padding4;
+  padding: 0 $--common-gap20;
   box-sizing: border-box;
   box-shadow: 5px 5px 5px $--nav-bar-shadow-color;
   line-height: $--toolkit-bar-height;
@@ -179,7 +179,7 @@
     height: calc(
       100vh - $--nav-bar-height - $--status-bar-height - $--toolkit-bar-height
     );
-    padding: $--common-padding4;
+    padding: $--common-gap20;
     box-sizing: border-box;
     overflow: scroll;
     &::-webkit-scrollbar {
@@ -239,7 +239,7 @@
   &_inner {
     position: absolute;
     z-index: 1000;
-    padding: $--common-padding2;
+    padding: $--common-gap10;
     box-sizing: border-box;
     border-radius: $--common-border-radius-light;
     font-size: $--font-small1;
@@ -247,7 +247,7 @@
     background-color: $--color-bwmix2;
     color: $--color-bwmix9;
     div {
-      padding: 0 $--common-padding;
+      padding: 0 $--common-gap5;
       line-height: 2em;
       cursor: pointer;
       &:not(:last-child) {
@@ -260,7 +260,7 @@
     }
   }
   &_icon {
-    margin-right: 5px;
+    margin-right: $--common-gap5;
     vertical-align: middle;
     font-size: $--font-base;
   }
@@ -292,7 +292,7 @@
   background-color: $--color-bwmix9;
   color: $--color-bwmix2;
   .search {
-    padding: $--common-padding;
+    padding: $--common-gap5;
     box-sizing: border-box;
     &_inner {
       display: inline-block;
@@ -319,7 +319,7 @@
       position: absolute;
       top: 0;
       right: 0;
-      padding: 0 $--common-padding4;
+      padding: 0 $--common-gap20;
       font-size: $--font-small;
       line-height: 1.8em;
       color: $--status-bar-bg;
@@ -332,7 +332,7 @@
     &_item {
       display: inline-block;
       width: 100%;
-      padding: 0 $--common-padding;
+      padding: 0 $--common-gap5;
       box-sizing: border-box;
       line-height: 1.6em;
       cursor: pointer;
@@ -349,7 +349,7 @@
 .tree {
   &_inner {
     margin: 0;
-    padding-left: $--common-padding;
+    padding-left: $--common-gap5;
     box-sizing: border-box;
     list-style: none;
   }
@@ -359,13 +359,13 @@
     &_unknown {
       .icon {
         flex: 0 1 10px;
-        margin: 0 $--common-padding;
+        margin: 0 $--common-gap5;
       }
     }
 
     &_known {
       width: 100%;
-      padding: 0 $--common-padding2;
+      padding: 0 $--common-gap10;
       box-sizing: border-box;
       border: 1px solid transparent;
       cursor: pointer;
@@ -382,7 +382,7 @@
     }
     &_unknown {
       display: flex;
-      padding-left: $--common-padding2;
+      padding-left: $--common-gap10;
       box-sizing: "border-box";
       .input {
         flex: auto;
@@ -416,10 +416,10 @@
     }
   }
   &_pic {
-    border-radius: 5px;
+    border-radius: $--common-border-radius-light;
   }
   &_text {
-    border-radius: 5px;
+    border-radius: $--common-border-radius-light;
     font-size: $--font-small;
   }
 }
@@ -443,3 +443,67 @@
 }
 
 /** -------------- shape end ---------- */
+
+/** -------------- mark line start ---------- */
+.mark_line {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-style: none;
+  .line {
+    display: block;
+    position: absolute;
+    z-index: 100;
+    background-color: $--color-dark-blue;
+    &_x {
+      height: 1px;
+      width: 100%;
+    }
+    &_y {
+      width: 1px;
+      height: 100%;
+    }
+  }
+}
+
+/** -------------- mark line start ---------- */
+
+/** -------------- tip start ---------- */
+.tip {
+  position: fixed;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  padding: $--common-gap15;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 5px $--color-bwmix9;
+  border-radius: $--common-border-radius-light;
+  font-size: $--font-small1;
+  background-color: $--color-bwmix8;
+  color: $--color-bwmix3;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  &_icon {
+    margin-right: $--common-gap5;
+    font-size: $--font-medium3;
+    vertical-align: middle;
+    &.is_success {
+      color: $--tip-color-success;
+    }
+    &.is_warning {
+      color: $--tip-color-warning;
+    }
+    &.is_error {
+      color: $--tip-color-error;
+    }
+    &.is_info {
+      color: $--tip--color-info;
+    }
+  }
+  &_message {
+    vertical-align: middle;
+    word-break: break-all;
+  }
+}
+/** -------------- tip end ---------- */

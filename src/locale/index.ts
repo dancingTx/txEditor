@@ -1,4 +1,5 @@
 import { createI18n } from "vue-i18n";
+
 const requireAll = import.meta.glob("./lang/*.ts", {
   eager: true,
 });

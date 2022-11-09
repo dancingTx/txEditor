@@ -1,4 +1,9 @@
 import { defineComponent, reactive, computed } from "vue";
+import CanvasCommand from "@/packages/core/canvas/command";
+import { useLayoutStore } from "@/store/layout";
+import { useNodeStore } from "@/store/node";
+import { screen2BodyRatio } from "@/shared";
+import { useI18nTitle } from "@/hook";
 import {
   DefaultVars,
   screenSize,
@@ -6,12 +11,8 @@ import {
   type ScreenProps,
   type SpecialCanvasCommand,
 } from "@/config/default";
-import { useLayoutStore } from "@/store/layout";
-import { useNodeStore } from "@/store/node";
-import { screen2BodyRatio } from "@/shared/tool";
-import { useI18nTitle } from "@/hook";
-import CanvasCommand from "@/packages/core/canvas/command";
 import styles from "@/style/module/components.module.scss";
+
 export default defineComponent({
   setup() {
     const node = useNodeStore();

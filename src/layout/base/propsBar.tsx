@@ -5,6 +5,7 @@ import { dragDirective } from "@/directive/drag";
 import { useLayoutStore } from "@/store/layout";
 import { attrList } from "@/config/default";
 import styles from "@/style/module/layout.module.scss";
+
 export default defineComponent({
   setup() {
     const state = reactive({

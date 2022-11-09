@@ -15,6 +15,7 @@ export const enum Vars {
 export const enum DefaultVars {
   __CONTEXTMENU_RATIO__ = "3:4",
   __CANVAS_RATIO__ = "4:3",
+  __TIP_RATIO__ = "2:1",
 }
 
 export enum NodeStatusVars {
@@ -123,13 +124,17 @@ export enum DirectionVars {
   rb = "nwse",
   rt = "nesw",
   lb = "nesw",
+  Left = "left",
+  Right = "right",
+  Top = "top",
+  Bottom = "bottom",
 }
 
 export enum MarkLineVars {
   xTop = "xt",
   xCenter = "xc",
   xBottom = "xb",
-  yTop = "yt",
+  yLeft = "yl",
   yCenter = "yc",
-  yBottom = "yb",
+  yRight = "yr",
 }

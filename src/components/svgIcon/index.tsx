@@ -1,7 +1,7 @@
-import { defineComponent, computed } from "vue";
-import type { PropType } from "vue";
-import { isExternal } from "@/shared/validate";
+import { defineComponent, computed, type PropType } from "vue";
+import { isExternal } from "@/shared";
 import styles from "@/style/module/components.module.scss";
+
 export default defineComponent({
   name: "svgIcon",
   inheritAttrs: false,

@@ -1,6 +1,12 @@
-import bus from "@/shared/bus";
-import { createElement, addClass, removeClass, on, off } from "@/shared/domOp";
-import { arrayify, debounce } from "@/shared/tool";
+import bus, {
+  createElement,
+  addClass,
+  removeClass,
+  on,
+  off,
+  arrayify,
+  debounce,
+} from "@/shared";
 import { Vars } from "@/config/default";
 import styles from "@/style/module/components.module.scss";
 
