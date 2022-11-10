@@ -59,13 +59,13 @@
   margin-top: -40px;
 }
 
-// tip
-.tip-fade-enter-active,
-.tip-fade-leave-active {
+// notification
+.notification-fade-enter-active,
+.notification-fade-leave-active {
   transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
 }
 
-.tip-fade-enter-from {
+.notification-fade-enter-from {
   &.right {
     right: 0;
     transform: translateX(100%);
@@ -77,7 +77,7 @@
   }
 }
 
-.tip-fade-leave-to {
+.notification-fade-leave-to {
   opacity: 0;
   &.top {
     top: 0;

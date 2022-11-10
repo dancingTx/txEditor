@@ -2,8 +2,8 @@ import { defineStore } from "pinia";
 import TreeNodeList from "@/packages/core/tree/NodeList";
 import TreeNode from "@/packages/core/tree/Node";
 import { useLayoutStore } from "@/store/layout";
-import { NamespaceVars, type Namespace } from "@/config/default";
-
+import { NamespaceVars } from "@/config/default";
+import type { Namespace } from "@/@types/var";
 interface TreeNodeInfo {
   raw: TreeNodeList;
   id: string;

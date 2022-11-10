@@ -3,7 +3,7 @@ import { createPinia } from "pinia";
 
 import "virtual:svg-icons-register";
 import svgIcon from "./components/svgIcon";
-import Tip from "./components/tip";
+import Notification from "./components/notification";
 import { GlobalCommand } from "./components/toolkit/command/command";
 import { defaultTheme, defaultLanguage } from "./config/default";
 import { useNodeStore } from "./store/node";
@@ -14,6 +14,8 @@ import i18n from "./locale";
 
 import "normalize.css";
 import "./style/common.scss";
+import "@/@types/core.d.ts";
+
 const app = createApp(App);
 const globalCommand = GlobalCommand.getInstance();
 
@@ -32,7 +34,7 @@ app
   .use(createPinia())
   .use(router)
   .use(i18n)
-  .use(Tip)
+  .use(Notification)
   .component("svgIcon", svgIcon);
 
 /**

@@ -15,7 +15,7 @@ export const enum Vars {
 export const enum DefaultVars {
   __CONTEXTMENU_RATIO__ = "3:4",
   __CANVAS_RATIO__ = "4:3",
-  __TIP_RATIO__ = "2:1",
+  __Notification_OFFSET_RATIO__ = "2:1",
 }
 
 export enum NodeStatusVars {

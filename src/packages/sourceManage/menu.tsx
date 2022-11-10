@@ -11,11 +11,8 @@ import TreeNode, { type NodeInfo, type NodeType } from "../core/tree/Node";
 import bus from "@/shared/bus";
 import { useContextMenuStore } from "@/store/global";
 import { useNodeStore } from "@/store/node";
-import {
-  sourceList,
-  type NodeDirOpProps,
-  type SourceProps,
-} from "@/config/default";
+import { sourceList } from "@/config/default";
+import type { ExtraPropsEn, NodeDirOpProps } from "@/@types";
 
 export default defineComponent({
   setup() {
@@ -27,7 +24,7 @@ export default defineComponent({
     const nodeStore = useNodeStore();
     const contextMenu = useContextMenuStore();
     const nodeTree = computed(() => nodeStore.getNodeListNS());
-    const clickShortcutMenu = (tabInfo: SourceProps) => {
+    const clickShortcutMenu = (tabInfo: ExtraPropsEn) => {
       if (tabInfo.enLabel === "workspace") {
         contextMenu.setPanelOrientation("left top");
         contextMenu.setPanelType("menu:workspace");

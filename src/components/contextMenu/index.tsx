@@ -2,22 +2,18 @@ import { defineComponent, Transition, withDirectives, computed } from "vue";
 import bus, { traceMouseLocation } from "@/shared";
 import { useI18nTitle } from "@/hook";
 import { clickOutside } from "@/directive/clickoutside";
-import { useContextMenuStore, type ContextMenuType } from "@/store/global";
+import { useContextMenuStore } from "@/store/global";
 import {
   settings,
   workspaceSettings,
   dirSettings,
   nodeSettings,
   canvasItemSettings,
-  type SettingProps,
-  type NodeDirOpProps,
-  type CanvasItemProps,
 } from "@/config/default";
 import styles from "@/style/module/components.module.scss";
-const mapCommandPanel: Record<
-  ContextMenuType,
-  (NodeDirOpProps | SettingProps | CanvasItemProps)[]
-> = {
+import type { PanelMap, PickCssProperties } from "@/@types";
+
+const mapCommandPanel: PanelMap = {
   "global:settings": settings,
   "menu:workspace": workspaceSettings,
   "workspace:tree": dirSettings,
@@ -40,26 +36,18 @@ export default defineComponent({
         };
       }
       return Object.keys(contextMenu.location).reduce((total, curr) => {
-        (total as Record<string, number | string>)[curr] =
-          (contextMenu.location as Record<string, number | string>)[curr] +
+        total[curr] =
+          (contextMenu.location as Record<string, string | number>)[curr] +
           "px";
         return total;
-      }, {});
+      }, {} as Record<string, string | number>);
     };
 
-    const makeStyles = (): {
-      width: string;
-      height: string;
-      top?: string;
-      right?: string;
-      bottom?: string;
-      left?: string;
-      "transform-origin": string;
-    } => {
+    const makeStyles = (): PickCssProperties => {
       return {
         width: contextMenu.panelWidth + "px",
         height: contextMenu.panelHeight + "px",
-        "transform-origin": contextMenu.orientation,
+        transformOrigin: contextMenu.orientation,
         ...positionPlace(),
       };
     };

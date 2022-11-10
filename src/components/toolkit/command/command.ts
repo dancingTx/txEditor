@@ -1,16 +1,14 @@
 import { query, type DomQuery } from "@/shared";
 import i18n from "@/locale";
-import {
-  ThemeVars,
-  I18nVars,
-  type Setting,
-  type CommandGroupItem,
-  type Theme,
-  type I18n,
-} from "@/config/default";
-interface Options {
-  el?: DomQuery;
-}
+import { ThemeVars, I18nVars } from "@/config/default";
+import type {
+  Theme,
+  I18n,
+  Setting,
+  GlobalCommandItem,
+  GlobalCommandOption,
+} from "@/@types";
+
 const orderMap: Record<Setting, string> = {
   Theme: "switchTheme",
   I18n: "switchI18n",
@@ -18,13 +16,13 @@ const orderMap: Record<Setting, string> = {
 export class GlobalCommand {
   private commandId!: string;
   private command!: Setting;
-  private commandInfo!: CommandGroupItem;
+  private commandInfo!: GlobalCommandItem;
   private el?: DomQuery;
   static instance: GlobalCommand;
   constructor(
     command?: Setting,
-    commandInfo?: CommandGroupItem,
-    options: Options = {}
+    commandInfo?: GlobalCommandItem,
+    options: GlobalCommandOption = {}
   ) {
     if (command && commandInfo) {
       this.invokeCommand(command, commandInfo, options);
@@ -38,8 +36,8 @@ export class GlobalCommand {
 
   invokeCommand(
     command: Setting,
-    commandInfo: CommandGroupItem,
-    options: Options = {}
+    commandInfo: GlobalCommandItem,
+    options: GlobalCommandOption = {}
   ) {
     this.commandId = commandInfo.uid;
     this.command = command;

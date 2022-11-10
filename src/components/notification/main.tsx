@@ -1,47 +1,39 @@
 import {
   Transition,
   defineComponent,
-  onMounted,
-  reactive,
-  type CSSProperties,
-  type PropType,
-  getCurrentInstance,
-  watch,
   ref,
+  onMounted,
+  type CSSProperties,
+  withModifiers,
+  computed,
+  type VNode,
 } from "vue";
 import SvgIcon from "@/components/svgIcon";
 import { screen2BodyRatio, definePropType, noop } from "@/shared";
 import { DotMatrixVars, DefaultVars, Vars } from "@/config/default";
 import styles from "@/style/module/components.module.scss";
+import type { NotificationType, LocationMap } from "@/@types";
 
-const __TIP_OFFSET__ = 10;
-type TipType = "success" | "warning" | "info" | "error";
-export interface TipProps {
-  orientation?: DotMatrixVars;
-  size?: string | number;
-  ratio?: string;
-  message: string;
-  type?: TipType;
-  duration?: number;
-  onClose?: () => {};
-}
-const locationMap: Record<DotMatrixVars, string> = {
-  [DotMatrixVars.RightBottom]: `${__TIP_OFFSET__}px ${
-    Vars.__STATUS_BAR_HEIGHT__ + __TIP_OFFSET__
+const __Notification_OFFSET__ = 10;
+const locationMap: LocationMap = {
+  [DotMatrixVars.RightBottom]: `${__Notification_OFFSET__}px ${
+    Vars.__STATUS_BAR_HEIGHT__ + __Notification_OFFSET__
   }px`,
-  [DotMatrixVars.Right]: `${__TIP_OFFSET__}px`,
-  [DotMatrixVars.RightTop]: `${__TIP_OFFSET__}px ${
-    Vars.__STATUS_BAR_HEIGHT__ + __TIP_OFFSET__
+  [DotMatrixVars.Right]: `${__Notification_OFFSET__}px`,
+  [DotMatrixVars.RightTop]: `${__Notification_OFFSET__}px ${
+    Vars.__STATUS_BAR_HEIGHT__ + __Notification_OFFSET__
   }px`,
-  [DotMatrixVars.LeftTop]: `${__TIP_OFFSET__}px ${
-    Vars.__STATUS_BAR_HEIGHT__ + __TIP_OFFSET__
+  [DotMatrixVars.LeftTop]: `${__Notification_OFFSET__}px ${
+    Vars.__STATUS_BAR_HEIGHT__ + __Notification_OFFSET__
   }px`,
-  [DotMatrixVars.Left]: `${Vars.__ASIDE_WIDTH__ + __TIP_OFFSET__}px`,
-  [DotMatrixVars.LeftBottom]: `${__TIP_OFFSET__}px ${
-    Vars.__STATUS_BAR_HEIGHT__ + __TIP_OFFSET__
+  [DotMatrixVars.Left]: `${Vars.__ASIDE_WIDTH__ + __Notification_OFFSET__}px`,
+  [DotMatrixVars.LeftBottom]: `${__Notification_OFFSET__}px ${
+    Vars.__STATUS_BAR_HEIGHT__ + __Notification_OFFSET__
   }px`,
-  [DotMatrixVars.Top]: `${__TIP_OFFSET__}px`,
-  [DotMatrixVars.Bottom]: `${Vars.__STATUS_BAR_HEIGHT__ + __TIP_OFFSET__}px`,
+  [DotMatrixVars.Top]: `${__Notification_OFFSET__}px`,
+  [DotMatrixVars.Bottom]: `${
+    Vars.__STATUS_BAR_HEIGHT__ + __Notification_OFFSET__
+  }px`,
 };
 export default defineComponent({
   props: {
@@ -59,29 +51,33 @@ export default defineComponent({
     },
     ratio: {
       type: definePropType<string>(String),
-      default: DefaultVars.__TIP_RATIO__,
+      default: DefaultVars.__Notification_OFFSET_RATIO__,
     },
     message: {
-      type: definePropType<string>(String),
+      type: definePropType<string | VNode>([String, Object]),
       default: "",
     },
     type: {
-      type: definePropType<TipType>(String),
+      type: definePropType<NotificationType>(String),
       default: "info",
     },
     duration: {
       type: definePropType<number>(Number),
       default: 3000,
     },
+    from: {
+      type: definePropType<string>(String),
+      default: "未知",
+    },
     onClose: {
-      type: definePropType<() => {}>(Function),
+      type: definePropType<() => void>(Function),
       default: () => noop,
     },
   },
-  emits: ["onClose"],
+  emits: ["destroy"],
   setup(props, { emit }) {
     const visible = ref(false);
-    const makeTipStyle = (): CSSProperties => {
+    const makeNotificationStyle = (): CSSProperties => {
       const style: CSSProperties = {};
       const width = parseInt(props.size + "");
       const height = Math.round(screen2BodyRatio(width, props.ratio));
@@ -135,11 +131,19 @@ export default defineComponent({
       }
       return className;
     };
+    const notificationStyle = makeNotificationStyle();
+    const calcTBRatio = computed(() => {
+      const flagValue = parseInt((notificationStyle.height ?? 0) + "") - 20;
+      return {
+        t: flagValue * 0.8,
+        b: flagValue * 0.2,
+      };
+    }).value;
     let timer: NodeJS.Timeout | null = null;
     const startTimer = () => {
       if (props.duration > 0) {
         timer = setTimeout(() => {
-          if (props.visible) {
+          if (visible.value) {
             close();
           }
         }, props.duration);
@@ -154,20 +158,56 @@ export default defineComponent({
     const close = () => {
       visible.value = false;
       stopTimer();
-      emit("onClose");
     };
     onMounted(() => {
       startTimer();
+      visible.value = true;
     });
     return () => (
-      <Transition name="tip-fade">
-        {props.visible && (
-          <div class={[styles.tip, makeCustomClass()]} style={makeTipStyle()}>
-            <SvgIcon
-              iconClass={props.type}
-              class={[styles.tip_icon, styles[`is_${props.type}`]]}
-            ></SvgIcon>
-            <span class={styles.tip_message}>{props.message}</span>
+      <Transition
+        name="notification-fade"
+        onBeforeLeave={props.onClose}
+        onAfterLeave={() => emit("destroy")}
+      >
+        {visible.value && (
+          <div
+            class={[styles.notification, makeCustomClass()]}
+            style={notificationStyle}
+          >
+            <div class={styles.notification_inner}>
+              <div class={styles.notification_identify}>
+                <SvgIcon
+                  iconClass={props.type}
+                  class={[styles.notification_icon, styles[`is_${props.type}`]]}
+                ></SvgIcon>
+              </div>
+              <div
+                class={styles.notification_content}
+                style={{ height: calcTBRatio.t + "px" }}
+              >
+                <span class={styles.notification_message}>{props.message}</span>
+              </div>
+              <div class={styles.notification_setting}>
+                <div
+                  class={styles.notification_close}
+                  onClick={withModifiers(close, ["stop"])}
+                >
+                  <SvgIcon
+                    iconClass="close"
+                    class={styles.notification_close_inner}
+                  ></SvgIcon>
+                </div>
+              </div>
+            </div>
+            <div
+              class={styles.notification_footer}
+              style={{
+                height: calcTBRatio.b + "px",
+                lineHeight: calcTBRatio.b + "px",
+              }}
+            >
+              <span class={styles.from}>来源：{props.from}</span>
+            </div>
           </div>
         )}
       </Transition>

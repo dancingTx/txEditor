@@ -1,8 +1,9 @@
 import { defineComponent, onMounted, ref, getCurrentInstance } from "vue";
 import bus from "@/shared";
 import { useCommandStore, useContextMenuStore } from "@/store/global";
-import { Vars, type SettingProps } from "@/config/default";
+import { Vars } from "@/config/default";
 import styles from "@/style/module/layout.module.scss";
+import type { SettingProps } from "@/@types";
 
 export default defineComponent({
   setup() {

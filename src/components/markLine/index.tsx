@@ -1,22 +1,20 @@
-import {
-  defineComponent,
-  onMounted,
-  reactive,
-  type ComponentPublicInstance,
-  type HTMLAttributes,
-  type PropType,
-  type CSSProperties,
-} from "vue";
-import bus, { isEqual } from "@/shared";
-import {
-  MarkLineVars,
-  Vars,
-  type ComponentInfo,
-  type SourceProps,
-} from "@/config/default";
+import { defineComponent, onMounted, reactive, type CSSProperties } from "vue";
+import bus, { isEqual, definePropType } from "@/shared";
+import { MarkLineVars, Vars } from "@/config/default";
 import styles from "@/style/module/components.module.scss";
+import type {
+  ExtraProps,
+  ComponentInfo,
+  Direction,
+  RefIns,
+  ConditionGroup,
+  ConditionItem,
+  LineStatus,
+  LineRefs,
+  MarkLineState,
+} from "@/@types";
 
-const lines = [
+const lines: MarkLineVars[] = [
   MarkLineVars.xTop,
   MarkLineVars.xCenter,
   MarkLineVars.xBottom,
@@ -24,46 +22,34 @@ const lines = [
   MarkLineVars.yCenter,
   MarkLineVars.yRight,
 ];
-export interface Direction {
-  isDownward: boolean;
-  isRightward: boolean;
-}
-type Ref = ComponentPublicInstance | HTMLAttributes | Element | null;
 export default defineComponent({
   props: {
     bucket: {
-      type: Array as PropType<ComponentInfo<SourceProps>[]>,
+      type: definePropType<ComponentInfo<ExtraProps>[]>(Array),
       default: () => [],
     },
     activeEl: {
-      type: Object as PropType<ComponentInfo<SourceProps>>,
+      type: definePropType<ComponentInfo<ExtraProps>>(Object),
       required: true,
     },
   },
   setup(props) {
-    const lineStatus = lines.reduce((total, curr) => {
+    const lineStatus: LineStatus = lines.reduce((total, curr) => {
       total[curr] = false;
       return total;
-    }, {} as Record<MarkLineVars, boolean>);
-    const state = reactive({
+    }, {} as LineStatus);
+    const state = reactive<MarkLineState>({
       gap: Vars.__ELEMENT_GAP__,
       lineStatus,
     });
-    const linesRef: Map<MarkLineVars, Ref> = new Map();
-    const setLinesRef = (el: Ref, line: MarkLineVars) => {
+    const linesRef: LineRefs = new Map();
+    const setLinesRef = (el: RefIns, line: MarkLineVars) => {
       if (el) {
         linesRef.set(line, el);
       }
     };
 
     const displayMarkLine = (isDownward: boolean, isRightward: boolean) => {
-      interface Condition {
-        isNearly: boolean;
-        lineNode: Ref;
-        line: MarkLineVars;
-        dragOffset: number;
-        lineOffset: number;
-      }
       const str2Num = (source: number | string | undefined): number => {
         if (!source) return 0;
         return parseInt(source + "") ?? 0;
@@ -90,7 +76,7 @@ export default defineComponent({
         type: MarkLineVars,
         dragOffset: number,
         lineOffset: number
-      ): Condition => ({
+      ): ConditionItem => ({
         isNearly,
         line: type,
         lineNode: linesRef.get(type)!,
@@ -157,7 +143,7 @@ export default defineComponent({
       hiddenMarkLine();
 
       for (const component of components) {
-        if (isEqual<SourceProps>(component, currComponent)) {
+        if (isEqual<ExtraProps>(component, currComponent)) {
           break;
         }
 
@@ -166,10 +152,7 @@ export default defineComponent({
         const compHalfWidth = width / 2;
         const compHalfHeight = height / 2;
 
-        const conditions: {
-          top: Condition[];
-          left: Condition[];
-        } = {
+        const conditions: ConditionGroup = {
           top: [
             makeMould(isNearly(currTop, top), MarkLineVars.xTop, top, top),
             makeMould(
@@ -229,10 +212,10 @@ export default defineComponent({
         const displays: MarkLineVars[] = [];
 
         for (const key of Object.keys(conditions)) {
-          (conditions as Record<string, Condition[]>)[key].forEach((item) => {
+          conditions[key as keyof ConditionGroup].forEach((item) => {
             if (!item.isNearly) return;
 
-            (item.lineNode as HTMLElement).style[key as any] =
+            (item.lineNode as HTMLElement).style[key as keyof ConditionGroup] =
               item.lineOffset + "px";
             displays.push(item.line);
           });
@@ -246,7 +229,7 @@ export default defineComponent({
 
     const hiddenMarkLine = () => {
       Object.keys(state.lineStatus).forEach((key) => {
-        (state.lineStatus as Record<string, boolean>)[key] = false;
+        state.lineStatus[key as keyof LineStatus] = false;
       });
     };
 

@@ -1,26 +1,27 @@
-import { defineComponent, computed, type PropType } from "vue";
-import { isExternal } from "@/shared";
+import { defineComponent, computed, type CSSProperties } from "vue";
+import { isExternal, definePropType } from "@/shared";
 import styles from "@/style/module/components.module.scss";
+import type { SvgIconsKind } from "@/@types";
 
 export default defineComponent({
   name: "svgIcon",
   inheritAttrs: false,
   props: {
     className: {
-      type: String as PropType<string>,
+      type: definePropType<string>(String),
       default: "",
     },
     iconClass: {
-      type: String as PropType<string>,
+      type: definePropType<SvgIconsKind>(String),
       required: true,
     },
     tip: {
-      type: String as PropType<string>,
+      type: definePropType<string>(String),
       default: "",
     },
   },
   setup(props, { attrs }) {
-    const styleExternalIcon = computed(() => {
+    const styleExternalIcon = computed((): CSSProperties => {
       const attribute = `url(${props.iconClass}) no-repeat 50% 50%`;
       return {
         mask: attribute,
@@ -31,7 +32,7 @@ export default defineComponent({
       isExternal(props.iconClass) ? (
         <div
           {...attrs}
-          style={{ ...styleExternalIcon }}
+          style={styleExternalIcon.value}
           class={[styles.svg_icon, styles.svg_external_icon]}
         />
       ) : (

@@ -1,10 +1,10 @@
-import type { Component } from "vue";
+import type { Component, ComponentPublicInstance, DefineComponent } from "vue";
 import { isString } from "./validate";
-import type { CommonProps, ComponentInfo, SourceProps } from "@/config/default";
+import type { ExtraPropsEn, Props, ComponentInfo } from "@/@types";
 
-export const compoundComponents = <Props extends CommonProps>(
-  list: Props[],
-  compType: keyof Props
+export const compoundComponents = <P extends Props>(
+  list: P[],
+  compType: keyof P
 ): Record<string, Component> => {
   return list.reduce((total, curr) => {
     if (curr[compType] && curr) {
@@ -22,17 +22,17 @@ export const isEqual = <T>(
     return comp1 === comp2;
   }
   if (
-    (comp1 as ComponentInfo<SourceProps>).elId &&
-    (comp2 as ComponentInfo<SourceProps>).elId
+    (comp1 as ComponentInfo<ExtraPropsEn>).elId &&
+    (comp2 as ComponentInfo<ExtraPropsEn>).elId
   ) {
     return (
-      (comp1 as ComponentInfo<SourceProps>).elId ===
-      (comp2 as ComponentInfo<SourceProps>).elId
+      (comp1 as ComponentInfo<ExtraPropsEn>).elId ===
+      (comp2 as ComponentInfo<ExtraPropsEn>).elId
     );
   }
 
   return (
-    (comp1 as ComponentInfo<SourceProps>).uid ===
-    (comp2 as ComponentInfo<SourceProps>).uid
+    (comp1 as ComponentInfo<ExtraPropsEn>).uid ===
+    (comp2 as ComponentInfo<ExtraPropsEn>).uid
   );
 };

@@ -1,12 +1,13 @@
-import { defineComponent, reactive, type PropType } from "vue";
+import { defineComponent, reactive } from "vue";
 import Tabs from "@/components/tab";
 import TabItem from "@/components/tab/item";
-import type { SourceProps } from "@/config/default";
+import { definePropType } from "@/shared";
+import type { ExtraPropsEn } from "@/@types/core";
 
 export default defineComponent({
   props: {
     items: {
-      type: Array as PropType<SourceProps[]>,
+      type: definePropType<ExtraPropsEn[]>(Array),
       default: () => [],
     },
   },

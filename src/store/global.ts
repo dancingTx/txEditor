@@ -2,23 +2,26 @@ import type { RendererNode } from "vue";
 import { defineStore } from "pinia";
 import type { Orientation } from "@/directive/contextMenu/contextMenu";
 import { screen2BodyRatio } from "@/shared";
-import {
-  Vars,
-  DefaultVars,
-  type Setting,
-  type CommandOptions,
-} from "@/config/default";
+import { Vars, DefaultVars } from "@/config/default";
+import type {
+  Setting,
+  GlobalCommandGroup,
+  GlobalState,
+  Pos,
+  ContextMenuType,
+  ContextMenuState,
+} from "@/@types";
 
 export const useCommandStore = defineStore("command", {
-  state: () => {
+  state: (): GlobalState => {
     return {
       showCommand: false,
       command: "" as Setting,
-      commandOptions: [] as CommandOptions[],
+      commandOptions: [],
     };
   },
   actions: {
-    invokeCommand(command: Setting, commandOptions?: CommandOptions[]) {
+    invokeCommand(command: Setting, commandOptions?: GlobalCommandGroup[]) {
       this.showCommand = true;
       this.command = command;
       if (commandOptions) {
@@ -33,32 +36,19 @@ export const useCommandStore = defineStore("command", {
   },
 });
 
-export type ContextMenuType =
-  | "global:settings"
-  | "menu:workspace"
-  | "workspace:tree"
-  | "workspace:node"
-  | "canvas:item";
-type NumberOrString = number | string;
-export interface Pos {
-  left?: NumberOrString;
-  top?: NumberOrString;
-  right?: NumberOrString;
-  bottom?: NumberOrString;
-}
 export const useContextMenuStore = defineStore("contextMenu", {
-  state: () => {
+  state: (): ContextMenuState => {
     return {
       showPanel: false,
-      uid: "" as NumberOrString,
+      uid: "",
       panelWidth: Vars.__PANEL_WIDTH__,
       panelHeight: screen2BodyRatio(
         Vars.__PANEL_WIDTH__,
         DefaultVars.__CONTEXTMENU_RATIO__
       ),
-      kind: "global:settings" as ContextMenuType,
+      kind: "global:settings",
       orientation: "" as Orientation | string,
-      location: null as Pos | null,
+      location: {},
     };
   },
   actions: {
@@ -70,9 +60,9 @@ export const useContextMenuStore = defineStore("contextMenu", {
       this.kind = "global:settings";
       this.orientation = "";
       this.uid = "";
-      this.location = null;
+      this.location = {};
     },
-    setUniqueId(uid: NumberOrString) {
+    setUniqueId(uid: string | number) {
       this.uid = uid;
     },
     setPanelPos(pos: Pos) {

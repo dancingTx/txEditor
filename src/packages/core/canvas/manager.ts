@@ -1,8 +1,8 @@
-import type { ComponentInfo, SourceProps } from "@/config/default";
 import { deepClone } from "@/shared/data";
+import type { ExtraProps, ComponentInfo } from "@/@types";
 
 export default class CanvasCommandManager {
-  private records: ComponentInfo<SourceProps>[][];
+  private records: ComponentInfo<ExtraProps>[][];
   private snapshotIndex: number;
 
   constructor() {
@@ -10,7 +10,7 @@ export default class CanvasCommandManager {
     this.snapshotIndex = -1;
   }
 
-  setRecord(record: ComponentInfo<SourceProps>[]) {
+  setRecord(record: ComponentInfo<ExtraProps>[]) {
     this.records[++this.snapshotIndex] = deepClone(record);
     if (this.snapshotIndex < this.records.length - 1) {
       this.records = this.records.slice(0, this.snapshotIndex + 1);

@@ -6,12 +6,11 @@ import {
   getCurrentInstance,
   computed,
 } from "vue";
-import type { GlobalCommand } from "./command/command";
 import { useCommandStore } from "@/store/global";
 import { clickOutside } from "@/directive/clickoutside";
 import { useI18nTitle } from "@/hook";
-import type { CommandGroupItem } from "@/config/default";
 import styles from "@/style/module/components.module.scss";
+import type { GlobalCommandItem } from "@/@types";
 
 export default defineComponent({
   setup() {
@@ -20,13 +19,12 @@ export default defineComponent({
       searchMessage: "",
     });
 
-    const globalCommand = computed(() => app?.proxy?.$globalCommand)
-      .value as GlobalCommand;
+    const globalCommand = computed(() => app?.proxy?.$globalCommand!).value;
     const global = useCommandStore();
     const searchCommand = (evt: FocusEvent): void => {
       console.log("message", state.searchMessage);
     };
-    const executeCommand = (option: CommandGroupItem) => {
+    const executeCommand = (option: GlobalCommandItem) => {
       globalCommand.invokeCommand(global.command, option);
       globalCommand.execute();
       global.disposeCommand();

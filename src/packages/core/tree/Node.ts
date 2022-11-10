@@ -4,14 +4,10 @@ import Canvas from "../canvas";
 import CanvasCommand from "../canvas/command";
 import type TreeNodeList from "./NodeList";
 import bus, { makeUUID, getExtName } from "@/shared";
-import {
-  NodeStatusVars,
-  FileIconVars,
-  type NodeStatus,
-  type NodeDirOpProps,
-} from "@/config/default";
+import { NodeStatusVars, FileIconVars } from "@/config/default";
 import styles from "@/style/module/components.module.scss";
 import stylesFile from "@/style/module/file.module.scss";
+import type { NodeStatus, NodeDirOpProps } from "@/@types";
 
 interface TreeNodeOptions {
   readonly?: boolean;

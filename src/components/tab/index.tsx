@@ -1,9 +1,10 @@
-import { defineComponent, type PropType } from "vue";
+import { defineComponent } from "vue";
+import { definePropType } from "@/shared";
 import styles from "@/style/module/components.module.scss";
 
 export default defineComponent({
   props: {
-    modelValue: String as PropType<string>,
+    modelValue: definePropType<string>(String),
   },
   setup(_, { slots }) {
     return () => (

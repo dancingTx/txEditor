@@ -4,34 +4,35 @@ import {
   getCurrentInstance,
   ref,
   withDirectives,
-  type PropType,
 } from "vue";
 import { useI18nTitle } from "@/hook";
 import { dragDirective } from "@/directive/drag";
-import { Vars, type SourceProps } from "@/config/default";
+import { Vars } from "@/config/default";
+import { definePropType, noop } from "@/shared";
 import styles from "@/style/module/components.module.scss";
+import type { ExtraProps } from "@/@types/core";
 
 export default defineComponent({
   props: {
     item: {
-      type: Object as PropType<SourceProps>,
+      type: definePropType<ExtraProps>(Object),
       default: () => ({}),
     },
     total: {
-      type: Number as PropType<number>,
+      type: definePropType<number>(Number),
       default: 0,
     },
     hasTitle: {
-      type: Boolean as PropType<boolean>,
+      type: definePropType<boolean>(Boolean),
       default: false,
     },
     onHeaderClick: {
-      type: Function as PropType<(item: SourceProps, evt?: Event) => void>,
-      default: () => () => {},
+      type: definePropType<(item: ExtraProps, evt?: Event) => void>(Function),
+      default: () => noop,
     },
     onHeaderContextMenu: {
-      type: Function as PropType<(item: SourceProps, evt?: Event) => void>,
-      default: () => () => {},
+      type: definePropType<(item: ExtraProps, evt?: Event) => void>(Function),
+      default: () => noop,
     },
   },
   setup(props, { slots }) {

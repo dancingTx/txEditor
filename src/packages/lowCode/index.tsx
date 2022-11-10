@@ -11,8 +11,7 @@ import {
 import ToolKit from "@/components/toolkit/canvasCommand";
 import Canvas from "@/components/canvas";
 import Shape from "@/components/shape";
-import MarkLine, { type Direction } from "@/components/markLine";
-import Tip from "@/components/tip/main";
+import MarkLine from "@/components/markLine";
 import CommandManager from "@/packages/core/canvas/manager";
 import CanvasClass from "@/packages/core/canvas";
 import bus, {
@@ -24,18 +23,18 @@ import bus, {
   query,
 } from "@/shared";
 import { useContextMenuStore } from "@/store/global";
-import {
-  componentList,
-  DotMatrixVars,
-  type CanvasItemProps,
-  type ComponentInfo,
-  type SourceProps,
-  type NormalCanvasCommand,
-  type SpecialCanvasCommand,
-} from "@/config/default";
+import { componentList } from "@/config/default";
 import styles from "@/style/module/components.module.scss";
+import type {
+  ExtraProps,
+  CanvasItemProps,
+  SpecialCanvasCommand,
+  NormalCanvasCommand,
+  ComponentInfo,
+  Direction,
+} from "@/@types";
 
-const components = compoundComponents<ComponentInfo<SourceProps>>(
+const components = compoundComponents<ComponentInfo<ExtraProps>>(
   componentList,
   "component"
 );
@@ -47,8 +46,8 @@ export default defineComponent({
     const C = new CanvasClass();
     const canvas = ref(null);
     const state = reactive({
-      bucket: [] as ComponentInfo<SourceProps>[],
-      currEl: {} as ComponentInfo<SourceProps>,
+      bucket: [] as ComponentInfo<ExtraProps>[],
+      currEl: {} as ComponentInfo<ExtraProps>,
       slot: () => {},
     });
     const contextMenu = useContextMenuStore();
@@ -80,7 +79,7 @@ export default defineComponent({
       evt.preventDefault();
     };
     const handleMouseDown = (
-      item: ComponentInfo<SourceProps>,
+      item: ComponentInfo<ExtraProps>,
       evt: MouseEvent
     ) => {
       const startX = evt.clientX;
@@ -142,7 +141,7 @@ export default defineComponent({
         evt.stopPropagation();
       }
     };
-    const showShortCutMenu = (item: ComponentInfo<SourceProps>) => {
+    const showShortCutMenu = (item: ComponentInfo<ExtraProps>) => {
       state.currEl = item;
       contextMenu.setPanelOrientation("left top");
       contextMenu.setPanelType("canvas:item");
@@ -152,7 +151,7 @@ export default defineComponent({
       contextMenu.show();
     };
 
-    const removeItem = (item: ComponentInfo<SourceProps> | null) => {
+    const removeItem = (item: ComponentInfo<ExtraProps> | null) => {
       if (item) {
         manager.setRecord(state.bucket);
         for (let i = state.bucket.length; i--; ) {
@@ -163,10 +162,7 @@ export default defineComponent({
         }
       }
     };
-    const swapItem = (
-      item: ComponentInfo<SourceProps> | null,
-      flag: number
-    ) => {
+    const swapItem = (item: ComponentInfo<ExtraProps> | null, flag: number) => {
       if (!item) return;
       const index = state.bucket.findIndex((i) => i.elId === item.elId);
       if (index !== -1) {
@@ -248,15 +244,7 @@ export default defineComponent({
         command,
         canSelected,
         <div>
-          <button
-            onClick={() => {
-              app?.proxy?.$tip.visable({
-                message: "111111",
-              });
-            }}
-          >
-            test
-          </button>
+          <button onClick={() => {}}>test</button>
           {state.bucket.map((item, index) => (
             <div
               onMousedown={(evt: MouseEvent) => handleMouseDown(item, evt)}
@@ -319,8 +307,6 @@ export default defineComponent({
         <ToolKit></ToolKit>
         <div onDrop={handleDrop} onDragover={handleDropOver}>
           <Canvas ref={canvas}>{state.slot()}</Canvas>
-          {/* <Tip></Tip> */}
-          {/* <SvgIcon></SvgIcon> */}
         </div>
       </div>
     );

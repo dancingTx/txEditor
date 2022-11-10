@@ -1,11 +1,7 @@
 import { useI18n } from "vue-i18n";
 import { useLayoutStore } from "@/store/layout";
-import {
-  Vars,
-  type SourceProps,
-  type PluginProps,
-  type CommandOptions,
-} from "@/config/default";
+import { Vars } from "@/config/default";
+import type { ExtraProps } from "@/@types/core";
 
 export const calcNavWidth = (): string => {
   const state = useLayoutStore();
@@ -17,12 +13,12 @@ export const calcNavWidth = (): string => {
   return `calc(100vw - ${otherWidth}px)`;
 };
 
-type combineType = SourceProps | PluginProps | CommandOptions | undefined;
-export const useI18nTitle = (
-  source: combineType & Record<string, any>,
-  prop?: string
-) => {
+export const useI18nTitle = (source: Partial<ExtraProps>, prop?: string) => {
   if (!source) return "";
   const { t } = useI18n();
-  return source.i18n ? t(source.i18n) : prop ? source[prop] : source.label;
+  return source.i18n
+    ? t(source.i18n)
+    : prop
+    ? (source as any)[prop]
+    : source.label;
 };

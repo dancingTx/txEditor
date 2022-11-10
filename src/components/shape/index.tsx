@@ -1,9 +1,9 @@
 import { defineComponent, type CSSProperties, type PropType } from "vue";
-import { on, off } from "@/shared";
+import { on, off, definePropType } from "@/shared";
 import { DotMatrixVars, DirectionVars } from "@/config/default";
 import styles from "@/style/module/components.module.scss";
 
-const dotMatrix = [
+const dotMatrix: DotMatrixVars[] = [
   DotMatrixVars.Top,
   DotMatrixVars.Left,
   DotMatrixVars.Right,
@@ -16,11 +16,11 @@ const dotMatrix = [
 export default defineComponent({
   props: {
     active: {
-      type: Boolean as PropType<boolean>,
+      type: definePropType<boolean>(Boolean),
       default: false,
     },
     defaultStyle: {
-      type: Object as PropType<CSSProperties>,
+      type: definePropType<CSSProperties>(Object),
       default: () => ({}),
     },
   },
@@ -32,8 +32,8 @@ export default defineComponent({
       const hasL = /l/.test(point);
       const hasR = /r/.test(point);
       const { width, height } = props.defaultStyle;
-      const widthNum = parseInt(width + "");
-      const heightNum = parseInt(height + "");
+      const widthNum = parseInt((width ?? 0) + "");
+      const heightNum = parseInt((height ?? 0) + "");
       let top = 0;
       let left = 0;
 
@@ -68,11 +68,11 @@ export default defineComponent({
       const hasB = /b/.test(point);
       const hasL = /l/.test(point);
       const hasR = /r/.test(point);
-
-      const rawWidth = parseInt(props.defaultStyle.width + "");
-      const rawHeight = parseInt(props.defaultStyle.height + "");
-      const rawTop = parseInt(props.defaultStyle.top + "");
-      const rawLeft = parseInt(props.defaultStyle.left + "");
+      const { width, height, top, left } = props.defaultStyle;
+      const rawWidth = parseInt((width ?? 0) + "");
+      const rawHeight = parseInt((height ?? 0) + "");
+      const rawTop = parseInt((top ?? 0) + "");
+      const rawLeft = parseInt((left ?? 0) + "");
       const startX = (evt as MouseEvent).clientX;
       const startY = (evt as MouseEvent).clientY;
       emit("pointMouseDown");

@@ -10,6 +10,7 @@ import {
 } from "@/config/default";
 import styles from "@/style/module/layout.module.scss";
 import styleFile from "@/style/module/file.module.scss";
+
 export default defineComponent({
   setup() {
     const state = reactive({

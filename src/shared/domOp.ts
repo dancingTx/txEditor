@@ -188,6 +188,6 @@ export const createElement = (
   return domEl;
 };
 
-export const mount2Body = (source: HTMLElement) => {
-  document.body.appendChild(source);
+export const mount2Body = (source: Element | null) => {
+  source && document.body.appendChild(source);
 };

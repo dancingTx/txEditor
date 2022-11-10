@@ -3,8 +3,8 @@ import { useRoute } from "vue-router";
 import router from "@/router";
 import { useI18nTitle } from "@/hook";
 import { useLayoutStore } from "@/store/layout";
-import type { PluginProps } from "@/config/default";
 import styles from "@/style/module/layout.module.scss";
+import type { PluginProps } from "@/@types/plugin";
 
 export default defineComponent({
   props: {

@@ -11,8 +11,9 @@ import NavBar from "../base/navBar";
 import { compoundComponents } from "@/shared";
 import { useLayoutStore } from "@/store/layout";
 import { useI18nTitle } from "@/hook";
-import { plugins, type PluginProps } from "@/config/default";
+import { plugins } from "@/config/default";
 import styles from "@/style/module/layout.module.scss";
+import type { PluginProps } from "@/@types/plugin";
 
 const collectPlugins = () => plugins.map((plugin) => plugin.meta);
 const components = compoundComponents<PluginProps>(

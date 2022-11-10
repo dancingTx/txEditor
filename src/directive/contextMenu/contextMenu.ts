@@ -1,9 +1,9 @@
 import { h, render } from "vue";
 import svgIcon from "@/components/svgIcon";
 import bus, { on, off, query, makeUUID } from "@/shared";
-import type { NodeDirOpProps } from "@/config/default";
 import { useContextMenuStore } from "@/store/global";
 import styles from "@/style/module/components.module.scss";
+import type { NodeDirOpProps } from "@/@types";
 
 export type Orientation =
   | "left top"

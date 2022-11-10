@@ -238,7 +238,7 @@
 .panel {
   &_inner {
     position: absolute;
-    z-index: 1000;
+    z-index: 2000;
     padding: $--common-gap10;
     box-sizing: border-box;
     border-radius: $--common-border-radius-light;
@@ -281,7 +281,7 @@
   position: fixed;
   top: 0;
   left: 50%;
-  z-index: 1000;
+  z-index: 2000;
   transform: translateX(-50%);
   width: 30%;
   height: 200px;
@@ -469,41 +469,76 @@
 
 /** -------------- mark line start ---------- */
 
-/** -------------- tip start ---------- */
-.tip {
+/** -------------- notification start ---------- */
+.notification {
   position: fixed;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  padding: $--common-gap15;
+  z-index: 2000;
+  padding: $--common-gap10;
   box-sizing: border-box;
   box-shadow: 0px 0px 5px $--color-bwmix9;
   border-radius: $--common-border-radius-light;
   font-size: $--font-small1;
   background-color: $--color-bwmix8;
   color: $--color-bwmix3;
-  &::-webkit-scrollbar {
-    display: none;
+
+  &_inner {
+    display: flex;
+    .notification_identify {
+      .notification_icon {
+        margin-right: $--common-gap5;
+        font-size: $--font-medium1;
+        vertical-align: middle;
+        &.is_success {
+          color: $--notification-color-success;
+        }
+        &.is_warning {
+          color: $--notification-color-warning;
+        }
+        &.is_error {
+          color: $--notification-color-error;
+        }
+        &.is_info {
+          color: $--notification--color-info;
+        }
+      }
+    }
+
+    .notification_setting {
+      margin-left: $--common-gap5;
+      .notification_close {
+        width: 1.2em;
+        height: 1.2em;
+        border-radius: $--common-border-radius-light;
+        cursor: pointer;
+        &:hover {
+          background-color: $--color-bwmix9;
+        }
+        &_inner {
+          text-align: center;
+          line-height: 1.2em;
+          font-size: $--font-small2;
+        }
+      }
+    }
+
+    .notification_content {
+      overflow-x: hidden;
+      overflow-y: scroll;
+      width: 100%;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      .notification_message {
+        vertical-align: middle;
+        word-break: break-all;
+      }
+    }
   }
-  &_icon {
-    margin-right: $--common-gap5;
-    font-size: $--font-medium3;
-    vertical-align: middle;
-    &.is_success {
-      color: $--tip-color-success;
+
+  &_footer {
+    .from {
+      font-size: $--font-small;
     }
-    &.is_warning {
-      color: $--tip-color-warning;
-    }
-    &.is_error {
-      color: $--tip-color-error;
-    }
-    &.is_info {
-      color: $--tip--color-info;
-    }
-  }
-  &_message {
-    vertical-align: middle;
-    word-break: break-all;
   }
 }
-/** -------------- tip end ---------- */
+/** -------------- notification end ---------- */
