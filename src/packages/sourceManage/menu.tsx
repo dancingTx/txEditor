@@ -7,12 +7,17 @@ import {
   computed,
 } from "vue";
 import Menu from "@/components/menu";
-import TreeNode, { type NodeInfo, type NodeType } from "../core/tree/Node";
+import TreeNode from "../core/tree/Node";
 import bus from "@/shared/bus";
 import { useContextMenuStore } from "@/store/global";
 import { useNodeStore } from "@/store/node";
 import { sourceList } from "@/config/default";
-import type { ExtraPropsEn, NodeDirOpProps } from "@/@types";
+import type {
+  ExtraPropsEn,
+  NodeDirOpProps,
+  NodeType,
+  NodeInfo,
+} from "@/@types";
 
 export default defineComponent({
   setup() {

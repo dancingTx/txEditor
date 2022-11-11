@@ -7,39 +7,15 @@ import bus, { makeUUID, getExtName } from "@/shared";
 import { NodeStatusVars, FileIconVars } from "@/config/default";
 import styles from "@/style/module/components.module.scss";
 import stylesFile from "@/style/module/file.module.scss";
-import type { NodeStatus, NodeDirOpProps } from "@/@types";
+import type {
+  TreeNodeOptions,
+  NodeValue,
+  NodeType,
+  NodeInfo,
+  KnownNodeOptions,
+  UnknownNodeOptions,
+} from "@/@types";
 
-interface TreeNodeOptions {
-  readonly?: boolean;
-  isModified?: boolean;
-  isDeleted?: boolean;
-  isMoved?: boolean;
-}
-export interface NodeValue {
-  uid?: string;
-  kind: NodeStatus;
-  icon?: string;
-  label?: string;
-  subTitle?: string;
-  enLabel?: string;
-  enSubTitle?: string;
-  rawLabel?: string;
-}
-export type NodeType = "dir" | "node";
-export interface PanelInfo {
-  showPanel: boolean;
-  panelLeft: number;
-  panelTop: number;
-  items: NodeDirOpProps[];
-}
-
-export interface NodeInfo {
-  uid: string;
-  active: boolean;
-  type: NodeType;
-  raw: TreeNode;
-  evt?: Event;
-}
 export default class TreeNode {
   public uid: string;
   public type: NodeType;
@@ -151,10 +127,7 @@ export default class TreeNode {
     this.alive();
   }
 
-  private renderUnknownNode(
-    node: NodeValue,
-    options: { domId: string; iconClass: string }
-  ) {
+  private renderUnknownNode(node: NodeValue, options: UnknownNodeOptions) {
     const { domId, iconClass } = options;
     return h(
       "div",
@@ -189,15 +162,7 @@ export default class TreeNode {
     );
   }
 
-  private renderKnownNode(
-    node: NodeValue,
-    options: {
-      domId: string;
-      iconClass: string;
-      isNode: boolean;
-      nodeStatus: string;
-    }
-  ) {
+  private renderKnownNode(node: NodeValue, options: KnownNodeOptions) {
     const { domId, iconClass, isNode, nodeStatus } = options;
     this.withNodeRenderFinish(isNode);
     return h(

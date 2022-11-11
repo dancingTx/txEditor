@@ -1,7 +1,7 @@
 import { useI18n } from "vue-i18n";
 import { useLayoutStore } from "@/store/layout";
 import { Vars } from "@/config/default";
-import type { ExtraProps } from "@/@types/core";
+import type { ExtraProps } from "@/@types";
 
 export const calcNavWidth = (): string => {
   const state = useLayoutStore();

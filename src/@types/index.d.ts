@@ -16,3 +16,4 @@ export type * from "./command";
 export type * from "./notification";
 //store
 export type * from "./global";
+export type * from "./layout";

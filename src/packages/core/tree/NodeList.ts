@@ -2,6 +2,7 @@ import { h, type VNode } from "vue";
 import type TreeNode from "./Node";
 import { makeUUID } from "@/shared";
 import styles from "@/style/module/components.module.scss";
+
 export default class TreeNodeList {
   public uid: string;
   private items: Set<TreeNode>;

@@ -3,11 +3,7 @@ import TreeNodeList from "@/packages/core/tree/NodeList";
 import TreeNode from "@/packages/core/tree/Node";
 import { useLayoutStore } from "@/store/layout";
 import { NamespaceVars } from "@/config/default";
-import type { Namespace } from "@/@types/var";
-interface TreeNodeInfo {
-  raw: TreeNodeList;
-  id: string;
-}
+import type { Namespace, TreeNodeInfo } from "@/@types";
 
 const createNodeTreeViaNamespace = () => {
   const state = {} as Record<Namespace, TreeNodeInfo>;

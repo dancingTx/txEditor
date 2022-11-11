@@ -13,7 +13,7 @@ import { useLayoutStore } from "@/store/layout";
 import { useI18nTitle } from "@/hook";
 import { plugins } from "@/config/default";
 import styles from "@/style/module/layout.module.scss";
-import type { PluginProps } from "@/@types/plugin";
+import type { PluginProps } from "@/@types";
 
 const collectPlugins = () => plugins.map((plugin) => plugin.meta);
 const components = compoundComponents<PluginProps>(

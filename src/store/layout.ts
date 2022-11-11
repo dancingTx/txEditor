@@ -2,25 +2,10 @@ import { defineStore } from "pinia";
 import { screen2BodyRatio } from "@/shared";
 import { Vars, DarkModeVars, DefaultVars } from "@/config/default";
 import type { Namespace } from "@/@types/var";
+import type { LayoutProps, LayoutState, LayoutPayload } from "@/@types";
 
-interface LayoutState {
-  isCollapse: boolean;
-  isCollapseProp: boolean;
-  hasMenu: boolean;
-  hasPropsBar: boolean;
-  hasLogo: boolean;
-}
-interface LayoutProps {
-  namespace?: Namespace;
-  pluginUid: string;
-  menuWidth: number;
-  canvasSize: string;
-  canvasWidth: number;
-  canvasHeight: number;
-  mode: string;
-}
 export const useLayoutStore = defineStore("layout", {
-  state: () => {
+  state: (): LayoutState & LayoutProps => {
     return {
       isCollapse: false,
       isCollapseProp: false,
@@ -38,10 +23,10 @@ export const useLayoutStore = defineStore("layout", {
         DefaultVars.__CANVAS_RATIO__
       ),
       mode: DarkModeVars.Dark,
-    } as LayoutState & LayoutProps;
+    };
   },
   actions: {
-    switchState(payload: { key: keyof LayoutState; value: boolean }): void {
+    switchState(payload: LayoutPayload): void {
       this[payload.key] = payload.value;
     },
     switchCollapse(who: string): void {
@@ -49,7 +34,7 @@ export const useLayoutStore = defineStore("layout", {
         who === "props"
           ? { key: "isCollapseProp", value: !this.isCollapseProp }
           : { key: "isCollapse", value: !this.isCollapse }
-      ) as { key: keyof LayoutState; value: boolean };
+      ) as LayoutPayload;
       this.switchState(props);
     },
     switchMenu(): void {
@@ -67,7 +52,7 @@ export const useLayoutStore = defineStore("layout", {
         this.namespace = namespace;
       }
     },
-    storeMenuWidth(width: number): void {
+    storeMenuWidth(width: number) {
       this.menuWidth = width;
     },
     storeCanvasSize(size: string) {

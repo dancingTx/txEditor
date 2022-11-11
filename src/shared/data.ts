@@ -9,7 +9,7 @@ import { typeOf } from "./validate";
  * @description 将对象或数组转换为指定格式的对象数组，便于options等选项解析
  */
 export const buildKeyValueMap = (
-  source: [] | object,
+  source: [] | {},
   keyName = "key",
   valueName = "value"
 ) => {

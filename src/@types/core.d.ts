@@ -1,4 +1,10 @@
 import type { SvgIconsKind } from "./icons";
+
+export type PartialOptional<T, K extends keyof T> = { [P in K]?: T[P] };
+
+export type PickOptional<T, K extends keyof T> = PartialOptional<T, K> &
+  Omit<T, K>;
+
 export interface Props {
   uid: string;
 }

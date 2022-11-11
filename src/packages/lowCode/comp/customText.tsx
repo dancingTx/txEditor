@@ -1,11 +1,12 @@
-import { defineComponent, ref, watch, type PropType } from "vue";
+import { defineComponent, ref, watch } from "vue";
+import { definePropType } from "@/shared";
 import styles from "@/style/module/components.module.scss";
 import type { ComponentInfo } from "@/@types";
 
 export default defineComponent({
   props: {
     value: {
-      type: String as PropType<ComponentInfo<string>>,
+      type: definePropType<ComponentInfo<string>>(String),
       required: true,
     },
   },

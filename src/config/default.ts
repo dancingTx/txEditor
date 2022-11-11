@@ -217,14 +217,12 @@ export const widgets: WidgetProps[] = [
     label: "dark Mode",
     icon: "mode",
     command: "DarkMode",
-    i18n: "",
   },
   {
     uid: makeUUID(),
     label: "collapse props bar",
     icon: "push",
     command: "Collapse",
-    i18n: "",
   },
 ];
 export const defaultTheme: GlobalCommandItem = {
@@ -232,7 +230,6 @@ export const defaultTheme: GlobalCommandItem = {
   kind: "DarkDefault",
   label: "经典黑",
   color: "",
-  icon: "",
   i18n: "theme.default.black",
 };
 const colorThemeOptions: GlobalCommandGroup[] = [
@@ -240,8 +237,6 @@ const colorThemeOptions: GlobalCommandGroup[] = [
     uid: makeUUID(),
     group: "默认主题",
     i18n: "theme.default.title",
-    label: "",
-    icon: "",
     children: [
       defaultTheme,
       {
@@ -249,7 +244,6 @@ const colorThemeOptions: GlobalCommandGroup[] = [
         kind: "LightDefault",
         label: "经典白",
         color: "",
-        icon: "",
         i18n: "theme.default.white",
       },
     ],
@@ -258,22 +252,18 @@ const colorThemeOptions: GlobalCommandGroup[] = [
     uid: makeUUID(),
     group: "浅色主题",
     i18n: "theme.light.title",
-    label: "",
-    icon: "",
     children: [
       {
         uid: makeUUID(),
         kind: "LightBlue",
         label: "浅蓝",
         color: "#B0E2FF",
-        icon: "",
         i18n: "theme.light.blue",
       },
       {
         uid: makeUUID(),
         kind: "LightRed",
         label: "浅红",
-        icon: "",
         color: "#FF6347",
         i18n: "theme.light.red",
       },
@@ -283,14 +273,11 @@ const colorThemeOptions: GlobalCommandGroup[] = [
     uid: makeUUID(),
     group: "深色主题",
     i18n: "theme.dark.title",
-    label: "",
-    icon: "",
     children: [
       {
         uid: makeUUID(),
         kind: "DarkBlue",
         label: "深蓝",
-        icon: "",
         color: "#00BFFF",
         i18n: "theme.dark.blue",
       },
@@ -298,7 +285,6 @@ const colorThemeOptions: GlobalCommandGroup[] = [
         uid: makeUUID(),
         kind: "DarkRed",
         label: "深红",
-        icon: "",
         color: "#FF0000",
         i18n: "theme.dark.blue",
       },
@@ -310,15 +296,12 @@ export const defaultLanguage: GlobalCommandItem = {
   uid: makeUUID(),
   kind: "Chinese",
   label: "简体中文",
-  icon: "",
   i18n: "language.default.chinese",
 };
 const i18nOptions: GlobalCommandGroup[] = [
   {
     uid: makeUUID(),
     group: "默认语言",
-    label: "",
-    icon: "",
     i18n: "language.default.title",
     children: [defaultLanguage],
   },
@@ -326,21 +309,17 @@ const i18nOptions: GlobalCommandGroup[] = [
     uid: makeUUID(),
     group: "可选语言",
     i18n: "language.option.title",
-    label: "",
-    icon: "",
     children: [
       {
         uid: makeUUID(),
         kind: "English",
         label: "英文",
-        icon: "",
         i18n: "language.option.english",
       },
       {
         uid: makeUUID(),
         kind: "HongKong",
         label: "繁体中文",
-        icon: "",
         i18n: "language.option.hongkong",
       },
     ],

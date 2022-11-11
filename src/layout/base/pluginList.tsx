@@ -2,14 +2,15 @@ import { defineComponent, reactive, type PropType } from "vue";
 import { useRoute } from "vue-router";
 import router from "@/router";
 import { useI18nTitle } from "@/hook";
+import { definePropType } from "@/shared";
 import { useLayoutStore } from "@/store/layout";
 import styles from "@/style/module/layout.module.scss";
-import type { PluginProps } from "@/@types/plugin";
+import type { PluginProps } from "@/@types";
 
 export default defineComponent({
   props: {
     items: {
-      type: Array as PropType<PluginProps[]>,
+      type: definePropType<PluginProps[]>(Array),
       default: () => [],
     },
   },

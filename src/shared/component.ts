@@ -1,4 +1,4 @@
-import type { Component, ComponentPublicInstance, DefineComponent } from "vue";
+import type { Component } from "vue";
 import { isString } from "./validate";
 import type { ExtraPropsEn, Props, ComponentInfo } from "@/@types";
 

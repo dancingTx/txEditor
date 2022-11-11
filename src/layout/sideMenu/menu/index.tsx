@@ -1,12 +1,13 @@
-import { defineComponent, withDirectives, type PropType } from "vue";
+import { defineComponent, withDirectives } from "vue";
 import { useLayoutStore } from "@/store/layout";
 import { dragDirective } from "@/directive/drag";
+import { definePropType } from "@/shared";
 import styles from "@/style/module/layout.module.scss";
 
 export default defineComponent({
   props: {
     title: {
-      type: String as PropType<string>,
+      type: definePropType<string>(String),
       default: "",
     },
   },
