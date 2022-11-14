@@ -14,26 +14,26 @@ import { DotMatrixVars, DefaultVars, Vars } from "@/config/default";
 import styles from "@/style/module/components.module.scss";
 import type { NotificationType, LocationMap } from "@/@types";
 
-const __Notification_OFFSET__ = 10;
+export const __Notification_OFFSET__ = 10;
 const locationMap: LocationMap = {
-  [DotMatrixVars.RightBottom]: `${__Notification_OFFSET__}px ${
+  [DotMatrixVars.RightBottom]: `${__Notification_OFFSET__} ${
     Vars.__STATUS_BAR_HEIGHT__ + __Notification_OFFSET__
-  }px`,
-  [DotMatrixVars.Right]: `${__Notification_OFFSET__}px`,
-  [DotMatrixVars.RightTop]: `${__Notification_OFFSET__}px ${
+  }`,
+  [DotMatrixVars.Right]: `${__Notification_OFFSET__}`,
+  [DotMatrixVars.RightTop]: `${__Notification_OFFSET__} ${
     Vars.__STATUS_BAR_HEIGHT__ + __Notification_OFFSET__
-  }px`,
-  [DotMatrixVars.LeftTop]: `${__Notification_OFFSET__}px ${
+  }`,
+  [DotMatrixVars.LeftTop]: `${__Notification_OFFSET__} ${
     Vars.__STATUS_BAR_HEIGHT__ + __Notification_OFFSET__
-  }px`,
-  [DotMatrixVars.Left]: `${Vars.__ASIDE_WIDTH__ + __Notification_OFFSET__}px`,
-  [DotMatrixVars.LeftBottom]: `${__Notification_OFFSET__}px ${
+  }`,
+  [DotMatrixVars.Left]: `${Vars.__ASIDE_WIDTH__ + __Notification_OFFSET__}`,
+  [DotMatrixVars.LeftBottom]: `${__Notification_OFFSET__} ${
     Vars.__STATUS_BAR_HEIGHT__ + __Notification_OFFSET__
-  }px`,
-  [DotMatrixVars.Top]: `${__Notification_OFFSET__}px`,
+  }`,
+  [DotMatrixVars.Top]: `${__Notification_OFFSET__}`,
   [DotMatrixVars.Bottom]: `${
     Vars.__STATUS_BAR_HEIGHT__ + __Notification_OFFSET__
-  }px`,
+  }`,
 };
 export default defineComponent({
   props: {
@@ -73,6 +73,10 @@ export default defineComponent({
       type: definePropType<() => void>(Function),
       default: () => noop,
     },
+    offset: {
+      type: definePropType<number>(Number),
+      default: 0,
+    },
   },
   emits: ["destroy"],
   setup(props, { emit }) {
@@ -81,14 +85,17 @@ export default defineComponent({
       const style: CSSProperties = {};
       const width = parseInt(props.size + "");
       const height = Math.round(screen2BodyRatio(width, props.ratio));
-      const [loc1, loc2] = locationMap[props.orientation].split(" ");
+      const [loc1, loc2] = locationMap[props.orientation]
+        .split(" ")
+        .map(Number);
       const orientation = props.orientation;
+      const offset = props.offset ?? 0;
       if (orientation.includes("r")) {
         style.right = loc1;
         if (orientation.includes("t")) {
-          style.top = loc2;
+          style.top = loc2 + offset;
         } else if (orientation.includes("b")) {
-          style.bottom = loc2;
+          style.bottom = loc2 + offset;
         } else {
           style.top = "50%";
           style.transform = `translateY(-50%)`;
@@ -96,9 +103,9 @@ export default defineComponent({
       } else if (orientation.includes("l")) {
         style.left = loc1;
         if (orientation.includes("t")) {
-          style.top = loc2;
+          style.top = loc2 + offset;
         } else if (orientation.includes("b")) {
-          style.bottom = loc2;
+          style.bottom = loc2 + offset;
         } else {
           style.top = "50%";
           style.transform = `translateY(-50%)`;
@@ -111,6 +118,18 @@ export default defineComponent({
         } else {
           style.bottom = loc1;
         }
+      }
+      if (style.left) {
+        style.left += "px";
+      }
+      if (style.right) {
+        style.right += "px";
+      }
+      if (style.top) {
+        style.top += "px";
+      }
+      if (style.bottom) {
+        style.bottom += "px";
       }
       style.width = width + "px";
       style.height = height + "px";
@@ -173,6 +192,8 @@ export default defineComponent({
           <div
             class={[styles.notification, makeCustomClass()]}
             style={notificationStyle}
+            onMouseenter={stopTimer}
+            onMouseleave={startTimer}
           >
             <div class={styles.notification_inner}>
               <div class={styles.notification_identify}>

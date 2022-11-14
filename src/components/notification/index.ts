@@ -1,8 +1,15 @@
-import { createVNode, isVNode, render, type App, type Plugin } from "vue";
-import NotificationConstructor from "./main";
-import { createElement, mount2Body } from "@/shared";
+import {
+  createVNode,
+  isVNode,
+  render,
+  type App,
+  type Plugin,
+  type VNode,
+} from "vue";
+import NotificationConstructor, { __Notification_OFFSET__ } from "./main";
+import { createElement, mount2Body, makeUUID } from "@/shared";
 import { DefaultVars, DotMatrixVars } from "@/config/var";
-import type { NotificationProps } from "@/@types";
+import type { NotificationProps, NotificationQueue } from "@/@types";
 
 let Notification: Plugin = {} as Plugin;
 export const notificationType = [
@@ -19,7 +26,20 @@ const defaultOptions: NotificationProps = {
   type: "info",
   message: "",
 };
-const makeNotificationDefaultProps = (props: NotificationProps | string) => {
+const notificationMap: Record<DotMatrixVars, NotificationQueue> = {
+  [DotMatrixVars.RightTop]: [],
+  [DotMatrixVars.Right]: [],
+  [DotMatrixVars.RightBottom]: [],
+  [DotMatrixVars.LeftTop]: [],
+  [DotMatrixVars.Left]: [],
+  [DotMatrixVars.LeftBottom]: [],
+  [DotMatrixVars.Top]: [],
+  [DotMatrixVars.Bottom]: [],
+};
+const makeNotificationDefaultProps = (
+  props: NotificationProps | string,
+  id: string
+) => {
   if (typeof props === "string" || isVNode(props)) {
     props = { message: props };
   }
@@ -28,12 +48,18 @@ const makeNotificationDefaultProps = (props: NotificationProps | string) => {
   const userOnClose = options.onClose;
 
   options.onClose = () => {
-    close(userOnClose);
+    close(id, options.orientation!, userOnClose);
   };
+
+  let offset = 0;
+  notificationMap[options.orientation!].forEach(({ vm }) => {
+    offset += (vm.el?.offsetHeight || 0) + __Notification_OFFSET__;
+  });
+  options.offset = offset;
 
   return options;
 };
-const registerInstance = (props: NotificationProps & Record<string, any>) => {
+const registerInstance = (props: NotificationProps, id: string) => {
   const app = createVNode(
     NotificationConstructor,
     props,
@@ -47,13 +73,48 @@ const registerInstance = (props: NotificationProps & Record<string, any>) => {
     }
   };
   render(app, container);
+  notificationMap[props.orientation!].push({ vm: app, vmId: id });
   mount2Body(container);
 };
-const close = (userOnClose?: () => void) => {};
+const close = (
+  id: string,
+  orientation: DotMatrixVars,
+  userOnClose?: (vm: VNode) => void
+) => {
+  const notifications = notificationMap[orientation];
+  const index = notifications.findIndex((item) => item.vmId === id);
+  if (index === -1) {
+    return;
+  }
+  const { vm } = notifications[index];
+
+  userOnClose?.(vm);
+
+  notifications.splice(index, 1);
+
+  const offsetHeight = vm.el?.offsetHeight;
+  const position = orientation.includes("t") ? "top" : "bottom";
+  const restLength = notifications.length;
+  if (restLength < 1) {
+    return;
+  }
+  for (let i = index; i < restLength; i++) {
+    const { el, component } = notifications[i].vm;
+
+    const pos =
+      parseInt(el!.style[position], 10) -
+      offsetHeight -
+      __Notification_OFFSET__;
+
+    component!.props.offset = pos;
+  }
+};
+
 Notification.install = (app: App) => {
   const notificationFn = (options: NotificationProps) => {
-    const props = makeNotificationDefaultProps(options);
-    registerInstance(props);
+    const id = makeUUID();
+    const props = makeNotificationDefaultProps(options, id);
+    registerInstance(props, id);
   };
   for (const key of notificationType) {
     (notificationFn as any)[key] = (options: NotificationProps) => {
