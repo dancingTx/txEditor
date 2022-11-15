@@ -1,6 +1,7 @@
 const svgIcons = <const>[
   "account",
   "arrow-right",
+  "arrow-down",
   "button",
   "clear",
   "close",
@@ -41,6 +42,10 @@ const svgIcons = <const>[
   "xl",
   "xxl",
   "mode",
+  "notify",
+  "notify-disabled",
+  "remove",
+  "tip",
   "",
 ];
 

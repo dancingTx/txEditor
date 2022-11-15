@@ -9,6 +9,7 @@ import {
 import NotificationConstructor, { __Notification_OFFSET__ } from "./main";
 import { createElement, mount2Body, makeUUID } from "@/shared";
 import { DefaultVars, DotMatrixVars } from "@/config/var";
+import { useNotifyStore } from "@/store/notify";
 import type { NotificationProps, NotificationQueue } from "@/@types";
 
 let Notification: Plugin = {} as Plugin;
@@ -25,6 +26,7 @@ const defaultOptions: NotificationProps = {
   size: 300,
   type: "info",
   message: "",
+  from: "未知",
 };
 const notificationMap: Record<DotMatrixVars, NotificationQueue> = {
   [DotMatrixVars.RightTop]: [],
@@ -60,6 +62,7 @@ const makeNotificationDefaultProps = (
   return options;
 };
 const registerInstance = (props: NotificationProps, id: string) => {
+  const notifyStore = useNotifyStore();
   const app = createVNode(
     NotificationConstructor,
     props,
@@ -74,6 +77,12 @@ const registerInstance = (props: NotificationProps, id: string) => {
   };
   render(app, container);
   notificationMap[props.orientation!].push({ vm: app, vmId: id });
+  notifyStore.setNotifyInBucket({
+    id,
+    message: props.message,
+    type: props.type,
+    from: props.from,
+  });
   mount2Body(container);
 };
 const close = (

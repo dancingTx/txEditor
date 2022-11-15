@@ -257,12 +257,143 @@
     position: relative;
     z-index: 1000;
     height: $--status-bar-height;
-    padding: 0 $--common-gap20;
+    padding: 0 $--common-gap10;
     font-size: $--font-small;
     line-height: $--status-bar-height;
-    text-align: center;
     background-color: $--status-bar-bg;
     color: $--color-bwmix1;
+    .notify {
+      position: relative;
+      width: 2em;
+      color: $--color-bwmix1;
+      text-align: center;
+      cursor: pointer;
+      .tip {
+        position: absolute;
+        right: 10%;
+      }
+      &.is_active {
+        &::before {
+          content: "";
+          position: absolute;
+          left: 50%;
+          bottom: $--status-bar-height;
+          border: 5px solid;
+          border-color: transparent transparent $--status-bar-bg transparent;
+          transform: translateX(-50%);
+        }
+      }
+      &:hover {
+        background-color: $--status-bar-hover;
+      }
+      &_wrapper {
+        position: relative;
+        float: right;
+      }
+      &_container {
+        position: absolute;
+        z-index: 2000;
+        bottom: $--status-bar-height + $--common-gap10;
+        right: 0;
+        width: 360px;
+        font-size: $--font-small1;
+        box-shadow: 0 5px 5px $--color-bwmix9;
+        background-color: $--color-bwmix8;
+        color: $--color-bwmix3;
+      }
+      &_header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 40px;
+        line-height: 40px;
+        padding: 0 $--common-gap10;
+        box-sizing: border-box;
+        font-size: $--font-small;
+        &_setting {
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          .setting_item {
+            margin: 0 1px;
+            width: 1.6em;
+            height: 1.6em;
+            line-height: 1.6em;
+            border-radius: $--common-border-radius-light;
+            text-align: center;
+            font-size: $--font-small1;
+            cursor: pointer;
+            &:hover {
+              background-color: $--color-bwmix7;
+            }
+          }
+        }
+      }
+      &_content {
+        font-size: $--font-small1;
+        background-color: $--color-bwmix85;
+        &_item {
+          &:not(:first-child) {
+            border-top: 1px solid $--color-bwmix8;
+          }
+          padding: $--common-gap10;
+          box-sizing: border-box;
+          border: 1px solid transparent;
+          cursor: pointer;
+          &:hover {
+            background-color: $--color-bwmix8;
+          }
+          &.is_active {
+            border: 1px solid $--drag-split-bg;
+          }
+          .wrapper_top {
+            display: flex;
+            justify-content: space-between;
+            .notify_close {
+              &_outer {
+                flex: 1 0 40px;
+              }
+              float: right;
+              border-radius: $--common-border-radius-light;
+              text-align: center;
+              font-size: $--font-small2;
+              &:hover {
+                background-color: $--color-bwmix85;
+              }
+            }
+            .notify_type {
+              flex: 1;
+              font-size: $--font-small2;
+              &.is_success {
+                color: $--notification-color-success;
+              }
+              &.is_warning {
+                color: $--notification-color-warning;
+              }
+              &.is_error {
+                color: $--notification-color-error;
+              }
+              &.is_info {
+                color: $--notification--color-info;
+              }
+            }
+            .notify_message {
+              flex: auto;
+              margin-left: $--common-gap5;
+              font-size: $--font-small;
+              word-break: break-all;
+            }
+          }
+          .wrapper_bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: $--common-gap5 0;
+            font-size: $--font-small;
+          }
+        }
+      }
+    }
   }
 
   .less_code {

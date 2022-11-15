@@ -17,6 +17,7 @@ import type {
   CanvasCommandProps,
   WidgetProps,
   ComponentInfo,
+  NotifySetting,
 } from "@/@types";
 
 export const plugins: (RouteRecordRaw & {
@@ -489,5 +490,23 @@ export const canvasItemSettings: CanvasItemProps[] = [
     i18n: "",
     label: "删除",
     command: "Delete",
+  },
+];
+
+export const notifySetting: NotifySetting[] = [
+  {
+    uid: makeUUID(),
+    icon: "remove",
+    kind: "clear",
+  },
+  {
+    uid: makeUUID(),
+    icon: "notify-disabled",
+    kind: "disabled",
+  },
+  {
+    uid: makeUUID(),
+    icon: "arrow-down",
+    kind: "collapse",
   },
 ];

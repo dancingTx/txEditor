@@ -46,7 +46,7 @@
   }
   &.is {
     &_horizontal {
-      z-index: 1001;
+      // z-index: 1001;
       width: $--drag-split-width;
       height: 100vh;
       margin-left: -$--drag-split-width;

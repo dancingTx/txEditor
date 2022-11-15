@@ -14,6 +14,7 @@ $--color-bwmix5: mix($--color-black, $--color-white, 50%) !default;
 $--color-bwmix6: mix($--color-black, $--color-white, 60%) !default;
 $--color-bwmix7: mix($--color-black, $--color-white, 70%) !default;
 $--color-bwmix8: mix($--color-black, $--color-white, 80%) !default;
+$--color-bwmix85: mix($--color-black, $--color-white, 85%) !default;
 $--color-bwmix9: mix($--color-black, $--color-white, 90%) !default;
 
 // Theme color
@@ -60,6 +61,7 @@ $--aside-width: 48px !default;
 $--menu-width: 240px !default;
 $--status-bar-height: 20px !default;
 $--status-bar-bg: #007acc !default;
+$--status-bar-hover: #2885c2 !default;
 $--nav-bar-height: 40px !default;
 $--nav-bar-shadow-color: #101010 !default;
 $--toolkit-bar-height: 36px !default;

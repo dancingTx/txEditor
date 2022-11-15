@@ -88,3 +88,15 @@
     transform: translateY(100%);
   }
 }
+
+// notify
+.notify-fade-enter-active,
+.notify-fade-leave-active {
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+.notify-fade-enter-from,
+.notify-fade-leave-to {
+  opacity: 0;
+  transform: translateY(100%);
+}

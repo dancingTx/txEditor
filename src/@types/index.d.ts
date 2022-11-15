@@ -8,6 +8,7 @@ export type * from "./node";
 export type * from "./setting";
 export type * from "./widget";
 export type * from "./plugin";
+export type * from "./statusBar";
 //components
 export type * from "./canvas";
 export type * from "./contextMenu";
@@ -17,3 +18,4 @@ export type * from "./notification";
 //store
 export type * from "./global";
 export type * from "./layout";
+export type * from "./notify";

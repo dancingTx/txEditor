@@ -21,6 +21,7 @@ import bus, {
   on,
   off,
   query,
+  noop,
 } from "@/shared";
 import { useContextMenuStore } from "@/store/global";
 import { componentList } from "@/config/default";
@@ -45,10 +46,14 @@ export default defineComponent({
     const manager = new CommandManager();
     const C = new CanvasClass();
     const canvas = ref(null);
-    const state = reactive({
-      bucket: [] as ComponentInfo<ExtraProps>[],
+    const state = reactive<{
+      bucket: ComponentInfo<ExtraProps>[];
+      currEl: ComponentInfo<ExtraProps>;
+      slot: () => void;
+    }>({
+      bucket: [],
       currEl: {} as ComponentInfo<ExtraProps>,
-      slot: () => {},
+      slot: noop,
     });
     const contextMenu = useContextMenuStore();
     const handleDrop = (evt: DragEvent) => {
@@ -244,7 +249,6 @@ export default defineComponent({
         command,
         canSelected,
         <div>
-          <button onClick={() => {}}>test</button>
           {state.bucket.map((item, index) => (
             <div
               onMousedown={(evt: MouseEvent) => handleMouseDown(item, evt)}
