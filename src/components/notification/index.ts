@@ -12,7 +12,7 @@ import { DefaultVars, DotMatrixVars } from "@/config/var";
 import { useNotifyStore } from "@/store/notify";
 import type { NotificationProps, NotificationQueue } from "@/@types";
 
-let Notification: Plugin = {} as Plugin;
+const Notification: Plugin = {} as Plugin;
 export const notificationType = [
   "success",
   "warning",
